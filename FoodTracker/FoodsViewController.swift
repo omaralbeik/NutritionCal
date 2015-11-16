@@ -97,20 +97,33 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	//MARK: - UISearchResultsUpdating
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
+		
+		if searchController.searchBar.text != "" {
+			loadingIndicator.startAnimation()
+		}
+		
 		let searchString = self.searchController.searchBar.text
 		let selectedScopeButtonIndex = self.searchController.searchBar.selectedScopeButtonIndex
 		filterContentForSearch(searchString!, scope: selectedScopeButtonIndex)
 		tableView.reloadData()
 		
-		Nutrionix.searchForFood(searchString!)
+		USDA.searchFoodForString(searchString!) { (success, result, error) -> Void in
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				self.loadingIndicator.stopAnimation()
+			}
+			
+			if !success {
+				print(error)
+			}
 		
-		loadingIndicator.startAnimation()
+		}
+		
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
 		loadingIndicator.stopAnimation()
 	}
-	
 	
 	
 	//MARK: - Helpers
@@ -128,6 +141,13 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		if textFieldInsideSearchBar?.isFirstResponder() == true {
 			textFieldInsideSearchBar?.resignFirstResponder()
 		}
+	}
+	
+	//Present a message helper method:
+	func presentMessage(title: String, message: String, action: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
+		self.presentViewController(alert, animated: true, completion: nil)
 	}
 	
 }

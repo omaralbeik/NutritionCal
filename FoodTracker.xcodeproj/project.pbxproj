@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072126AA1BFA75AA0088CA54 /* USDA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072126A91BFA75AA0088CA54 /* USDA.swift */; };
 		073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B21BFA033200974A6A /* AppDelegate.swift */; };
 		073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B41BFA033200974A6A /* CalendarViewController.swift */; };
 		073BF2B81BFA033200974A6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2B61BFA033200974A6A /* Main.storyboard */; };
@@ -14,13 +15,13 @@
 		073BF2BD1BFA033200974A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2BB1BFA033200974A6A /* LaunchScreen.storyboard */; };
 		07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */; };
 		07D2E47C1BFA224F005AEB4E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E47B1BFA224F005AEB4E /* SettingsViewController.swift */; };
-		07D2E4821BFA3ACE005AEB4E /* Nutrionix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */; };
 		07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4831BFA3AD6005AEB4E /* Parse.swift */; };
 		07EFEB9E1BFA128900DC846E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFEB9D1BFA128900DC846E /* Extensions.swift */; };
 		A592B484D3195494097AA106 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3131F3643ED48BCE4A4B5731 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072126A91BFA75AA0088CA54 /* USDA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USDA.swift; sourceTree = "<group>"; };
 		073BF2AF1BFA033200974A6A /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		073BF2B21BFA033200974A6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		073BF2B41BFA033200974A6A /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -30,7 +31,6 @@
 		073BF2BE1BFA033200974A6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodsViewController.swift; sourceTree = "<group>"; };
 		07D2E47B1BFA224F005AEB4E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nutrionix.swift; sourceTree = "<group>"; };
 		07D2E4831BFA3AD6005AEB4E /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		07EFEB9D1BFA128900DC846E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3131F3643ED48BCE4A4B5731 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +86,7 @@
 		07D2E4851BFA3ADC005AEB4E /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */,
+				072126A91BFA75AA0088CA54 /* USDA.swift */,
 				07D2E4831BFA3AD6005AEB4E /* Parse.swift */,
 			);
 			name = APIs;
@@ -243,9 +243,9 @@
 			files = (
 				073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */,
 				07EFEB9E1BFA128900DC846E /* Extensions.swift in Sources */,
+				072126AA1BFA75AA0088CA54 /* USDA.swift in Sources */,
 				07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */,
 				07D2E47C1BFA224F005AEB4E /* SettingsViewController.swift in Sources */,
-				07D2E4821BFA3ACE005AEB4E /* Nutrionix.swift in Sources */,
 				07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */,
 				073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */,
 			);
