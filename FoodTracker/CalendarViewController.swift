@@ -22,7 +22,9 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
 		super.viewDidLoad()
 		
 		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500
+		
 		navigationController?.navigationBar.tintColor = MaterialDesignColor.green500
+		navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: MaterialDesignColor.green500]
 		
 		todayBarButtonItem.enabled = false
 		

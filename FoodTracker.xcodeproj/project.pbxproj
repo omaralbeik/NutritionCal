@@ -12,6 +12,10 @@
 		073BF2B81BFA033200974A6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2B61BFA033200974A6A /* Main.storyboard */; };
 		073BF2BA1BFA033200974A6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2B91BFA033200974A6A /* Assets.xcassets */; };
 		073BF2BD1BFA033200974A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2BB1BFA033200974A6A /* LaunchScreen.storyboard */; };
+		07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */; };
+		07D2E47C1BFA224F005AEB4E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E47B1BFA224F005AEB4E /* SettingsViewController.swift */; };
+		07D2E4821BFA3ACE005AEB4E /* Nutrionix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */; };
+		07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4831BFA3AD6005AEB4E /* Parse.swift */; };
 		07EFEB9E1BFA128900DC846E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EFEB9D1BFA128900DC846E /* Extensions.swift */; };
 		A592B484D3195494097AA106 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3131F3643ED48BCE4A4B5731 /* Pods.framework */; };
 /* End PBXBuildFile section */
@@ -24,6 +28,10 @@
 		073BF2B91BFA033200974A6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		073BF2BC1BFA033200974A6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		073BF2BE1BFA033200974A6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodsViewController.swift; sourceTree = "<group>"; };
+		07D2E47B1BFA224F005AEB4E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nutrionix.swift; sourceTree = "<group>"; };
+		07D2E4831BFA3AD6005AEB4E /* Parse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		07EFEB9D1BFA128900DC846E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3131F3643ED48BCE4A4B5731 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE356297B4B0C72C5CD48714 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -64,12 +72,24 @@
 			isa = PBXGroup;
 			children = (
 				073BF2B21BFA033200974A6A /* AppDelegate.swift */,
+				07D2E4851BFA3ADC005AEB4E /* APIs */,
+				07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */,
 				073BF2B41BFA033200974A6A /* CalendarViewController.swift */,
+				07D2E47B1BFA224F005AEB4E /* SettingsViewController.swift */,
 				073BF2B61BFA033200974A6A /* Main.storyboard */,
 				073BF2B91BFA033200974A6A /* Assets.xcassets */,
 				07EFEB9F1BFA155300DC846E /* Supporting Files */,
 			);
 			path = FoodTracker;
+			sourceTree = "<group>";
+		};
+		07D2E4851BFA3ADC005AEB4E /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				07D2E4811BFA3ACE005AEB4E /* Nutrionix.swift */,
+				07D2E4831BFA3AD6005AEB4E /* Parse.swift */,
+			);
+			name = APIs;
 			sourceTree = "<group>";
 		};
 		07EFEB9F1BFA155300DC846E /* Supporting Files */ = {
@@ -223,6 +243,10 @@
 			files = (
 				073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */,
 				07EFEB9E1BFA128900DC846E /* Extensions.swift in Sources */,
+				07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */,
+				07D2E47C1BFA224F005AEB4E /* SettingsViewController.swift in Sources */,
+				07D2E4821BFA3ACE005AEB4E /* Nutrionix.swift in Sources */,
+				07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */,
 				073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

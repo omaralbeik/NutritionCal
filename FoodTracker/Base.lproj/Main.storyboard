@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Calendar View Controller-->
+        <!--History-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CalendarViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +31,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dzo-Xq-Anp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyTableViewCell" id="dzo-Xq-Anp">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dzo-Xq-Anp" id="CLb-1o-yzI">
@@ -56,7 +56,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FaQ-oD-L3R" secondAttribute="bottom" id="nRk-zS-qJR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="VD6-NH-t0h">
+                    <navigationItem key="navigationItem" title="History" id="VD6-NH-t0h">
                         <barButtonItem key="leftBarButtonItem" title="Today" id="3XD-Sm-eFr">
                             <connections>
                                 <action selector="todayBarButtonItemTapped:" destination="BYZ-38-t0r" id="1GF-XC-Zfq"/>
@@ -117,10 +117,10 @@
             </objects>
             <point key="canvasLocation" x="1124" y="316"/>
         </scene>
-        <!--View Controller-->
+        <!--Foods-->
         <scene sceneID="AET-iU-OJ3">
             <objects>
-                <viewController id="S5g-CM-7WJ" sceneMemberID="viewController">
+                <viewController id="S5g-CM-7WJ" customClass="FoodsViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6Ql-Sk-w40"/>
                         <viewControllerLayoutGuide type="bottom" id="4Z5-Zd-Dk7"/>
@@ -134,7 +134,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rPm-nX-xtm">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="foodTableViewCell" id="rPm-nX-xtm">
                                         <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rPm-nX-xtm" id="TRD-sp-0B3">
@@ -156,16 +156,19 @@
                             <constraint firstAttribute="trailingMargin" secondItem="6yy-4N-LIw" secondAttribute="trailing" constant="-20" id="nK3-jt-ZpV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="cP9-Wz-wIT"/>
+                    <navigationItem key="navigationItem" title="Foods" id="cP9-Wz-wIT"/>
+                    <connections>
+                        <outlet property="tableView" destination="6yy-4N-LIw" id="JkQ-QE-zZA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wN-uE-jwM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1868" y="-365"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings-->
         <scene sceneID="FWO-ds-mSn">
             <objects>
-                <viewController id="vb4-mQ-OlF" sceneMemberID="viewController">
+                <viewController id="vb4-mQ-OlF" customClass="SettingsViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="27C-i8-shX"/>
                         <viewControllerLayoutGuide type="bottom" id="lLA-e3-f8t"/>
@@ -176,7 +179,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="nX1-6Q-G8I"/>
+                    <navigationItem key="navigationItem" title="Settings" id="nX1-6Q-G8I"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rOY-J3-Inm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
