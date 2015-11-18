@@ -14,9 +14,10 @@
 
 @property (weak, nonatomic) FSCalendar *calendar;
 @property (weak, nonatomic) FSCalendarAppearance *appearance;
-@property (weak, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) NSArray *weekdayLabels;
 
+@property (weak, nonatomic) UILabel *titleLabel;
+
+@property (strong, nonatomic) NSArray *weekdayLabels;
 @property (strong, nonatomic) NSDate *month;
 
 @end

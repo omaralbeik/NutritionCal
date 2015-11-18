@@ -7,21 +7,30 @@
 //
 
 import UIKit
+import CoreData
 import MaterialDesignColor
 import NVActivityIndicatorView
+import BGTableViewRowActionWithImage
 
 class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating  {
 	
-	var scopeButtonTitles = ["Recommended", "Search Results", "Saved"]
+	var searchResults: [[String: AnyObject]] = []
 	
+	// button titles for search controller
+	var scopeButtonTitles = ["Saved", "Search Results"]
+	
+	// loading indicator for search controller
 	var loadingIndicator: NVActivityIndicatorView!
 	
+	// shared tableView
 	@IBOutlet weak var tableView: UITableView!
 	
 	var searchController: UISearchController!
 	
-	var suggestedSearchFoods:[String] = []
-	var filteredSuggestedSearchFoods:[String] = []
+	// Shared Context from CoreDataStackManager
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,13 +38,12 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		tableView.delegate = self
 		tableView.dataSource = self
 		
+		// initilizing the loadingIndicator
 		let frame = CGRect(x: CGRectGetMidX(view.frame)-15, y: 115, width: 30, height: 30)
 		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
 		
-		suggestedSearchFoods = ["apple", "bagel", "banana", "beer", "bread", "carrots", "cheddar cheese", "chicken breast", "chili with beans", "chocolate chip cookie", "coffee", "cola", "corn", "egg", "graham cracker", "granola bar", "green beans", "ground beef patty", "hot dog", "ice cream", "jelly doughnut", "ketchup", "milk", "mixed nuts", "mustard", "oatmeal", "orange juice", "peanut butter", "pizza", "pork chop", "potato", "potato chips", "pretzels", "raisins", "ranch salad dressing", "red wine", "rice", "salsa", "shrimp", "spaghetti", "spaghetti sauce", "tuna", "white wine", "yellow cake"]
-		
+		// UI customizations
 		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500
-		
 		navigationController?.navigationBar.tintColor = MaterialDesignColor.green500
 		navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: MaterialDesignColor.green500]
 		
@@ -47,11 +55,10 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		
 		searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0)
 		
+		// UI customizations
 		searchController.searchBar.tintColor = MaterialDesignColor.green500
-		
 		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
 		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
-		
 		searchController.searchBar.barTintColor = MaterialDesignColor.grey200
 		
 		tableView.tableHeaderView = self.searchController.searchBar
@@ -59,7 +66,6 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		self.definesPresentationContext = true
 		
 		searchController.view.addSubview(loadingIndicator)
-		
 	}
 	
 	
@@ -67,71 +73,87 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("foodTableViewCell")! as UITableViewCell
-		let foodName : String
-		if self.searchController.active {
-			foodName = filteredSuggestedSearchFoods[indexPath.row]
-		}
-		else {
-			foodName = suggestedSearchFoods[indexPath.row]
-		}
-		cell.textLabel?.text = foodName
-		cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-		return cell
 		
+		cell.textLabel?.text = searchResults[indexPath.row]["name"] as? String
+		
+		return cell
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return searchResults.count
+	}
+	
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
-		if self.searchController.active {
-			return self.filteredSuggestedSearchFoods.count
+		if searchController.active {
+			
+			let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: " Eat", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+				print("should eat")
+				tableView.setEditing(false, animated: true)
+			})
+			
+			let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "Save", backgroundColor: MaterialDesignColor.blueGrey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+				print("should save")
+				tableView.setEditing(false, animated: true)
+			})
+
+			return [eatAction, saveAction]
+			
 		}
-		else {
-			return self.suggestedSearchFoods.count
-		}
+		
+		return [UITableViewRowAction()]
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		dismissKeyboard()
 	}
 	
+	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		
+		searchController.searchBar.selectedScopeButtonIndex = 1
+		
+		hideTableView(true)
+		
+		let searchString = self.searchController.searchBar.text
+		
+		NDB.requestNDBItemsFromString(searchString!, type: NDBSearchType.ByRelevance) { (success, items, error) -> Void in
+			if success {
+				print(items!.count)
+				self.searchResults = items! as! [[String : AnyObject]]
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.hideTableView(false)
+				}
+				
+			}
+			else {
+				print(error)
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.hideTableView(false)
+					self.presentMessage("Oops!", message: error!, action: "OK")
+				}
+			}
+		}
+	}
+	
 	
 	//MARK: - UISearchResultsUpdating
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
 		
-		if searchController.searchBar.text != "" {
-			loadingIndicator.startAnimation()
-		}
-		
-		let searchString = self.searchController.searchBar.text
-		let selectedScopeButtonIndex = self.searchController.searchBar.selectedScopeButtonIndex
-		filterContentForSearch(searchString!, scope: selectedScopeButtonIndex)
-		tableView.reloadData()
-		
-		USDA.searchFoodForString(searchString!) { (success, result, error) -> Void in
-			
-			dispatch_async(dispatch_get_main_queue()) {
-				self.loadingIndicator.stopAnimation()
-			}
-			
-			if !success {
-				print(error)
-			}
-		
-		}
+	}
+	
+	func didDismissSearchController(searchController: UISearchController) {
 		
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
-		loadingIndicator.stopAnimation()
+		
 	}
 	
-	
-	//MARK: - Helpers
-	func filterContentForSearch (searchText: String, scope: Int) {
-		self.filteredSuggestedSearchFoods = self.suggestedSearchFoods.filter({ (food : String) -> Bool in
-			let foodMatch = food.rangeOfString(searchText)
-			return foodMatch != nil
-		})
+	@IBAction func addBarButtonItemTapped(sender: UIBarButtonItem) {
+		self.searchController.searchBar.becomeFirstResponder()
+		
 	}
 	
 	func dismissKeyboard() {
@@ -141,6 +163,27 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		if textFieldInsideSearchBar?.isFirstResponder() == true {
 			textFieldInsideSearchBar?.resignFirstResponder()
 		}
+	}
+	
+	
+	//MARK: - Helpers
+	
+	//hideTableView
+	func hideTableView(hide: Bool) {
+		UIView.animateWithDuration(0.5, animations: { () -> Void in
+			if hide {
+				self.tableView.alpha = 0.1
+				
+				if self.searchController.searchBar.text != "" {
+					self.loadingIndicator.startAnimation()
+				}
+			}
+			else {
+				self.tableView.alpha = 1
+				self.loadingIndicator.stopAnimation()
+			}
+			self.tableView.reloadData()
+		})
 	}
 	
 	//Present a message helper method:

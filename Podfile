@@ -9,3 +9,4 @@ use_frameworks!
 pod 'FSCalendar', '~> 1.6'
 pod 'MaterialDesignColor', '~> 1.3'
 pod 'NVActivityIndicatorView', '~> 2.1'
+pod 'BGTableViewRowActionWithImage', '~> 0.1'

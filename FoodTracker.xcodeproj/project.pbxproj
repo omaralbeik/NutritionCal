@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		072126AA1BFA75AA0088CA54 /* USDA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072126A91BFA75AA0088CA54 /* USDA.swift */; };
+		072126AA1BFA75AA0088CA54 /* NDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072126A91BFA75AA0088CA54 /* NDB.swift */; };
 		073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B21BFA033200974A6A /* AppDelegate.swift */; };
 		073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B41BFA033200974A6A /* CalendarViewController.swift */; };
 		073BF2B81BFA033200974A6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2B61BFA033200974A6A /* Main.storyboard */; };
 		073BF2BA1BFA033200974A6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2B91BFA033200974A6A /* Assets.xcassets */; };
 		073BF2BD1BFA033200974A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2BB1BFA033200974A6A /* LaunchScreen.storyboard */; };
+		074B50561BFB515900056BC6 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B50551BFB515900056BC6 /* CoreDataStackManager.swift */; };
+		074B50591BFB519C00056BC6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 074B50571BFB519C00056BC6 /* Model.xcdatamodeld */; };
+		074B505F1BFB52FE00056BC6 /* USDAItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B505D1BFB52FE00056BC6 /* USDAItem.swift */; };
+		0769C3671BFC70A800BF089F /* NDBItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769C3651BFC70A800BF089F /* NDBItem.swift */; };
 		077E81D61BFA9B2A00AF8AFE /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */; };
 		077E81D81BFAA40800AF8AFE /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077E81D71BFAA40800AF8AFE /* SwitchCell.swift */; };
 		07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */; };
@@ -22,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		072126A91BFA75AA0088CA54 /* USDA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USDA.swift; sourceTree = "<group>"; };
+		072126A91BFA75AA0088CA54 /* NDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDB.swift; sourceTree = "<group>"; };
 		073BF2AF1BFA033200974A6A /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		073BF2B21BFA033200974A6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		073BF2B41BFA033200974A6A /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -30,6 +34,10 @@
 		073BF2B91BFA033200974A6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		073BF2BC1BFA033200974A6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		073BF2BE1BFA033200974A6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		074B50551BFB515900056BC6 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		074B50581BFB519C00056BC6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		074B505D1BFB52FE00056BC6 /* USDAItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USDAItem.swift; sourceTree = "<group>"; };
+		0769C3651BFC70A800BF089F /* NDBItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBItem.swift; sourceTree = "<group>"; };
 		077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		077E81D71BFAA40800AF8AFE /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodsViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +84,7 @@
 				073BF2B21BFA033200974A6A /* AppDelegate.swift */,
 				07D2E4851BFA3ADC005AEB4E /* APIs */,
 				07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */,
+				074B50601BFB531F00056BC6 /* CoreData */,
 				073BF2B41BFA033200974A6A /* CalendarViewController.swift */,
 				077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */,
 				077E81D71BFAA40800AF8AFE /* SwitchCell.swift */,
@@ -86,10 +95,21 @@
 			path = FoodTracker;
 			sourceTree = "<group>";
 		};
+		074B50601BFB531F00056BC6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				0769C3651BFC70A800BF089F /* NDBItem.swift */,
+				074B50551BFB515900056BC6 /* CoreDataStackManager.swift */,
+				074B50571BFB519C00056BC6 /* Model.xcdatamodeld */,
+				074B505D1BFB52FE00056BC6 /* USDAItem.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		07D2E4851BFA3ADC005AEB4E /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				072126A91BFA75AA0088CA54 /* USDA.swift */,
+				072126A91BFA75AA0088CA54 /* NDB.swift */,
 				07D2E4831BFA3AD6005AEB4E /* Parse.swift */,
 			);
 			name = APIs;
@@ -246,10 +266,14 @@
 			files = (
 				073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */,
 				07EFEB9E1BFA128900DC846E /* Extensions.swift in Sources */,
-				072126AA1BFA75AA0088CA54 /* USDA.swift in Sources */,
+				074B50561BFB515900056BC6 /* CoreDataStackManager.swift in Sources */,
+				072126AA1BFA75AA0088CA54 /* NDB.swift in Sources */,
 				07D2E47A1BFA2245005AEB4E /* FoodsViewController.swift in Sources */,
 				07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */,
 				077E81D81BFAA40800AF8AFE /* SwitchCell.swift in Sources */,
+				074B50591BFB519C00056BC6 /* Model.xcdatamodeld in Sources */,
+				074B505F1BFB52FE00056BC6 /* USDAItem.swift in Sources */,
+				0769C3671BFC70A800BF089F /* NDBItem.swift in Sources */,
 				073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */,
 				077E81D61BFA9B2A00AF8AFE /* SettingsTableViewController.swift in Sources */,
 			);
@@ -406,6 +430,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		074B50571BFB519C00056BC6 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				074B50581BFB519C00056BC6 /* Model.xcdatamodel */,
+			);
+			currentVersion = 074B50581BFB519C00056BC6 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 073BF2A71BFA033200974A6A /* Project object */;
 }

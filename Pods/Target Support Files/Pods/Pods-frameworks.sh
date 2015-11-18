@@ -84,11 +84,13 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods/BGTableViewRowActionWithImage.framework"
   install_framework "Pods/FSCalendar.framework"
   install_framework "Pods/MaterialDesignColor.framework"
   install_framework "Pods/NVActivityIndicatorView.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods/BGTableViewRowActionWithImage.framework"
   install_framework "Pods/FSCalendar.framework"
   install_framework "Pods/MaterialDesignColor.framework"
   install_framework "Pods/NVActivityIndicatorView.framework"
