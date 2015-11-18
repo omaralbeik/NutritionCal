@@ -12,9 +12,7 @@ import MaterialDesignColor
 import NVActivityIndicatorView
 import BGTableViewRowActionWithImage
 
-class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating  {
-	
-	var searchResults: [[String: AnyObject]] = []
+class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating  {
 	
 	// button titles for search controller
 	var scopeButtonTitles = ["Saved", "Search Results"]
@@ -27,16 +25,36 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	var searchController: UISearchController!
 	
-	// Shared Context from CoreDataStackManager
-	var sharedContext: NSManagedObjectContext {
-		return CoreDataStackManager.sharedInstance().managedObjectContext
+	//MARK: - View Life Cycles
+	
+	// viewWillAppear
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		do {
+			try foodsFetchedResultsController.performFetch()
+		} catch {
+			print("Error fetching foods in viewWillAppear")
+		}
+		
+		tableView.reloadData()
 	}
 	
+	// viewDidLoad
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		do {
+			try foodsFetchedResultsController.performFetch()
+		} catch {
+			print("Error fetching foods in viewDidLoad")
+		}
+		
+		tableView.reloadData()
+		
 		tableView.delegate = self
 		tableView.dataSource = self
+		foodsFetchedResultsController.delegate = self
 		
 		// initilizing the loadingIndicator
 		let frame = CGRect(x: CGRectGetMidX(view.frame)-15, y: 115, width: 30, height: 30)
@@ -48,12 +66,12 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: MaterialDesignColor.green500]
 		
 		searchController = UISearchController(searchResultsController: nil)
+		searchController.delegate = self
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
 		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.searchBar.sizeToFit()
 		searchController.searchBar.scopeButtonTitles = scopeButtonTitles
-		
-		searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0)
 		
 		// UI customizations
 		searchController.searchBar.tintColor = MaterialDesignColor.green500
@@ -69,39 +87,175 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	}
 	
 	
+	// MARK: - Core Data Convenience
+	
+	// Shared Context from CoreDataStackManager
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
+	// foodsFetchedResultsController
+	lazy var foodsFetchedResultsController: NSFetchedResultsController = {
+		
+		let fetchRequest = NSFetchRequest(entityName: "NDBItem")
+		
+		fetchRequest.predicate = NSPredicate(format: "saved == %@", true)
+		
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+		
+		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+		
+		return fetchedResultsController
+	}()
+	
+	// MARK: - fetchedResultsController delegate
+	func controllerWillChangeContent(controller: NSFetchedResultsController) {
+		tableView.beginUpdates()
+	}
+	
+	func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+		
+		switch type {
+		case .Insert:
+			tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+			
+		case .Delete:
+			tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+			
+		default:
+			return
+		}
+	}
+	
+	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
+		forChangeType type: NSFetchedResultsChangeType,
+		newIndexPath: NSIndexPath?) {
+			
+			switch type {
+			case .Insert:
+				tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+				
+			case .Delete:
+				tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+				
+			case .Update:
+				let cell = tableView.cellForRowAtIndexPath(indexPath!)! as UITableViewCell
+				let food = foodsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
+				cell.textLabel?.text = food.name
+				
+			case .Move:
+				tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+				tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+			}
+	}
+	
+	func controllerDidChangeContent(controller: NSFetchedResultsController) {
+		tableView.endUpdates()
+	}
+	
+	
 	//MARK: - UITableViewDataSource
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("foodTableViewCell")! as UITableViewCell
 		
-		cell.textLabel?.text = searchResults[indexPath.row]["name"] as? String
 		
+		if searchController.active {
+			
+			let foods = foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+			cell.textLabel?.text = foods[indexPath.row].name
+			return cell
+			
+		}
+		
+		let foods = foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+		cell.textLabel?.text = foods[indexPath.row].name
 		return cell
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return searchResults.count
+		
+		if searchController.active {
+			
+			let sectionInfo = foodsFetchedResultsController.sections![section]
+			return sectionInfo.numberOfObjects
+		}
+		
+		let sectionInfo = foodsFetchedResultsController.sections![section]
+		return sectionInfo.numberOfObjects
 	}
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
+		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "  Eat ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+			print("should eat")
+			tableView.setEditing(false, animated: true)
+		})
+		
+		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: " Save ", backgroundColor: MaterialDesignColor.blueGrey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+			
+			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+			let food = foods[indexPath.row]
+			
+			self.sharedContext.performBlock({ () -> Void in
+				food.saved = true
+				
+				do {
+					try self.sharedContext.save()
+				}
+				catch {
+					print("Error saving context after saving an item")
+				}
+				
+				print("\(food.name!) saved successfully")
+			})
+			
+			tableView.setEditing(false, animated: true)
+		})
+		
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "Delete", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+			
+			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+			let food = foods[indexPath.row]
+			
+			let alert = UIAlertController(title: "Delete", message: "Delete \(food.name!)", preferredStyle: UIAlertControllerStyle.Alert)
+			
+			let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+				
+				self.sharedContext.performBlock({ () -> Void in
+					
+					
+					self.sharedContext.deleteObject(food)
+					
+					do {
+						try self.sharedContext.save()
+					}
+					catch {
+						print("Error saving context after deleting an item")
+					}
+					
+				})
+				
+			})
+			
+			let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+			
+			alert.addAction(deleteAction)
+			alert.addAction(cancelAction)
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				self.presentViewController(alert, animated: true, completion: nil)
+			}
+			
+			tableView.setEditing(false, animated: true)
+		})
+		
 		if searchController.active {
-			
-			let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: " Eat", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
-				print("should eat")
-				tableView.setEditing(false, animated: true)
-			})
-			
-			let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "Save", backgroundColor: MaterialDesignColor.blueGrey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
-				print("should save")
-				tableView.setEditing(false, animated: true)
-			})
-
 			return [eatAction, saveAction]
 			
 		}
 		
-		return [UITableViewRowAction()]
+		return [eatAction, deleteAction]
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -109,6 +263,34 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		
+		let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+		
+		for food in foods {
+			if !(food.saved == true) {
+				
+				sharedContext.performBlock({ () -> Void in
+					self.sharedContext.deleteObject(food)
+					
+					do {
+						try self.sharedContext.save()
+					}
+					catch {
+						print("Error saving context after deleting an item")
+					}
+				})
+				
+			}
+		}
+		
+		foodsFetchedResultsController.fetchRequest.predicate = NSPredicate(format: "saved != %@", true)
+		
+		do {
+			try foodsFetchedResultsController.performFetch()
+		}
+		catch {
+			print("Error fetching food in searchController")
+		}
 		
 		searchController.searchBar.selectedScopeButtonIndex = 1
 		
@@ -119,7 +301,22 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		NDB.requestNDBItemsFromString(searchString!, type: NDBSearchType.ByRelevance) { (success, items, error) -> Void in
 			if success {
 				print(items!.count)
-				self.searchResults = items! as! [[String : AnyObject]]
+				
+				let ndbItems = items! as! [[String : AnyObject]]
+				
+				for item in ndbItems {
+					
+					self.sharedContext.performBlock({ () -> Void in
+						_ = NDBItem(dictionary: item, context: self.sharedContext)
+						
+						do {
+							try self.sharedContext.save()
+						}
+						catch {
+							print("Error saving context after search")
+						}
+					})
+				}
 				
 				dispatch_async(dispatch_get_main_queue()) {
 					self.hideTableView(false)
@@ -144,11 +341,38 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	}
 	
 	func didDismissSearchController(searchController: UISearchController) {
-		
+		tableView.reloadData()
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
 		
+		foodsFetchedResultsController.fetchRequest.predicate = NSPredicate(format: "saved == %@", true)
+		
+		do {
+			try foodsFetchedResultsController.performFetch()
+		}
+		catch {
+			print("Error fetching foods in willDismissSearchController")
+		}
+		
+		let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
+		
+		for food in foods {
+			if !(food.saved == true) {
+				
+				sharedContext.performBlock({ () -> Void in
+					self.sharedContext.deleteObject(food)
+					
+					do {
+						try self.sharedContext.save()
+					}
+					catch {
+						print("Error saving context after deleting an item")
+					}
+				})
+				
+			}
+		}
 	}
 	
 	@IBAction func addBarButtonItemTapped(sender: UIBarButtonItem) {

@@ -15,7 +15,6 @@
 		073BF2BD1BFA033200974A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073BF2BB1BFA033200974A6A /* LaunchScreen.storyboard */; };
 		074B50561BFB515900056BC6 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B50551BFB515900056BC6 /* CoreDataStackManager.swift */; };
 		074B50591BFB519C00056BC6 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 074B50571BFB519C00056BC6 /* Model.xcdatamodeld */; };
-		074B505F1BFB52FE00056BC6 /* USDAItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074B505D1BFB52FE00056BC6 /* USDAItem.swift */; };
 		0769C3671BFC70A800BF089F /* NDBItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769C3651BFC70A800BF089F /* NDBItem.swift */; };
 		077E81D61BFA9B2A00AF8AFE /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */; };
 		077E81D81BFAA40800AF8AFE /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077E81D71BFAA40800AF8AFE /* SwitchCell.swift */; };
@@ -36,7 +35,6 @@
 		073BF2BE1BFA033200974A6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		074B50551BFB515900056BC6 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		074B50581BFB519C00056BC6 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		074B505D1BFB52FE00056BC6 /* USDAItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USDAItem.swift; sourceTree = "<group>"; };
 		0769C3651BFC70A800BF089F /* NDBItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBItem.swift; sourceTree = "<group>"; };
 		077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		077E81D71BFAA40800AF8AFE /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 				0769C3651BFC70A800BF089F /* NDBItem.swift */,
 				074B50551BFB515900056BC6 /* CoreDataStackManager.swift */,
 				074B50571BFB519C00056BC6 /* Model.xcdatamodeld */,
-				074B505D1BFB52FE00056BC6 /* USDAItem.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -272,7 +269,6 @@
 				07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */,
 				077E81D81BFAA40800AF8AFE /* SwitchCell.swift in Sources */,
 				074B50591BFB519C00056BC6 /* Model.xcdatamodeld in Sources */,
-				074B505F1BFB52FE00056BC6 /* USDAItem.swift in Sources */,
 				0769C3671BFC70A800BF089F /* NDBItem.swift in Sources */,
 				073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */,
 				077E81D61BFA9B2A00AF8AFE /* SettingsTableViewController.swift in Sources */,

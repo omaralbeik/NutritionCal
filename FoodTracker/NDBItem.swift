@@ -16,6 +16,7 @@ class NDBItem: NSManagedObject {
 	@NSManaged var name: String?
 	@NSManaged var ndbNo: String?
 	@NSManaged var dateAdded: NSDate?
+	@NSManaged var saved: NSNumber
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -29,6 +30,7 @@ class NDBItem: NSManagedObject {
 		name = (dictionary["name"] as! String)
 		ndbNo = (dictionary["ndbno"] as! String)
 		dateAdded = NSDate()
+		saved = false
 	}
 	
 }

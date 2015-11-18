@@ -5,10 +5,9 @@
         <attribute name="group" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ndbNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="saved" attributeType="Boolean" syncable="YES"/>
     </entity>
-    <entity name="NDBNutrients" syncable="YES"/>
     <elements>
-        <element name="NDBItem" positionX="-63" positionY="63" width="128" height="105"/>
-        <element name="NDBNutrients" positionX="-54" positionY="72" width="128" height="45"/>
+        <element name="NDBItem" positionX="-63" positionY="63" width="128" height="120"/>
     </elements>
 </model>
