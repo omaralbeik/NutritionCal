@@ -207,6 +207,8 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		
+		deleteAllUnsavedItems()
+		
 		fetchFoods(showSavedFoods: false)
 		
 		searchController.searchBar.selectedScopeButtonIndex = 1
@@ -249,14 +251,18 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	func willPresentSearchController(searchController: UISearchController) {
 		searchController.searchBar.selectedScopeButtonIndex = 0
+		fetchFoods(showSavedFoods: true)
 	}
 	
 	func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
 		
 		if searchController.searchBar.selectedScopeButtonIndex == 0 {
 			fetchFoods(showSavedFoods: true)
+			searchSavedFoods()
 		} else {
 			fetchFoods(showSavedFoods: false)
+			
+			searchBarSearchButtonClicked(searchController.searchBar)
 		}
 	}
 	
@@ -264,6 +270,8 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		
 		if searchController.searchBar.selectedScopeButtonIndex == 0 {
 			fetchFoods(showSavedFoods: true)
+			searchSavedFoods()
+			
 		} else {
 			fetchFoods(showSavedFoods: false)
 		}
@@ -283,7 +291,6 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	@IBAction func addBarButtonItemTapped(sender: UIBarButtonItem) {
 		self.searchController.searchBar.becomeFirstResponder()
 		deleteAllUnsavedItems()
-		fetchFoods(showSavedFoods: false)
 	}
 	
 	func dismissKeyboard() {
@@ -300,6 +307,41 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	//MARK: - Helpers
 	
+	// searchSavedFoods helper method:
+	func searchSavedFoods() {
+		
+		deleteAllUnsavedItems()
+		
+		if let searchString = searchController.searchBar.text {
+			
+			let predicate: NSPredicate?
+			
+			if searchString.characters.count > 0 {
+				predicate = NSPredicate(format:"name CONTAINS[cd] %@", searchString)
+			} else {
+				predicate = nil
+			}
+			
+			print(predicate)
+			
+			sharedContext.performBlock({ () -> Void in
+
+				do {
+					self.foodsFetchedResultsController.fetchRequest.predicate = predicate
+					try self.foodsFetchedResultsController.performFetch()
+				}
+				catch {
+					print("Error fetching foods in searchSavedFoods method")
+				}
+			})
+		}
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			self.tableView.reloadData()
+		}
+	}
+	
+	//presentConfirmation helper method
 	func presentConfirmation(saved: Bool) {
 		
 		let frame = CGRect(x: CGRectGetMidX(view.frame)-35, y: CGRectGetMidY(view.frame)-35, width: 70, height: 70)
@@ -335,7 +377,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		}
 	}
 	
-	
+	//deleteAllUnsavedItems halper method
 	func deleteAllUnsavedItems() {
 		
 		fetchFoods(showSavedFoods: false)
@@ -348,6 +390,9 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 					self.saveContext()
 				})
 			}
+		}
+		dispatch_async(dispatch_get_main_queue()) {
+			self.tableView.reloadData()
 		}
 	}
 	
@@ -365,11 +410,13 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 				self.tableView.alpha = 1
 				self.loadingIndicator.stopAnimation()
 			}
-			self.tableView.reloadData()
 		})
+		dispatch_async(dispatch_get_main_queue()) {
+			self.tableView.reloadData()
+		}
 	}
 	
-	// saveContext
+	//saveContext helper method
 	func saveContext() {
 		sharedContext.performBlock { () -> Void in
 			do {
@@ -381,7 +428,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		}
 	}
 	
-	// fetchFoods
+	//fetchFoods helper method
 	func fetchFoods(showSavedFoods showSavedFoods: Bool) {
 		
 		if showSavedFoods {
@@ -402,7 +449,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		}
 	}
 	
-	//Present a message helper method:
+	//Present a message helper method
 	func presentMessage(title: String, message: String, action: String) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
 		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
