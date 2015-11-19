@@ -175,11 +175,67 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="6yy-4N-LIw" id="JkQ-QE-zZA"/>
+                        <segue destination="SpA-jk-7GD" kind="show" identifier="toFoodDetailsVCSegue" id="Gtr-Pf-7UO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wN-uE-jwM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1868" y="-365"/>
+        </scene>
+        <!--Food Details View Controller-->
+        <scene sceneID="R9L-nI-kHy">
+            <objects>
+                <viewController id="SpA-jk-7GD" customClass="FoodDetailsViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oWP-N3-f7x"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZJS-zn-7t4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lyf-dP-BrA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-Xg-vPa">
+                                <rect key="frame" x="20" y="72" width="560" height="66"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="4tW-87-xyc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuf-u7-EQS">
+                                <rect key="frame" x="0.0" y="146" width="600" height="384"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bi8-Xg-vPa" firstAttribute="leading" secondItem="Lyf-dP-BrA" secondAttribute="leadingMargin" id="4Tp-wh-XgE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cuf-u7-EQS" secondAttribute="trailing" constant="-20" id="5c8-dv-7rd"/>
+                            <constraint firstItem="bi8-Xg-vPa" firstAttribute="trailing" secondItem="Lyf-dP-BrA" secondAttribute="trailingMargin" id="J9B-Ev-SHv"/>
+                            <constraint firstItem="cuf-u7-EQS" firstAttribute="leading" secondItem="Lyf-dP-BrA" secondAttribute="leadingMargin" constant="-20" id="LsI-kJ-nDS"/>
+                            <constraint firstItem="bi8-Xg-vPa" firstAttribute="top" secondItem="oWP-N3-f7x" secondAttribute="bottom" constant="8" id="Mfl-Gd-fDV"/>
+                            <constraint firstItem="ZJS-zn-7t4" firstAttribute="top" secondItem="cuf-u7-EQS" secondAttribute="bottom" constant="21" id="adb-69-vZe"/>
+                            <constraint firstItem="cuf-u7-EQS" firstAttribute="top" secondItem="bi8-Xg-vPa" secondAttribute="bottom" constant="8" id="fAi-1g-3ah"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="DCc-Ms-cxf">
+                        <barButtonItem key="rightBarButtonItem" title="Eat it!" id="txO-r5-gdE">
+                            <connections>
+                                <action selector="eatItBarButtonItemTapped:" destination="SpA-jk-7GD" id="u8u-Co-eY9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="chartView" destination="cuf-u7-EQS" id="O49-rq-C2V"/>
+                        <outlet property="nameLabel" destination="bi8-Xg-vPa" id="MiF-by-Fqu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="13d-FV-oTc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2597" y="-365"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="Nsz-Af-PGX">

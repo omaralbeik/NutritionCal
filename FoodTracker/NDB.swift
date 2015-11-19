@@ -109,16 +109,7 @@ class NDB {
 			}
 			
 			completionHandler(success: true, items: items, errorString: nil)
-			
-//			var ndbItems: [NDBItem] = []
-//			
-//			for item in items {
-//				let ndbItem = NDBItem(dictionary: item as! [String : AnyObject], context: sharedContext)
-//				ndbItems.append(ndbItem)
-//			}
-//			
-//			completionHandler(success: true, items: ndbItems, errorString: nil)
-			
+
 		}
 		task.resume()
 	}

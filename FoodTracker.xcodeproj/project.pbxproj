@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071E47661BFE2AD80090567E /* FoodDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E47651BFE2AD80090567E /* FoodDetailsViewController.swift */; };
+		071E476C1BFE33210090567E /* NDBNutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E47681BFE33210090567E /* NDBNutrient.swift */; };
+		071E476E1BFE33210090567E /* NDBItemMeasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E476A1BFE33210090567E /* NDBItemMeasure.swift */; };
 		072126AA1BFA75AA0088CA54 /* NDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072126A91BFA75AA0088CA54 /* NDB.swift */; };
 		073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B21BFA033200974A6A /* AppDelegate.swift */; };
 		073BF2B51BFA033200974A6A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073BF2B41BFA033200974A6A /* CalendarViewController.swift */; };
@@ -25,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071E47651BFE2AD80090567E /* FoodDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailsViewController.swift; sourceTree = "<group>"; };
+		071E47681BFE33210090567E /* NDBNutrient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBNutrient.swift; sourceTree = "<group>"; };
+		071E476A1BFE33210090567E /* NDBItemMeasure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBItemMeasure.swift; sourceTree = "<group>"; };
 		072126A91BFA75AA0088CA54 /* NDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDB.swift; sourceTree = "<group>"; };
 		073BF2AF1BFA033200974A6A /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		073BF2B21BFA033200974A6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +88,7 @@
 				073BF2B21BFA033200974A6A /* AppDelegate.swift */,
 				07D2E4851BFA3ADC005AEB4E /* APIs */,
 				07D2E4791BFA2245005AEB4E /* FoodsViewController.swift */,
+				071E47651BFE2AD80090567E /* FoodDetailsViewController.swift */,
 				074B50601BFB531F00056BC6 /* CoreData */,
 				073BF2B41BFA033200974A6A /* CalendarViewController.swift */,
 				077E81D51BFA9B2A00AF8AFE /* SettingsTableViewController.swift */,
@@ -97,6 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				0769C3651BFC70A800BF089F /* NDBItem.swift */,
+				071E476A1BFE33210090567E /* NDBItemMeasure.swift */,
+				071E47681BFE33210090567E /* NDBNutrient.swift */,
 				074B50551BFB515900056BC6 /* CoreDataStackManager.swift */,
 				074B50571BFB519C00056BC6 /* Model.xcdatamodeld */,
 			);
@@ -269,9 +278,12 @@
 				07D2E4841BFA3AD6005AEB4E /* Parse.swift in Sources */,
 				077E81D81BFAA40800AF8AFE /* SwitchCell.swift in Sources */,
 				074B50591BFB519C00056BC6 /* Model.xcdatamodeld in Sources */,
+				071E476E1BFE33210090567E /* NDBItemMeasure.swift in Sources */,
 				0769C3671BFC70A800BF089F /* NDBItem.swift in Sources */,
 				073BF2B31BFA033200974A6A /* AppDelegate.swift in Sources */,
 				077E81D61BFA9B2A00AF8AFE /* SettingsTableViewController.swift in Sources */,
+				071E47661BFE2AD80090567E /* FoodDetailsViewController.swift in Sources */,
+				071E476C1BFE33210090567E /* NDBNutrient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
