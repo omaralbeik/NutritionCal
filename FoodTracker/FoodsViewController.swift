@@ -14,20 +14,27 @@ import BGTableViewRowActionWithImage
 
 class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
-	// button titles for search controller
-	var scopeButtonTitles = ["Saved", "Search Results"]
-	
 	// shared tableView
 	@IBOutlet weak var tableView: UITableView!
 	
 	var searchController: UISearchController!
 	
-	
 	//MARK: - View Life Cycles
-	// viewWillAppear
+	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		fetchFoods(showSavedFoods: true)
+		
+		if searchController.active {
+			if searchController.searchBar.selectedScopeButtonIndex == 0 {
+				fetchFoods(showSavedFoods: true)
+			}
+			else {
+				fetchFoods(showSavedFoods: false)
+			}
+		}
+		else {
+			fetchFoods(showSavedFoods: true)
+		}
 	}
 	
 	// viewDidLoad
@@ -52,7 +59,9 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		searchController.dimsBackgroundDuringPresentation = false
 		searchController.hidesNavigationBarDuringPresentation = true
 		searchController.searchBar.sizeToFit()
-		searchController.searchBar.scopeButtonTitles = scopeButtonTitles
+		
+		// button titles for search controller
+		searchController.searchBar.scopeButtonTitles = ["Saved", "Search Results"]
 		
 		// UI customizations
 		searchController.searchBar.tintColor = MaterialDesignColor.green500
@@ -87,6 +96,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		return fetchedResultsController
 	}()
 	
+	
 	// MARK: - fetchedResultsController delegate
 	func controllerWillChangeContent(controller: NSFetchedResultsController) {
 		tableView.beginUpdates()
@@ -107,6 +117,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 				let cell = tableView.cellForRowAtIndexPath(indexPath!)! as UITableViewCell
 				let food = foodsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
 				cell.textLabel?.text = food.name
+				cell.detailTextLabel?.text = food.ndbNo
 				
 			case .Move:
 				tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
@@ -126,6 +137,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		
 		let foods = foodsFetchedResultsController.fetchedObjects as! [NDBItem]
 		cell.textLabel?.text = foods[indexPath.row].name
+		cell.detailTextLabel?.text = foods[indexPath.row].ndbNo
 		return cell
 	}
 	
@@ -137,7 +149,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
-		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "  Eat ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "  Eat ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 95, handler: { (action, indexPath) -> Void in
 			
 			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let food = foods[indexPath.row]
@@ -147,7 +159,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 			tableView.setEditing(false, animated: true)
 		})
 		
-		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: " Save ", backgroundColor: MaterialDesignColor.blueGrey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: " Save ", backgroundColor: MaterialDesignColor.blueGrey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 95, handler: { (action, indexPath) -> Void in
 			
 			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let food = foods[indexPath.row]
@@ -161,7 +173,7 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 			tableView.setEditing(false, animated: true)
 		})
 		
-		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "Delete", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "Delete", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 95, handler: { (action, indexPath) -> Void in
 			
 			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let food = foods[indexPath.row]
@@ -208,18 +220,17 @@ class FoodsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 			
 			let foodDeatailsVC = segue.destinationViewController as! FoodDetailsViewController
 			
-			let foods = self.foodsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let indexPath = tableView.indexPathForSelectedRow
-			let food = foods[indexPath!.row]
+			let foodName = tableView.cellForRowAtIndexPath(indexPath!)!.textLabel!.text
+			let foodNDBNo = tableView.cellForRowAtIndexPath(indexPath!)!.detailTextLabel!.text
 			
-			foodDeatailsVC.ndbItem = food
-			
+			foodDeatailsVC.foodName = foodName
+			foodDeatailsVC.foodNDBNo = foodNDBNo
 		}
 	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		
-		deleteAllUnsavedItems()
 		fetchFoods(showSavedFoods: false)
 		
 		searchController.searchBar.selectedScopeButtonIndex = 1

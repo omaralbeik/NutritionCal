@@ -16,43 +16,49 @@ class FoodDetailsViewController: UIViewController {
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var chartView: UIView!
 	
-	var ndbItem: NDBItem!
+	var foodName: String!
+	var foodNDBNo : String!
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
 		
-		let frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 300)
-		let barChart = PNBarChart(frame: frame)
+		let barChart = PNBarChart(frame: self.chartView.frame)
 		
-		barChart.xLabels = ["Calcium", "Carbohydrate", "Cholesterol", "Energy", "Fat", "Protein", "Sugar", "Vitamin C"]
-//		barChart.xLabels = ["Ca", "Chb", "Chr", "Eng", "Fat", "Pro", "Su", "ViC"]
-		barChart.yValues = [1,5,1,4,7,5,3,2]
-		barChart.showLabel = true
-		barChart.barWidth = 20
-		barChart.labelTextColor = UIColor.whiteColor()
-//		barChart.strokeColors = [
-//			MaterialDesignColor.red500,
-//			MaterialDesignColor.lightGreen500,
-//			MaterialDesignColor.deepOrange500,
-//			MaterialDesignColor.brown500,
-//			MaterialDesignColor.teal500,
-//			MaterialDesignColor.deepPurple500,
-//			MaterialDesignColor.pink500,
-//			MaterialDesignColor.grey800
-//		]
+		barChart.xLabels = ["Ca", "CHO", "Chol", "KCal", "Fat", "Prot", "Sugar", "Vit C"]
+		barChart.yValues = [3.86,5,1,4,5.43,5,3,2]
+		barChart.isShowNumbers = false
+		barChart.isGradientShow = false
 		
+		barChart.legendFontColor = UIColor.orangeColor()
+		barChart.labelTextColor = UIColor.orangeColor()
+		
+		barChart.barWidth = 25
+		
+		barChart.strokeColors = [
+			MaterialDesignColor.red500,
+			MaterialDesignColor.lightGreen500,
+			MaterialDesignColor.grey800,
+			MaterialDesignColor.brown500,
+			MaterialDesignColor.teal500,
+			MaterialDesignColor.deepPurple500,
+			MaterialDesignColor.pink500,
+			MaterialDesignColor.deepOrange500
+		]
 		
 		barChart.barBackgroundColor = MaterialDesignColor.grey100
 		
 		barChart.strokeChart()
 		
-		chartView.addSubview(barChart)
-		
-    }
+		view.addSubview(barChart)
+	}
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		nameLabel.text = foodName
+	}
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
 		
 	}
-
+	
 }
