@@ -16,8 +16,9 @@ class NDBItem: NSManagedObject {
 	@NSManaged var name: String?
 	@NSManaged var ndbNo: String?
 	@NSManaged var saved: NSNumber
+	@NSManaged var dateAdded: NSDate?
 	
-	@NSManaged var measures: [NDBItemMeasure]?
+	@NSManaged var nutrients: [NDBNutrient]?
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -27,10 +28,11 @@ class NDBItem: NSManagedObject {
 		let entity = NSEntityDescription.entityForName("NDBItem", inManagedObjectContext: context)!
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 		
-		group = (dictionary["group"] as! String)
-		name = (dictionary["name"] as! String)
-		ndbNo = (dictionary["ndbno"] as! String)
-		saved = false
+		self.group = (dictionary["group"] as! String)
+		self.name = (dictionary["name"] as! String)
+		self.ndbNo = (dictionary["ndbno"] as! String)
+		self.saved = false
+		self.dateAdded = NSDate()
 	}
 	
 }

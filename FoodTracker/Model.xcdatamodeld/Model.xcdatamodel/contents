@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
     <entity name="NDBItem" representedClassName=".NDBItem" syncable="YES">
+        <attribute name="dateAdded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="group" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ndbNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="saved" attributeType="Boolean" syncable="YES"/>
-        <relationship name="measures" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBItemMeasure" inverseName="item" inverseEntity="NDBItemMeasure" syncable="YES"/>
-    </entity>
-    <entity name="NDBItemMeasure" representedClassName=".NDBItemMeasures" syncable="YES">
-        <attribute name="eqv" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="NDBItem" inverseName="measures" inverseEntity="NDBItem" syncable="YES"/>
-        <relationship name="nutrients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBNutrient" inverseName="measure" inverseEntity="NDBNutrient" syncable="YES"/>
+        <relationship name="nutrients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBNutrient" inverseName="item" inverseEntity="NDBNutrient" syncable="YES"/>
     </entity>
     <entity name="NDBNutrient" representedClassName=".NDBNutrient" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="measure" maxCount="1" deletionRule="Nullify" destinationEntity="NDBItemMeasure" inverseName="nutrients" inverseEntity="NDBItemMeasure" syncable="YES"/>
+        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="NDBItem" inverseName="nutrients" inverseEntity="NDBItem" syncable="YES"/>
     </entity>
     <elements>
-        <element name="NDBItem" positionX="-63" positionY="63" width="128" height="120"/>
+        <element name="NDBItem" positionX="-63" positionY="63" width="128" height="135"/>
         <element name="NDBNutrient" positionX="-63" positionY="135" width="128" height="120"/>
-        <element name="NDBItemMeasure" positionX="-54" positionY="135" width="128" height="105"/>
     </elements>
 </model>

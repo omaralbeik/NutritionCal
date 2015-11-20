@@ -129,32 +129,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6yy-4N-LIw">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6yy-4N-LIw">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="foodTableViewCell" textLabel="UYp-Sn-S5O" detailTextLabel="Zt9-lg-ddu" rowHeight="70" style="IBUITableViewCellStyleSubtitle" id="rPm-nX-xtm">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="70"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="foodTableViewCell" textLabel="UYp-Sn-S5O" rowHeight="55" style="IBUITableViewCellStyleDefault" id="rPm-nX-xtm">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rPm-nX-xtm" id="TRD-sp-0B3">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYp-Sn-S5O">
-                                                    <rect key="frame" x="15" y="18" width="35.5" height="21.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYp-Sn-S5O">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="54.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zt9-lg-ddu">
-                                                    <rect key="frame" x="15" y="39.5" width="37.5" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -202,17 +194,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-Xg-vPa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-Xg-vPa">
                                 <rect key="frame" x="20" y="72" width="560" height="50"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="4pb-0e-xRe"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cuf-u7-EQS">
-                                <rect key="frame" x="0.0" y="121" width="600" height="422"/>
+                                <rect key="frame" x="10" y="121" width="590" height="422"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -223,7 +215,7 @@
                             <constraint firstItem="bi8-Xg-vPa" firstAttribute="leading" secondItem="Lyf-dP-BrA" secondAttribute="leadingMargin" id="4Tp-wh-XgE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cuf-u7-EQS" secondAttribute="trailing" constant="-20" id="5c8-dv-7rd"/>
                             <constraint firstItem="bi8-Xg-vPa" firstAttribute="trailing" secondItem="Lyf-dP-BrA" secondAttribute="trailingMargin" id="J9B-Ev-SHv"/>
-                            <constraint firstItem="cuf-u7-EQS" firstAttribute="leading" secondItem="Lyf-dP-BrA" secondAttribute="leadingMargin" constant="-20" id="LsI-kJ-nDS"/>
+                            <constraint firstItem="cuf-u7-EQS" firstAttribute="leading" secondItem="Lyf-dP-BrA" secondAttribute="leadingMargin" constant="-10" id="LsI-kJ-nDS"/>
                             <constraint firstItem="bi8-Xg-vPa" firstAttribute="top" secondItem="oWP-N3-f7x" secondAttribute="bottom" constant="8" id="Mfl-Gd-fDV"/>
                             <constraint firstItem="ZJS-zn-7t4" firstAttribute="top" secondItem="cuf-u7-EQS" secondAttribute="bottom" constant="8" id="Op5-yU-lod"/>
                             <constraint firstItem="cuf-u7-EQS" firstAttribute="top" secondItem="bi8-Xg-vPa" secondAttribute="bottom" constant="-1" id="shV-OM-yVZ"/>

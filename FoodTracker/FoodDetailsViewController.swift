@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 import PNChart
 import MaterialDesignColor
 
@@ -15,19 +14,33 @@ class FoodDetailsViewController: UIViewController {
 	
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var chartView: UIView!
+
+	var ndbItem: NDBItem!
 	
-	var foodName: String!
-	var foodNDBNo : String!
+	var calcium : Double = 0
+	var carbohydrate : Double = 0
+	var cholesterol : Double = 0
+	var energy : Double = 0
+	var fatTotal : Double = 0
+	var protein : Double = 0
+	var sugar : Double = 0
+	var vitaminC : Double = 0
+	
+	var xLabels = ["Ca", "CHO", "Chol", "KCal", "Fat", "Prot", "Sugar", "Vit C"]
+	
+	var barChart = PNBarChart()
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
+
+		barChart = PNBarChart(frame: self.chartView.frame)
 		
-		let barChart = PNBarChart(frame: self.chartView.frame)
-		
-		barChart.xLabels = ["Ca", "CHO", "Chol", "KCal", "Fat", "Prot", "Sugar", "Vit C"]
-		barChart.yValues = [3.86,5,1,4,5.43,5,3,2]
+		barChart.xLabels = xLabels
+		barChart.yValues = [calcium,carbohydrate,cholesterol,energy,fatTotal,protein,sugar,vitaminC]
 		barChart.isShowNumbers = false
 		barChart.isGradientShow = false
+		
+		
 		
 		barChart.legendFontColor = UIColor.orangeColor()
 		barChart.labelTextColor = UIColor.orangeColor()
@@ -54,8 +67,39 @@ class FoodDetailsViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		nameLabel.text = foodName
+		nameLabel.text = ndbItem.name!
+
+		
+		let nutrients = ndbItem.nutrients
+		
+		for nutrient in nutrients! {
+			if nutrient.id == 301 {
+				calcium = nutrient.value as! Double
+			}
+			if nutrient.id == 205 {
+				carbohydrate = nutrient.value as! Double
+			}
+			if nutrient.id == 601 {
+				cholesterol = nutrient.value as! Double
+			}
+			if nutrient.id == 208 {
+				energy = nutrient.value as! Double
+			}
+			if nutrient.id == 204 {
+				fatTotal = nutrient.value as! Double
+			}
+			if nutrient.id == 203 {
+				protein = nutrient.value as! Double
+			}
+			if nutrient.id == 269 {
+				sugar = nutrient.value as! Double
+			}
+			if nutrient.id == 401 {
+				vitaminC = nutrient.value as! Double
+			}
+		}
 	}
+
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
 		

@@ -17,16 +17,21 @@ class NDBNutrient: NSManagedObject {
 	@NSManaged var unit: String?
 	@NSManaged var value: NSNumber?
 	
-	@NSManaged var measure: [NDBItemMeasure]
+	@NSManaged var item: NDBItem
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 	}
 	
-	init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
+	init(item: NDBItem, dictionary: [String : AnyObject], context: NSManagedObjectContext) {
 		let entity = NSEntityDescription.entityForName("NDBNutrient", inManagedObjectContext: context)!
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 		
+		self.id = (dictionary["nutrient_id"] as! Int)
+		self.name = (dictionary["name"] as! String)
+		self.unit = (dictionary["unit"] as! String)
+		self.value = (dictionary["value"] as! Double)
+		self.item = item
 		
 	}
 	
