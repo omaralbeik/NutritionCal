@@ -110,6 +110,21 @@ class ItemDetailsViewController: UIViewController {
 		
     }
 	
+	@IBAction func fullInfoButtonTapped(sender: UIButton) {
+		
+		performSegueWithIdentifier("toFullItemDetailsViewControllerSegue", sender: self)
+	}
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "toFullItemDetailsViewControllerSegue" {
+			
+			let fullDetailsVC = segue.destinationViewController as! FullItemDetailsViewController
+			fullDetailsVC.ndbItem = self.ndbItem
+			
+		}
+	}
+	
+	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
 	}
 	

@@ -136,6 +136,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					let cell = tableView.cellForRowAtIndexPath(indexPath!)! as UITableViewCell
 					let food = itemsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
 					cell.textLabel?.text = food.name
+					cell.detailTextLabel?.text = food.group
+					
 					break
 					
 				case .Move:
@@ -166,12 +168,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
 			
 			cell.textLabel?.text = self.searchResults![indexPath.row].name
+			cell.detailTextLabel?.text = self.searchResults![indexPath.row].group
 			return cell
 			
 		}
 		
 		let foods = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 		cell.textLabel?.text = foods[indexPath.row].name
+		cell.detailTextLabel?.text = foods[indexPath.row].group
 		return cell
 	}
 	
@@ -187,14 +191,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
-		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			print("should eat")
 			
 			tableView.setEditing(false, animated: true)
 		})
 		
-		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.grey800, image: UIImage(named: "saveActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.grey800, image: UIImage(named: "saveActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			self.tableViewLoading(true)
 			
@@ -212,7 +216,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			tableView.setEditing(false, animated: true)
 		})
 		
-		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			var itemName: String {
 				if !(self.searchController.active) {
