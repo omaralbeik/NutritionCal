@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9ii-TZ-dSX">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Foods-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SavedFoodsViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IXV-Df-V7Y">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" rowHeight="65" style="IBUITableViewCellStyleDefault" id="laJ-hQ-AYP">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="65"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="laJ-hQ-AYP" id="Y7f-Jn-g5G">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="64.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h1j-zk-na1">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="64.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IXV-Df-V7Y" secondAttribute="bottom" id="EU6-j6-QEF"/>
+                            <constraint firstItem="IXV-Df-V7Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="OJh-1B-qlr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="IXV-Df-V7Y" secondAttribute="trailing" constant="-20" id="g2L-4k-jgx"/>
+                            <constraint firstItem="IXV-Df-V7Y" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="ghs-7N-AMm"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Foods" id="i2y-GJ-h6e">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="M71-js-9Bs">
+                            <connections>
+                                <action selector="addBarButtomItemTapped:" destination="BYZ-38-t0r" id="Vry-3Q-du3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="IXV-Df-V7Y" id="q3B-WM-7Uf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2003" y="-650"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="y2G-If-Vok">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="9ii-TZ-dSX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="QxA-Wz-mGg">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="E34-dy-5op" kind="relationship" relationship="viewControllers" id="b1Q-e3-eHC"/>
+                        <segue destination="4ra-SR-6a4" kind="relationship" relationship="viewControllers" id="Gxn-zl-dHa"/>
+                        <segue destination="4gp-uC-8Pg" kind="relationship" relationship="viewControllers" id="GgL-dJ-1mv"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z3D-rc-d7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="425" y="418"/>
+        </scene>
+        <!--Foods-->
+        <scene sceneID="aGb-u6-msm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="E34-dy-5op" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Foods" image="foodsTabBarButton" selectedImage="foodsTabBarButtonSelected" id="gzL-Kn-1Lv"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="i5F-mV-a0u">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="pEP-jd-Sb3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z3a-X2-q3S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1280" y="-650"/>
+        </scene>
+        <!--History-->
+        <scene sceneID="tnz-aU-f9x">
+            <objects>
+                <viewController id="6VH-cr-9I9" customClass="CallendarViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XJt-tu-dO9"/>
+                        <viewControllerLayoutGuide type="bottom" id="IKn-zt-fvt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pFa-z6-jI7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ivX-i0-dQb">
+                                <rect key="frame" x="0.0" y="64" width="600" height="250"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="Yrf-RY-Ouf"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vas-7l-4q9">
+                                <rect key="frame" x="0.0" y="314" width="600" height="237"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyTableViewCell" id="fsu-Jr-kCc">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fsu-Jr-kCc" id="GLM-5o-aM5">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IKn-zt-fvt" firstAttribute="top" secondItem="Vas-7l-4q9" secondAttribute="bottom" id="GMj-1B-ahV"/>
+                            <constraint firstItem="ivX-i0-dQb" firstAttribute="leading" secondItem="pFa-z6-jI7" secondAttribute="leadingMargin" constant="-20" id="GlK-5R-t6I"/>
+                            <constraint firstItem="Vas-7l-4q9" firstAttribute="leading" secondItem="pFa-z6-jI7" secondAttribute="leadingMargin" constant="-20" id="I8e-O7-3lY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vas-7l-4q9" secondAttribute="trailing" constant="-20" id="Jel-0J-VKS"/>
+                            <constraint firstItem="Vas-7l-4q9" firstAttribute="top" secondItem="ivX-i0-dQb" secondAttribute="bottom" id="Kru-Fn-Rc0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ivX-i0-dQb" secondAttribute="trailing" constant="-20" id="Mct-Vx-bL2"/>
+                            <constraint firstItem="ivX-i0-dQb" firstAttribute="top" secondItem="XJt-tu-dO9" secondAttribute="bottom" id="fvL-cc-4B3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="History" id="wBf-a2-URc">
+                        <barButtonItem key="leftBarButtonItem" title="Today" id="Q0L-Sp-gbw">
+                            <connections>
+                                <action selector="todayBarButtonItemTapped:" destination="6VH-cr-9I9" id="4IO-kQ-OGP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="fzG-L4-iXT">
+                            <connections>
+                                <action selector="addBarButtonItemTapped:" destination="6VH-cr-9I9" id="L3P-4J-82n"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="calendarContainerView" destination="ivX-i0-dQb" id="kmj-Gm-Qdi"/>
+                        <outlet property="todayBarButtonItem" destination="Q0L-Sp-gbw" id="KVL-qH-Tuv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5ud-EF-V01" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2003" y="26"/>
+        </scene>
+        <!--History-->
+        <scene sceneID="Mfa-If-JQ4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4ra-SR-6a4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="History" image="historyTabBarButton" selectedImage="historyTabBarButtonSelected" id="BKH-AI-QzP"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sJC-1c-4M8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="6VH-cr-9I9" kind="relationship" relationship="rootViewController" id="yFI-gZ-CEk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rXs-Ph-yIb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1280" y="26"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="44R-la-jf0">
+            <objects>
+                <tableViewController id="5Z1-Wp-otP" customClass="SettingsTableViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="yQU-bn-bS8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="WSW-ed-i01">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="djN-Ko-mfx" imageView="58d-YK-CaG" rowHeight="50" style="IBUITableViewCellStyleDefault" id="uMl-cZ-ctL">
+                                        <rect key="frame" x="0.0" y="99" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uMl-cZ-ctL" id="JUg-JP-B1F">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djN-Ko-mfx">
+                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="58d-YK-CaG">
+                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="EbP-JE-yvU" imageView="og3-t3-CTW" rowHeight="50" style="IBUITableViewCellStyleDefault" id="xo3-fu-b84">
+                                        <rect key="frame" x="0.0" y="149" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xo3-fu-b84" id="jcY-3L-KRm">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Replay Tutorial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EbP-JE-yvU">
+                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="og3-t3-CTW">
+                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="bGd-Tj-mD7">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="syncFoodsCell" rowHeight="50" id="l4E-Ka-Amb" customClass="SwitchCell" customModule="NutritionDiary" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="235" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l4E-Ka-Amb" id="vFf-0n-u9p">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-bv-ymh">
+                                                    <rect key="frame" x="535" y="9" width="51" height="31"/>
+                                                    <animations/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Sync with Health App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EiS-Hn-sqD">
+                                                    <rect key="frame" x="62" y="5" width="465" height="38.5"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="38.5" id="pv6-I7-HuT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="historyTabBarButton" translatesAutoresizingMaskIntoConstraints="NO" id="iPS-j0-1Aj">
+                                                    <rect key="frame" x="17" y="10" width="30" height="30"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="iPS-j0-1Aj" firstAttribute="centerY" secondItem="vFf-0n-u9p" secondAttribute="centerY" id="6lh-dw-fx0"/>
+                                                <constraint firstItem="W0m-bv-ymh" firstAttribute="centerY" secondItem="vFf-0n-u9p" secondAttribute="centerY" id="9ie-Yg-AMB"/>
+                                                <constraint firstItem="W0m-bv-ymh" firstAttribute="leading" secondItem="EiS-Hn-sqD" secondAttribute="trailing" constant="8" id="Crr-hd-PWd"/>
+                                                <constraint firstItem="W0m-bv-ymh" firstAttribute="trailing" secondItem="vFf-0n-u9p" secondAttribute="trailingMargin" constant="-8" id="Kba-1Z-aZ7"/>
+                                                <constraint firstItem="EiS-Hn-sqD" firstAttribute="leading" secondItem="iPS-j0-1Aj" secondAttribute="trailing" constant="15" id="UiH-uo-YVe"/>
+                                                <constraint firstItem="iPS-j0-1Aj" firstAttribute="leading" secondItem="vFf-0n-u9p" secondAttribute="leadingMargin" constant="9" id="wrq-rh-6rL"/>
+                                                <constraint firstItem="EiS-Hn-sqD" firstAttribute="centerY" secondItem="vFf-0n-u9p" secondAttribute="centerY" id="xfh-yQ-GkK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection footerTitle=" " id="3lj-eR-KOb">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="2hc-g7-io5" imageView="ygk-XD-nR0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="rfi-79-JlO">
+                                        <rect key="frame" x="0.0" y="321" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rfi-79-JlO" id="n8X-zz-dnG">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Rate in AppStore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2hc-g7-io5">
+                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="ygk-XD-nR0">
+                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7eS-ZX-5rl" imageView="CZS-0K-nSd" rowHeight="50" style="IBUITableViewCellStyleDefault" id="YW2-Kv-qgs">
+                                        <rect key="frame" x="0.0" y="371" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YW2-Kv-qgs" id="YUs-Rv-x4x">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="About and Help" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7eS-ZX-5rl">
+                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="CZS-0K-nSd">
+                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="F3Z-Yy-i7I" imageView="zUe-dG-ycB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="MmV-wa-0ig">
+                                        <rect key="frame" x="0.0" y="421" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MmV-wa-0ig" id="exS-zL-nRN">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Tell a Friend" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F3Z-Yy-i7I">
+                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="zUe-dG-ycB">
+                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="5Z1-Wp-otP" id="g8A-KM-iM1"/>
+                            <outlet property="delegate" destination="5Z1-Wp-otP" id="2Xe-L1-d2l"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="yq5-Qk-7qi"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Euq-dx-sEW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2003" y="716"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="CdY-eW-Th9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4gp-uC-8Pg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" image="settingsTabBarButton" selectedImage="settingsTabBarButtonSelected" id="jEU-Zr-LFD"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Omy-jx-dDP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5Z1-Wp-otP" kind="relationship" relationship="rootViewController" id="6UG-FP-NAU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wxq-hN-8TR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1280" y="716"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="foodsTabBarButton" width="30" height="30"/>
+        <image name="foodsTabBarButtonSelected" width="30" height="30"/>
+        <image name="historyTabBarButton" width="30" height="30"/>
+        <image name="historyTabBarButtonSelected" width="30" height="31"/>
+        <image name="settingsTabBarButton" width="30" height="30"/>
+        <image name="settingsTabBarButtonSelected" width="30" height="31"/>
+    </resources>
+</document>
