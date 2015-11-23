@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0745690C1C033B3E00031518 /* ItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0745690B1C033B3E00031518 /* ItemDetailsViewController.swift */; };
 		07459D401C025D4700121362 /* SavedFoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07459D3F1C025D4700121362 /* SavedFoodsViewController.swift */; };
 		07459D421C025D5C00121362 /* CallendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07459D411C025D5C00121362 /* CallendarViewController.swift */; };
 		07459D461C025DA100121362 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07459D451C025DA100121362 /* SettingsTableViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0745690B1C033B3E00031518 /* ItemDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewController.swift; sourceTree = "<group>"; };
 		07459D3F1C025D4700121362 /* SavedFoodsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedFoodsViewController.swift; sourceTree = "<group>"; };
 		07459D411C025D5C00121362 /* CallendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallendarViewController.swift; sourceTree = "<group>"; };
 		07459D451C025DA100121362 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				07459D3F1C025D4700121362 /* SavedFoodsViewController.swift */,
+				0745690B1C033B3E00031518 /* ItemDetailsViewController.swift */,
 				07459D411C025D5C00121362 /* CallendarViewController.swift */,
 				07459D451C025DA100121362 /* SettingsTableViewController.swift */,
 			);
@@ -271,6 +274,7 @@
 			files = (
 				07459D5E1C026D2800121362 /* NDBConvenience.swift in Sources */,
 				07459D461C025DA100121362 /* SettingsTableViewController.swift in Sources */,
+				0745690C1C033B3E00031518 /* ItemDetailsViewController.swift in Sources */,
 				07459D571C0265C500121362 /* Extensions.swift in Sources */,
 				07459D531C0260AC00121362 /* NDBNutrient.swift in Sources */,
 				07459D421C025D5C00121362 /* CallendarViewController.swift in Sources */,

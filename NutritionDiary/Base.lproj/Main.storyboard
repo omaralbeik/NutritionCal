@@ -64,11 +64,69 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="IXV-Df-V7Y" id="q3B-WM-7Uf"/>
+                        <segue destination="CPi-tK-sQj" kind="show" identifier="toItemDetailsViewControllerSegue" id="hGP-3S-qXc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2003" y="-650"/>
+        </scene>
+        <!--Item Details View Controller-->
+        <scene sceneID="BnU-uI-UIx">
+            <objects>
+                <viewController id="CPi-tK-sQj" customClass="ItemDetailsViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Zx4-YJ-WUP"/>
+                        <viewControllerLayoutGuide type="bottom" id="OCR-tp-Ozv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Jh4-Wa-jbC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
+                                <rect key="frame" x="20" y="72" width="560" height="62"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="hMX-Hr-I4a"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pga-FQ-5p6">
+                                <rect key="frame" x="20" y="142" width="560" height="401"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="Zx4-YJ-WUP" secondAttribute="bottom" constant="8" id="6ua-KY-z7r"/>
+                            <constraint firstItem="N7C-sj-G3t" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="8WB-fl-XU3"/>
+                            <constraint firstItem="N7C-sj-G3t" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="ATU-XE-i7n"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="top" secondItem="N7C-sj-G3t" secondAttribute="bottom" constant="8" id="FOv-9f-EjZ"/>
+                            <constraint firstItem="OCR-tp-Ozv" firstAttribute="top" secondItem="pga-FQ-5p6" secondAttribute="bottom" constant="8" id="aO7-ek-2l3"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="nXg-yn-OHM"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="vsf-JA-BYk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Pzb-nO-jJD">
+                        <barButtonItem key="rightBarButtonItem" title="Eat it!" id="CRY-Vc-vZy">
+                            <color key="tintColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="eatItBarButtonItemTapped:" destination="CPi-tK-sQj" id="qpB-gO-QvU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="chartView" destination="pga-FQ-5p6" id="hDL-Vu-NqJ"/>
+                        <outlet property="itemNameLabel" destination="N7C-sj-G3t" id="IPo-RE-laZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZAJ-v1-hTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2692" y="-650"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="y2G-If-Vok">

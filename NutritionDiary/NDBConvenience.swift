@@ -160,9 +160,10 @@ extension NDBClient {
 				}
 				
 				completionHandler(success: false, result: nil, errorString: nil)
+				return
 			}
 			
-			if let error = parsedResults!.valueForKey("error") {
+			if let error = parsedResults?.valueForKey("error") {
 				
 				if let message = error.valueForKey("message") {
 					
