@@ -38,7 +38,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		tableView.delegate = self
 		tableView.dataSource = self
 		itemsFetchedResultsController.delegate = self
-		//		nutrientsFetchedResultsController.delegate = self
 		
 		// UI customizations
 		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500

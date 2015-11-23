@@ -7,39 +7,100 @@
 //
 
 import UIKit
+import MaterialDesignColor
 
-class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+	
 	var ndbItem: NDBItem!
+	
+	var nutritionsArray: [NDBNutrient] = []
+	var filtredNutritionsArray: [NDBNutrient] = []
 	
 	@IBOutlet weak var tableView: UITableView!
 	
+	var searchController: UISearchController!
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		nutritionsArray = ndbItem.nutrients!
 		
 		tableView.delegate = self
 		tableView.dataSource = self
-
-    }
+		
+		// UI customizations
+		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500
+		navigationController?.navigationBar.tintColor = MaterialDesignColor.green500
+		navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: MaterialDesignColor.green500]
+		
+		// set the search controller
+		searchController = UISearchController(searchResultsController: nil)
+		searchController.delegate = self
+		searchController.searchResultsUpdater = self
+		searchController.dimsBackgroundDuringPresentation = false
+		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.searchBar.sizeToFit()
+		
+		// UI customizations
+		searchController.searchBar.tintColor = MaterialDesignColor.green500
+		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
+		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
+		
+		searchController.searchBar.barTintColor = MaterialDesignColor.grey200
+		
+		tableView.tableHeaderView = self.searchController.searchBar
+		self.definesPresentationContext = true
+		
+	}
+	
+	func updateSearchResultsForSearchController(searchController: UISearchController) {
+		
+		let searchString = self.searchController.searchBar.text
+		
+		if searchString?.characters.count > 0 {
+			filterContentForSearch(searchString!)
+		} else {
+			filtredNutritionsArray = nutritionsArray
+		}
+		tableView.reloadData()
+	}
+	
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("FullItemDetailsViewControllerTableViewCell")!
 		
-		let nutritions = ndbItem.nutrients
-		cell.textLabel?.text = nutritions![indexPath.row].name
-		
-		let value = nutritions![indexPath.row].value! as Double
-		let roundedValue = Double(round(1000*value)/1000)
-		
-		let valueText = "\(roundedValue) " + nutritions![indexPath.row].unit!
-		cell.detailTextLabel?.text = valueText
+		if searchController.active {
+			
+			cell.textLabel?.text = filtredNutritionsArray[indexPath.row].name
+			
+			let value = filtredNutritionsArray[indexPath.row].value! as Double
+			let roundedValue = Double(round(1000*value)/1000)
+			
+			let valueText = "\(roundedValue) " + filtredNutritionsArray[indexPath.row].unit!
+			cell.detailTextLabel?.text = valueText
+			
+		} else {
+			
+			cell.textLabel?.text = nutritionsArray[indexPath.row].name
+			
+			let value = nutritionsArray[indexPath.row].value! as Double
+			let roundedValue = Double(round(1000*value)/1000)
+			
+			let valueText = "\(roundedValue) " + nutritionsArray[indexPath.row].unit!
+			cell.detailTextLabel?.text = valueText
+			
+		}
 		
 		return cell
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return ndbItem.nutrients!.count
+		
+		if searchController.active {
+			return filtredNutritionsArray.count
+		} else {
+			return nutritionsArray.count
+		}
 	}
 	
 	
@@ -47,5 +108,18 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
 	}
-
+	
+	
+	//MARK: - Helpers
+	
+	func filterContentForSearch (searchString: String) {
+		
+		filtredNutritionsArray = nutritionsArray.filter({ (nutrient) -> Bool in
+			
+			let nutrientMatch = nutrient.name!.rangeOfString(searchString)
+			return nutrientMatch != nil
+			
+		})
+	}
+	
 }
