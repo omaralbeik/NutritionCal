@@ -87,12 +87,18 @@ class ItemDetailsViewController: UIViewController {
 			}
 			if nutrient.id == 205 {
 				carbohydrate = nutrient.value as! Double
+				
 			}
 			if nutrient.id == 601 {
 				cholesterol = nutrient.value as! Double
 			}
 			if nutrient.id == 208 {
 				energy = nutrient.value as! Double
+				
+				for measure in nutrient.measures! {
+					print(measure.label)
+				}
+				
 			}
 			if nutrient.id == 204 {
 				fatTotal = nutrient.value as! Double
@@ -107,6 +113,7 @@ class ItemDetailsViewController: UIViewController {
 				vitaminC = nutrient.value as! Double
 			}
 		}
+		
 		
     }
 	

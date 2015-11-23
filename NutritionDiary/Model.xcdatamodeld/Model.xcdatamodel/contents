@@ -8,15 +8,24 @@
         <attribute name="saved" attributeType="Boolean" syncable="YES"/>
         <relationship name="nutrients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBNutrient" inverseName="item" inverseEntity="NDBNutrient" syncable="YES"/>
     </entity>
+    <entity name="NDBMeasure" representedClassName=".NDBMeasure" syncable="YES">
+        <attribute name="eqv" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="nutrient" maxCount="1" deletionRule="Nullify" destinationEntity="NDBNutrient" inverseName="measures" inverseEntity="NDBNutrient" syncable="YES"/>
+    </entity>
     <entity name="NDBNutrient" representedClassName=".NDBNutrient" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="NDBItem" inverseName="nutrients" inverseEntity="NDBItem" syncable="YES"/>
+        <relationship name="measures" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBMeasure" inverseName="nutrient" inverseEntity="NDBMeasure" syncable="YES"/>
     </entity>
     <elements>
         <element name="NDBItem" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="NDBNutrient" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="NDBNutrient" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="NDBMeasure" positionX="-54" positionY="36" width="128" height="120"/>
     </elements>
 </model>

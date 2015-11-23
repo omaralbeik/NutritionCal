@@ -18,6 +18,7 @@ class NDBNutrient: NSManagedObject {
 	@NSManaged var value: NSNumber?
 	
 	@NSManaged var item: NDBItem
+	@NSManaged var measures: [NDBMeasure]?
 	
 	override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -32,7 +33,6 @@ class NDBNutrient: NSManagedObject {
 		self.unit = (dictionary["unit"] as! String)
 		self.value = (dictionary["value"] as! Double)
 		self.item = item
-		
 	}
 	
 }

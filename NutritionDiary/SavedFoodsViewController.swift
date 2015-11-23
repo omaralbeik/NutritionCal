@@ -68,7 +68,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		searchController.view.addSubview(loadingIndicator)
 		self.view.addSubview(loadingIndicator)
-
+		
 	}
 	
 	
@@ -96,6 +96,18 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let fetchRequest = NSFetchRequest(entityName: "NDBNutrient")
 		
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+		
+		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+		
+		return fetchedResultsController
+	}()
+	
+	// measuresFetchedResultsController
+	lazy var measuresFetchedResultsController: NSFetchedResultsController = {
+		
+		let fetchRequest = NSFetchRequest(entityName: "NDBMeasure")
+		
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "label", ascending: true)]
 		
 		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
 		
@@ -286,8 +298,18 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						if let nutrients = result as? [[String: AnyObject]] {
 							
 							for nutrient in nutrients {
-								_ = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
+								let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
 								self.saveContext()
+								
+								if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+									
+									for measure in measures {
+										_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: self.sharedContext)
+										self.saveContext()
+									}
+									self.saveContext()
+								}
+								
 							}
 							print("\(item.nutrients!.count) fetched")
 							
@@ -314,7 +336,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			let item = self.searchResults![indexPath.row]
 			
 			if item.nutrients?.count > 0 {
-				print(item.nutrients?.count)
 				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
 				
 			} else {
@@ -333,7 +354,15 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 								
 								for nutrient in nutrients {
 									
-									_ = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+									let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+									
+									if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+										
+										for measure in measures {
+											_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+										}
+									}
+									
 								}
 								
 								print("\(item.nutrients!.count) nutrients fetched")
@@ -363,7 +392,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	//MARK: - UISearchBarDelegate
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-		//		print("searchBarSearchButtonClicked")
 		
 		self.tableViewLoading(true)
 		
@@ -388,25 +416,20 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	//MARK: - UISearchControllerDelegate
 	func willPresentSearchController(searchController: UISearchController) {
-		//		print("willPresentSearchController")
 		searchController.searchBar.selectedScopeButtonIndex = 0
 		
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
-		//		print("willDismissSearchController")
 		searchController.searchBar.selectedScopeButtonIndex = 0
 	}
 	
 	func didDismissSearchController(searchController: UISearchController) {
-		//		print("didDismissSearchController")
 		tableView.reloadData()
 		
 	}
 	
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
-		//		print("updateSearchResultsForSearchController")
-		
 		
 		if searchController.searchBar.selectedScopeButtonIndex == 0 {
 			self.searchSavedFoods()
@@ -508,23 +531,37 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if success {
 					self.tableViewLoading(false)
-					if let results = result as? [[String: AnyObject]] {
+					
+					if let nutrients = result as? [[String: AnyObject]] {
 						
-						_ = results.map() {
-							print($0["name"])
-							_ = NDBNutrient(item: item, dictionary: $0, context: item.managedObjectContext!)
+						for nutrient in nutrients {
+							let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+							
+							if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+								
+								for measure in measures {
+									
+									_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+									
+									print("measure added")
+									
+								}
+								
+							}
+							
 						}
+						
 						item.managedObjectContext?.performBlock({
 							
 							do {
 								try item.managedObjectContext?.save()
 							} catch {
-								print("Error saving context")
+								print("Error saving context after adding measures")
 								return
 							}
-							
 						})
 					}
+					
 				} else {
 					self.tableViewLoading(false)
 				}
@@ -563,18 +600,38 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let nutrients = nutrientsFetchedResultsController.fetchedObjects as! [NDBNutrient]
 		
 		for nutrient in nutrients {
+			
+			measuresFetchedResultsController.fetchRequest.predicate = NSPredicate(format:"nutrient ==  %@", nutrient)
+			
+			do {
+				try self.measuresFetchedResultsController.performFetch()
+			} catch {
+				print("Error fetching measures for: \(nutrient.name)")
+				return
+			}
+			
+			if let measures = measuresFetchedResultsController.fetchedObjects as? [NDBMeasure] {
+				
+				for measure in measures {
+					sharedContext.performBlock({
+						self.sharedContext.deleteObject(measure)
+					})
+					print("measure deleted")
+				}
+			}
+			self.saveContext()
+			
 			sharedContext.performBlock({
 				self.sharedContext.deleteObject(nutrient)
-				self.saveContext()
 			})
+			self.saveContext()
 		}
 		
 		self.sharedContext.performBlock ({
 			
 			self.sharedContext.deleteObject(item)
-			self.saveContext()
-			
 		})
+		self.saveContext()
 		
 	}
 	
@@ -584,7 +641,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				try self.sharedContext.save()
 			}
 			catch {
-				print("Error saving Context")
+				print("Error saving Context in saveContext method")
 			}
 		}
 	}
@@ -658,8 +715,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.active = false
 		tableViewLoading(false)
 		self.presentMessage("No Internet", message: "Internet connection is required to save items!, please connect and try again", action: "OK")
-
-
 	}
 	
 }
