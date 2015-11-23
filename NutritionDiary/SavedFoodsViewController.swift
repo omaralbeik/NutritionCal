@@ -1,0 +1,483 @@
+//
+//  SavedFoodsViewController.swift
+//  NutritionDiary
+//
+//  Created by Omar Albeik on 22/11/15.
+//  Copyright © 2015 Omar Albeik. All rights reserved.
+//
+
+import UIKit
+import CoreData
+import MaterialDesignColor
+import NVActivityIndicatorView
+import BGTableViewRowActionWithImage
+
+class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+	
+	@IBOutlet weak var tableView: UITableView!
+	var searchController: UISearchController!
+	var loadingIndicator: NVActivityIndicatorView!
+	
+	var temporaryContext: NSManagedObjectContext!
+	var searchResults: [NDBItem]? = []
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		fetchNDBItems()
+		
+		// Set the temporary context
+		temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+		temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
+		
+		// initilizing the loadingIndicator
+		let frame = CGRect(x: CGRectGetMidX(view.frame)-20, y: 115, width: 40, height: 40)
+		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
+		
+		
+		tableView.delegate = self
+		tableView.dataSource = self
+		itemsFetchedResultsController.delegate = self
+		nutrientsFetchedResultsController.delegate = self
+		
+		// UI customizations
+		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500
+		navigationController?.navigationBar.tintColor = MaterialDesignColor.green500
+		navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: MaterialDesignColor.green500]
+		
+		// set the search controller
+		searchController = UISearchController(searchResultsController: nil)
+		searchController.delegate = self
+		searchController.searchResultsUpdater = self
+		searchController.dimsBackgroundDuringPresentation = false
+		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.searchBar.sizeToFit()
+		
+		// UI customizations
+		searchController.searchBar.tintColor = MaterialDesignColor.green500
+		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
+		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
+		
+		searchController.searchBar.barTintColor = MaterialDesignColor.grey200
+		
+		// button titles for search controller
+		searchController.searchBar.scopeButtonTitles = ["Saved", "Online Results"]
+		
+		tableView.tableHeaderView = self.searchController.searchBar
+		searchController.searchBar.delegate = self
+		self.definesPresentationContext = true
+		
+		searchController.view.addSubview(loadingIndicator)
+		
+	}
+	
+	
+	// MARK: - Core Data Convenience
+	// Shared Context from CoreDataStackManager
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
+	// itemsFetchedResultsController
+	lazy var itemsFetchedResultsController: NSFetchedResultsController = {
+		
+		let fetchRequest = NSFetchRequest(entityName: "NDBItem")
+		
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+		
+		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+		
+		return fetchedResultsController
+	}()
+	
+	// nutrientsFetchedResultsController
+	lazy var nutrientsFetchedResultsController: NSFetchedResultsController = {
+		
+		let fetchRequest = NSFetchRequest(entityName: "NDBNutrient")
+		
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+		
+		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+		
+		return fetchedResultsController
+	}()
+	
+	
+	// MARK: - fetchedResultsController delegate
+	func controllerWillChangeContent(controller: NSFetchedResultsController) {
+		if !searchController.active {
+			tableView.beginUpdates()
+			self.tableViewLoading(true)
+		}
+	}
+	
+	func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
+		forChangeType type: NSFetchedResultsChangeType,
+		newIndexPath: NSIndexPath?) {
+			
+			if !searchController.active {
+				switch type {
+				case .Insert:
+					//					print("Insert")
+					
+					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+					break
+					
+				case .Delete:
+					//					print("Delete")
+					
+					tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+					break
+					
+				case .Update:
+					//					print("Update")
+					
+					let cell = tableView.cellForRowAtIndexPath(indexPath!)! as UITableViewCell
+					let food = itemsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
+					cell.textLabel?.text = food.name
+					break
+					
+				case .Move:
+					//					print("Move")
+					
+					tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+					break
+				}
+			}
+	}
+	
+	func controllerDidChangeContent(controller: NSFetchedResultsController) {
+		if !searchController.active {
+			tableView.endUpdates()
+			tableViewLoading(false)
+		}
+		
+	}
+	
+	
+	
+	//MARK: - UITableViewDataSource
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		
+		let cell = tableView.dequeueReusableCellWithIdentifier("SavedFoodTableViewCell")! as UITableViewCell
+		
+		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
+			
+			cell.textLabel?.text = self.searchResults![indexPath.row].name
+			return cell
+			
+		}
+		
+		let foods = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+		cell.textLabel?.text = foods[indexPath.row].name
+		return cell
+	}
+	
+	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		
+		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
+			return self.searchResults!.count
+		}
+		
+		let sectionInfo = itemsFetchedResultsController.sections![section]
+		return sectionInfo.numberOfObjects
+	}
+	
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+		
+		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+			
+			print("should eat")
+			
+			tableView.setEditing(false, animated: true)
+		})
+		
+		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.grey800, image: UIImage(named: "saveActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+			
+			let item = self.searchResults![indexPath.row]
+			let itemDict: [String: AnyObject] = ["name": item.name!, "ndbno": item.ndbNo!, "group": item.group!]
+			
+			_ = NDBItem(dictionary: itemDict, context: self.sharedContext)
+			
+			self.saveContext()
+			
+			tableView.setEditing(false, animated: true)
+		})
+		
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
+			
+			var itemName: String {
+				if !(self.searchController.active) {
+					let item = self.itemsFetchedResultsController.fetchedObjects![indexPath.row] as! NDBItem
+					return item.name!
+				}
+				else {
+					return "item"
+				}
+				
+			}
+			
+			let alert = UIAlertController(title: "Delete", message: "Delete(\(itemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
+			
+			let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+				
+				if let items = self.itemsFetchedResultsController.fetchedObjects as? [NDBItem] {
+					let item = items[indexPath.row]
+					self.deleteNDBItem(item)
+					
+					dispatch_async(dispatch_get_main_queue()) {
+						self.tableView.reloadData()
+					}
+				}
+				
+				tableView.setEditing(false, animated: true)
+			})
+			
+			let cancelAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+				
+				self.tableView.setEditing(false, animated: true)
+			})
+			
+			alert.addAction(cancelAlertAction)
+			alert.addAction(deleteAlertAction)
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				self.presentViewController(alert, animated: true, completion: nil)
+			}
+		})
+		
+		return searchController.active ? (searchController.searchBar.selectedScopeButtonIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
+		
+	}
+	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+	}
+	
+	
+	//MARK: - UISearchBarDelegate
+	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		//		print("searchBarSearchButtonClicked")
+		
+		self.tableViewLoading(true)
+		
+		searchController.searchBar.selectedScopeButtonIndex = 1
+		
+		if searchController.searchBar.selectedScopeButtonIndex == 0 {
+			self.searchSavedFoods()
+			self.tableView.reloadData()
+		}
+		
+		if searchController.searchBar.selectedScopeButtonIndex == 1 {
+			
+			if let searchString = searchController.searchBar.text {
+				if searchString.characters.count > 0 {
+					self.searchNDBItemsFromString(searchString)
+				}
+			}
+		}
+		
+	}
+	
+	
+	//MARK: - UISearchControllerDelegate
+	func willPresentSearchController(searchController: UISearchController) {
+		//		print("willPresentSearchController")
+		searchController.searchBar.selectedScopeButtonIndex = 0
+		
+	}
+	
+	func willDismissSearchController(searchController: UISearchController) {
+		//		print("willDismissSearchController")
+		searchController.searchBar.selectedScopeButtonIndex = 0
+	}
+	
+	func didDismissSearchController(searchController: UISearchController) {
+		//		print("didDismissSearchController")
+		tableView.reloadData()
+		
+	}
+	
+	func updateSearchResultsForSearchController(searchController: UISearchController) {
+		//		print("updateSearchResultsForSearchController")
+		
+		if searchController.searchBar.selectedScopeButtonIndex == 0 {
+			self.searchSavedFoods()
+			self.tableView.reloadData()
+		}
+		
+		if searchController.searchBar.selectedScopeButtonIndex == 1 {
+			
+			if let searchString = searchController.searchBar.text {
+				if searchString.characters.count > 0 {
+					tableViewLoading(true)
+					self.searchNDBItemsFromString(searchString)
+				}
+			}
+		}
+		
+	}
+	
+	func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+		tableView.reloadData()
+	}
+	
+	
+	@IBAction func addBarButtomItemTapped(sender: UIBarButtonItem) {
+		self.searchController.searchBar.becomeFirstResponder()
+	}
+	
+	
+	//MARK: APIs Helpers
+	func searchNDBItemsFromString(searchString: String) {
+		
+		NDBClient.requestNDBItemsFromString(searchString, type: NDBClient.NDBSearchType.ByFoodName) { (success, result, errorString)  in
+			
+			if success {
+				
+				if let results = result as? [[String: AnyObject]] {
+					self.searchResults = results.map() {
+						NDBItem(dictionary: $0, context: self.temporaryContext)
+					}
+				}
+				
+				// Reload the table on the main thread
+				dispatch_async(dispatch_get_main_queue()) {
+					self.tableView.reloadData()
+					self.tableViewLoading(false)
+				}
+				
+			} else {
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					//self.presentMessage("Oops!", message: errorString!, action: "OK")
+					self.tableViewLoading(false)
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	
+	//MARK: - CoreData Helpers
+	
+	func fetchNDBItems() {
+		do {
+			try itemsFetchedResultsController.performFetch()
+		}
+		catch {
+			print("Error fetching old NDB items")
+		}
+	}
+	
+	func deleteNDBItem(item: NDBItem) {
+		
+		nutrientsFetchedResultsController.fetchRequest.predicate = NSPredicate(format:"item ==  %@", item)
+		
+		do {
+			try self.nutrientsFetchedResultsController.performFetch()
+		}
+		catch {
+			print("Error fetching nutrients for: \(item.name!)")
+			return
+		}
+		
+		let nutrients = nutrientsFetchedResultsController.fetchedObjects as! [NDBNutrient]
+		
+		for nutrient in nutrients {
+			sharedContext.performBlock({
+				self.sharedContext.deleteObject(nutrient)
+				self.saveContext()
+			})
+		}
+		
+		self.sharedContext.performBlock ({
+			
+			self.sharedContext.deleteObject(item)
+			self.saveContext()
+			
+		})
+		
+	}
+	
+	func saveContext() {
+		sharedContext.performBlock {
+			do {
+				try self.sharedContext.save()
+			}
+			catch {
+				print("Error saving Context")
+			}
+		}
+	}
+	
+	func searchSavedFoods() {
+		
+		if let searchString = searchController.searchBar.text {
+			
+			let predicate: NSPredicate?
+			
+			if searchString.characters.count > 0 {
+				predicate = NSPredicate(format:"name CONTAINS[cd] %@", searchString)
+			} else {
+				predicate = nil
+			}
+			
+			do {
+				self.itemsFetchedResultsController.fetchRequest.predicate = predicate
+				try self.itemsFetchedResultsController.performFetch()
+			}
+			catch {
+				print("Error fetching foods in searchSavedFoods method")
+				return
+			}
+			
+			if itemsFetchedResultsController.fetchedObjects?.count < 1 {
+				searchController.searchBar.selectedScopeButtonIndex = 1
+			}
+			
+		}
+		
+	}
+	
+	
+	//MARK: - Helpers
+	
+	func tableViewLoading(loading: Bool) {
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			
+			if loading {
+				self.tableView.hidden = true
+				self.loadingIndicator.startAnimation()
+			} else {
+				self.tableView.hidden = false
+				self.loadingIndicator.stopAnimation()
+			}
+		}
+	}
+	
+	func dismissKeyboard() {
+		
+		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
+		
+		if textFieldInsideSearchBar?.isFirstResponder() == true {
+			textFieldInsideSearchBar?.resignFirstResponder()
+		}
+	}
+	
+	func presentMessage(title: String, message: String, action: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			self.presentViewController(alert, animated: true, completion: nil)
+		}
+	}
+	
+	
+}
