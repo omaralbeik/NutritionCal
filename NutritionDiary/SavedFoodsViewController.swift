@@ -31,14 +31,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
 		
 		// initilizing the loadingIndicator
-		let frame = CGRect(x: CGRectGetMidX(view.frame)-20, y: 115, width: 40, height: 40)
+		let frame = CGRect(x: CGRectGetMidX(view.frame)-20, y: CGRectGetMidY(view.frame)-20, width: 40, height: 40)
 		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
 		
 		
 		tableView.delegate = self
 		tableView.dataSource = self
 		itemsFetchedResultsController.delegate = self
-		nutrientsFetchedResultsController.delegate = self
+		//		nutrientsFetchedResultsController.delegate = self
 		
 		// UI customizations
 		tabBarController?.tabBar.tintColor = MaterialDesignColor.green500
@@ -68,6 +68,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		self.definesPresentationContext = true
 		
 		searchController.view.addSubview(loadingIndicator)
+		self.view.addSubview(loadingIndicator)
 		
 	}
 	
@@ -195,10 +196,16 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.grey800, image: UIImage(named: "saveActionIcon"), forCellHeight: 100, handler: { (action, indexPath) -> Void in
 			
+			self.tableViewLoading(true)
+			
 			let item = self.searchResults![indexPath.row]
 			let itemDict: [String: AnyObject] = ["name": item.name!, "ndbno": item.ndbNo!, "group": item.group!]
 			
-			_ = NDBItem(dictionary: itemDict, context: self.sharedContext)
+			let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
+			
+			self.saveContext()
+			
+			self.getNutrientsForItem(itemToSave)
 			
 			self.saveContext()
 			
@@ -225,10 +232,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				if let items = self.itemsFetchedResultsController.fetchedObjects as? [NDBItem] {
 					let item = items[indexPath.row]
 					self.deleteNDBItem(item)
-					
-					dispatch_async(dispatch_get_main_queue()) {
-						self.tableView.reloadData()
-					}
 				}
 				
 				tableView.setEditing(false, animated: true)
@@ -252,6 +255,92 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+		if !(searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1) {
+			// get results from itemsFetchedResultsController
+			
+			let items = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+			let item = items[indexPath.row]
+			
+			if item.nutrients?.count > 0 {
+				print(item.nutrients?.count)
+				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+				return
+			}
+			
+			print("Should fetch nutrients")
+			
+			self.tableViewLoading(true)
+			
+			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+				
+				if success {
+					self.tableViewLoading(false)
+					
+					if let nutrients = result as? [[String: AnyObject]] {
+						
+						for nutrient in nutrients {
+							_ = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
+							self.saveContext()
+						}
+						print("\(item.nutrients!.count) fetched")
+						
+						dispatch_async(dispatch_get_main_queue()) {
+							self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+						}
+						
+					}
+					
+					
+				} else {
+					self.tableViewLoading(false)
+				}
+				
+			})
+			return
+		}
+		else {
+			
+			let item = self.searchResults![indexPath.row]
+			
+			if item.nutrients?.count > 0 {
+				print(item.nutrients?.count)
+				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+				
+			} else {
+				print("Should fetch")
+				
+				self.tableViewLoading(true)
+				
+				NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+					
+					if success {
+						self.tableViewLoading(false)
+						
+						if let nutrients = result as? [[String: AnyObject]] {
+							
+							for nutrient in nutrients {
+								
+								_ = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+							}
+							
+							print("\(item.nutrients!.count) nutrients fetched")
+							dispatch_async(dispatch_get_main_queue()) {
+								self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+							}
+							
+						}
+						
+					} else {
+						self.tableViewLoading(false)
+						return
+					}
+					
+				})
+				
+			}
+			
+		}
 		
 	}
 	
@@ -324,6 +413,31 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "toItemDetailsViewControllerSegue" {
+			
+			var item: NDBItem {
+				
+				let indexPath = self.tableView.indexPathForSelectedRow!
+				
+				if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+					
+					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+					return items[indexPath.row]
+					
+				} else {
+					
+					return self.searchResults![indexPath.row]
+				}
+			}
+			
+			let itemDetailsVC = segue.destinationViewController as! ItemDetailsViewController
+			itemDetailsVC.ndbItem = item
+			
+		}
+	}
+	
+	
 	@IBAction func addBarButtomItemTapped(sender: UIBarButtonItem) {
 		self.searchController.searchBar.becomeFirstResponder()
 	}
@@ -356,6 +470,37 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					
 				}
 				
+			}
+			
+		}
+		
+	}
+	
+	func getNutrientsForItem(item: NDBItem) {
+		
+		NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
+			
+			if success {
+				self.tableViewLoading(false)
+				if let results = result as? [[String: AnyObject]] {
+					
+					_ = results.map() {
+						print($0["name"])
+						_ = NDBNutrient(item: item, dictionary: $0, context: item.managedObjectContext!)
+					}
+					item.managedObjectContext?.performBlock({
+						
+						do {
+							try item.managedObjectContext?.save()
+						} catch {
+							print("Error saving context")
+							return
+						}
+						
+					})
+				}
+			} else {
+				self.tableViewLoading(false)
 			}
 			
 		}
@@ -452,10 +597,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		dispatch_async(dispatch_get_main_queue()) {
 			
 			if loading {
-				self.tableView.hidden = true
+				self.tableView.alpha = 0.2
 				self.loadingIndicator.startAnimation()
 			} else {
-				self.tableView.hidden = false
+				self.tableView.alpha = 1
 				self.loadingIndicator.stopAnimation()
 			}
 		}
@@ -478,6 +623,5 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			self.presentViewController(alert, animated: true, completion: nil)
 		}
 	}
-	
 	
 }
