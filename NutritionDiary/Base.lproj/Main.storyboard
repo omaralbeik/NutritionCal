@@ -83,18 +83,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
-                                <rect key="frame" x="20" y="72" width="560" height="62"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
+                                <rect key="frame" x="20" y="72" width="560" height="55"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="hMX-Hr-I4a"/>
+                                    <constraint firstAttribute="height" constant="55" id="hMX-Hr-I4a"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pga-FQ-5p6">
-                                <rect key="frame" x="20" y="142" width="560" height="401"/>
+                                <rect key="frame" x="20" y="130" width="580" height="413"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -105,9 +105,9 @@
                             <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="Zx4-YJ-WUP" secondAttribute="bottom" constant="8" id="6ua-KY-z7r"/>
                             <constraint firstItem="N7C-sj-G3t" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="8WB-fl-XU3"/>
                             <constraint firstItem="N7C-sj-G3t" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="ATU-XE-i7n"/>
-                            <constraint firstItem="pga-FQ-5p6" firstAttribute="top" secondItem="N7C-sj-G3t" secondAttribute="bottom" constant="8" id="FOv-9f-EjZ"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="top" secondItem="N7C-sj-G3t" secondAttribute="bottom" constant="3" id="FOv-9f-EjZ"/>
                             <constraint firstItem="OCR-tp-Ozv" firstAttribute="top" secondItem="pga-FQ-5p6" secondAttribute="bottom" constant="8" id="aO7-ek-2l3"/>
-                            <constraint firstItem="pga-FQ-5p6" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="nXg-yn-OHM"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" constant="20" id="nXg-yn-OHM"/>
                             <constraint firstItem="pga-FQ-5p6" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="vsf-JA-BYk"/>
                         </constraints>
                     </view>
