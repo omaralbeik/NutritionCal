@@ -68,7 +68,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		searchController.view.addSubview(loadingIndicator)
 		self.view.addSubview(loadingIndicator)
-		
+
 	}
 	
 	
@@ -273,33 +273,40 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			print("Should fetch nutrients")
 			
-			self.tableViewLoading(true)
 			
-			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+			if Reachability.isConnectedToNetwork() {
 				
-				if success {
-					self.tableViewLoading(false)
+				self.tableViewLoading(true)
+				
+				NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
 					
-					if let nutrients = result as? [[String: AnyObject]] {
+					if success {
+						self.tableViewLoading(false)
 						
-						for nutrient in nutrients {
-							_ = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
-							self.saveContext()
+						if let nutrients = result as? [[String: AnyObject]] {
+							
+							for nutrient in nutrients {
+								_ = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
+								self.saveContext()
+							}
+							print("\(item.nutrients!.count) fetched")
+							
+							dispatch_async(dispatch_get_main_queue()) {
+								self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+							}
+							
 						}
-						print("\(item.nutrients!.count) fetched")
 						
-						dispatch_async(dispatch_get_main_queue()) {
-							self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
-						}
 						
+					} else {
+						self.tableViewLoading(false)
 					}
 					
-					
-				} else {
-					self.tableViewLoading(false)
-				}
+				})
 				
-			})
+			} else {
+				self.presentNoConnectionMessage()
+			}
 			return
 		}
 		else {
@@ -313,33 +320,39 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			} else {
 				print("Should fetch")
 				
-				self.tableViewLoading(true)
-				
-				NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+				if Reachability.isConnectedToNetwork() {
 					
-					if success {
-						self.tableViewLoading(false)
+					self.tableViewLoading(true)
+					
+					NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
 						
-						if let nutrients = result as? [[String: AnyObject]] {
+						if success {
+							self.tableViewLoading(false)
 							
-							for nutrient in nutrients {
+							if let nutrients = result as? [[String: AnyObject]] {
 								
-								_ = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+								for nutrient in nutrients {
+									
+									_ = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+								}
+								
+								print("\(item.nutrients!.count) nutrients fetched")
+								dispatch_async(dispatch_get_main_queue()) {
+									self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+								}
+								
 							}
 							
-							print("\(item.nutrients!.count) nutrients fetched")
-							dispatch_async(dispatch_get_main_queue()) {
-								self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
-							}
-							
+						} else {
+							self.tableViewLoading(false)
+							return
 						}
 						
-					} else {
-						self.tableViewLoading(false)
-						return
-					}
+					})
 					
-				})
+				} else {
+					self.presentNoConnectionMessage()
+				}
 				
 			}
 			
@@ -394,6 +407,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
 		//		print("updateSearchResultsForSearchController")
 		
+		
 		if searchController.searchBar.selectedScopeButtonIndex == 0 {
 			self.searchSavedFoods()
 			self.tableView.reloadData()
@@ -403,6 +417,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			if let searchString = searchController.searchBar.text {
 				if searchString.characters.count > 0 {
+					
 					tableViewLoading(true)
 					self.searchNDBItemsFromString(searchString)
 				}
@@ -449,65 +464,76 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	//MARK: APIs Helpers
 	func searchNDBItemsFromString(searchString: String) {
 		
-		NDBClient.requestNDBItemsFromString(searchString, type: NDBClient.NDBSearchType.ByFoodName) { (success, result, errorString)  in
+		if Reachability.isConnectedToNetwork() {
 			
-			if success {
+			NDBClient.requestNDBItemsFromString(searchString, type: NDBClient.NDBSearchType.ByFoodName) { (success, result, errorString)  in
 				
-				if let results = result as? [[String: AnyObject]] {
-					self.searchResults = results.map() {
-						NDBItem(dictionary: $0, context: self.temporaryContext)
+				if success {
+					
+					if let results = result as? [[String: AnyObject]] {
+						self.searchResults = results.map() {
+							NDBItem(dictionary: $0, context: self.temporaryContext)
+						}
 					}
-				}
-				
-				// Reload the table on the main thread
-				dispatch_async(dispatch_get_main_queue()) {
-					self.tableView.reloadData()
-					self.tableViewLoading(false)
-				}
-				
-			} else {
-				
-				dispatch_async(dispatch_get_main_queue()) {
-					//self.presentMessage("Oops!", message: errorString!, action: "OK")
-					self.tableViewLoading(false)
+					
+					// Reload the table on the main thread
+					dispatch_async(dispatch_get_main_queue()) {
+						self.tableView.reloadData()
+						self.tableViewLoading(false)
+					}
+					
+				} else {
+					
+					dispatch_async(dispatch_get_main_queue()) {
+						//self.presentMessage("Oops!", message: errorString!, action: "OK")
+						self.tableViewLoading(false)
+						
+					}
 					
 				}
 				
 			}
 			
+		} else {
+			self.presentNoConnectionMessage()
 		}
 		
 	}
 	
 	func getNutrientsForItem(item: NDBItem) {
 		
-		NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
+		if Reachability.isConnectedToNetwork() {
 			
-			if success {
-				self.tableViewLoading(false)
-				if let results = result as? [[String: AnyObject]] {
-					
-					_ = results.map() {
-						print($0["name"])
-						_ = NDBNutrient(item: item, dictionary: $0, context: item.managedObjectContext!)
-					}
-					item.managedObjectContext?.performBlock({
+			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
+				
+				if success {
+					self.tableViewLoading(false)
+					if let results = result as? [[String: AnyObject]] {
 						
-						do {
-							try item.managedObjectContext?.save()
-						} catch {
-							print("Error saving context")
-							return
+						_ = results.map() {
+							print($0["name"])
+							_ = NDBNutrient(item: item, dictionary: $0, context: item.managedObjectContext!)
 						}
-						
-					})
+						item.managedObjectContext?.performBlock({
+							
+							do {
+								try item.managedObjectContext?.save()
+							} catch {
+								print("Error saving context")
+								return
+							}
+							
+						})
+					}
+				} else {
+					self.tableViewLoading(false)
 				}
-			} else {
-				self.tableViewLoading(false)
+				
 			}
 			
+		} else {
+			self.presentNoConnectionMessage()
 		}
-		
 	}
 	
 	
@@ -625,6 +651,15 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		dispatch_async(dispatch_get_main_queue()) {
 			self.presentViewController(alert, animated: true, completion: nil)
 		}
+	}
+	
+	func presentNoConnectionMessage() {
+		dismissKeyboard()
+		searchController.active = false
+		tableViewLoading(false)
+		self.presentMessage("No Internet", message: "Internet connection is required to save items!, please connect and try again", action: "OK")
+
+
 	}
 	
 }

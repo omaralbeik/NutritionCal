@@ -368,48 +368,23 @@
                         <sections>
                             <tableViewSection id="WSW-ed-i01">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="djN-Ko-mfx" imageView="58d-YK-CaG" rowHeight="50" style="IBUITableViewCellStyleDefault" id="uMl-cZ-ctL">
-                                        <rect key="frame" x="0.0" y="99" width="600" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uMl-cZ-ctL" id="JUg-JP-B1F">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="djN-Ko-mfx">
-                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="58d-YK-CaG">
-                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <animations/>
-                                                </imageView>
-                                            </subviews>
-                                            <animations/>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="EbP-JE-yvU" imageView="og3-t3-CTW" rowHeight="50" style="IBUITableViewCellStyleDefault" id="xo3-fu-b84">
-                                        <rect key="frame" x="0.0" y="149" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="99" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xo3-fu-b84" id="jcY-3L-KRm">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Replay Tutorial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EbP-JE-yvU">
-                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <rect key="frame" x="55" y="0.0" width="510" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="og3-t3-CTW">
-                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="replaySettingsIcon" id="og3-t3-CTW">
+                                                    <rect key="frame" x="15" y="12" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </imageView>
@@ -423,7 +398,7 @@
                             <tableViewSection id="bGd-Tj-mD7">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="syncFoodsCell" rowHeight="50" id="l4E-Ka-Amb" customClass="SwitchCell" customModule="NutritionDiary" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="235" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="185" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l4E-Ka-Amb" id="vFf-0n-u9p">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -434,7 +409,7 @@
                                                     <animations/>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Sync with Health App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EiS-Hn-sqD">
-                                                    <rect key="frame" x="62" y="5" width="465" height="38.5"/>
+                                                    <rect key="frame" x="57" y="5" width="470" height="38.5"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="38.5" id="pv6-I7-HuT"/>
@@ -443,8 +418,8 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="historyTabBarButton" translatesAutoresizingMaskIntoConstraints="NO" id="iPS-j0-1Aj">
-                                                    <rect key="frame" x="17" y="10" width="30" height="30"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="syncSettingsIcon" translatesAutoresizingMaskIntoConstraints="NO" id="iPS-j0-1Aj">
+                                                    <rect key="frame" x="17" y="12.5" width="25" height="25"/>
                                                     <animations/>
                                                 </imageView>
                                             </subviews>
@@ -466,22 +441,22 @@
                             <tableViewSection footerTitle=" " id="3lj-eR-KOb">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="2hc-g7-io5" imageView="ygk-XD-nR0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="rfi-79-JlO">
-                                        <rect key="frame" x="0.0" y="321" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="271" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rfi-79-JlO" id="n8X-zz-dnG">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Rate in AppStore" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2hc-g7-io5">
-                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                    <rect key="frame" x="55" y="0.0" width="510" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="ygk-XD-nR0">
-                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rateSettingsIcon" id="ygk-XD-nR0">
+                                                    <rect key="frame" x="15" y="12" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </imageView>
@@ -491,22 +466,22 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7eS-ZX-5rl" imageView="CZS-0K-nSd" rowHeight="50" style="IBUITableViewCellStyleDefault" id="YW2-Kv-qgs">
-                                        <rect key="frame" x="0.0" y="371" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="321" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YW2-Kv-qgs" id="YUs-Rv-x4x">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="About and Help" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7eS-ZX-5rl">
-                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="About and Legal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7eS-ZX-5rl">
+                                                    <rect key="frame" x="54" y="0.0" width="511" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="CZS-0K-nSd">
-                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="aboutSettingsIcon" id="CZS-0K-nSd">
+                                                    <rect key="frame" x="15" y="12" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </imageView>
@@ -516,22 +491,47 @@
                                         <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="F3Z-Yy-i7I" imageView="zUe-dG-ycB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="MmV-wa-0ig">
-                                        <rect key="frame" x="0.0" y="421" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="371" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MmV-wa-0ig" id="exS-zL-nRN">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Tell a Friend" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F3Z-Yy-i7I">
-                                                    <rect key="frame" x="60" y="0.0" width="505" height="49.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="More Apps!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F3Z-Yy-i7I">
+                                                    <rect key="frame" x="55" y="0.0" width="510" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="historyTabBarButton" id="zUe-dG-ycB">
-                                                    <rect key="frame" x="15" y="9" width="30" height="30"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="moreSettingsIcon" id="zUe-dG-ycB">
+                                                    <rect key="frame" x="15" y="21" width="25" height="6"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="iV5-7A-gdP" imageView="Y0j-10-5mw" rowHeight="50" style="IBUITableViewCellStyleDefault" id="1tf-M2-rVD">
+                                        <rect key="frame" x="0.0" y="421" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1tf-M2-rVD" id="tJG-ZF-S59">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Tell a Friend" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iV5-7A-gdP">
+                                                    <rect key="frame" x="55" y="0.0" width="510" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="shareSettingsIcon" id="Y0j-10-5mw">
+                                                    <rect key="frame" x="15" y="12" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </imageView>
@@ -576,11 +576,17 @@
         </scene>
     </scenes>
     <resources>
+        <image name="aboutSettingsIcon" width="24" height="24"/>
         <image name="foodsTabBarButton" width="30" height="30"/>
         <image name="foodsTabBarButtonSelected" width="30" height="30"/>
         <image name="historyTabBarButton" width="30" height="30"/>
         <image name="historyTabBarButtonSelected" width="30" height="31"/>
+        <image name="moreSettingsIcon" width="25" height="6"/>
+        <image name="rateSettingsIcon" width="25" height="25"/>
+        <image name="replaySettingsIcon" width="25" height="25"/>
         <image name="settingsTabBarButton" width="30" height="30"/>
         <image name="settingsTabBarButtonSelected" width="30" height="31"/>
+        <image name="shareSettingsIcon" width="25" height="25"/>
+        <image name="syncSettingsIcon" width="25" height="25"/>
     </resources>
 </document>

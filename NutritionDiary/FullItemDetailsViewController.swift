@@ -115,11 +115,8 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	func filterContentForSearch (searchString: String) {
 		
 		filtredNutritionsArray = nutritionsArray.filter({ (nutrient) -> Bool in
-			
-			let nutrientMatch = nutrient.name!.rangeOfString(searchString)
-			return nutrientMatch != nil
-			
+			let nutrientMatch = nutrient.name!.rangeOfString(searchString, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil)
+			return nutrientMatch != nil ? true : false
 		})
 	}
-	
 }
