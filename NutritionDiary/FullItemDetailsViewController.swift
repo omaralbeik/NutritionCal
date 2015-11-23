@@ -104,9 +104,36 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	}
 	
 	
-	
-	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
+		
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+		
+		let nutrients = ndbItem.nutrients
+		
+		for nutrient in nutrients! {
+			
+			if nutrient.id == 208 {
+				
+				for measure in nutrient.measures! {
+					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
+						print("Should eat: \(measure.label!)")
+					})
+					alert.addAction(action)
+				}
+			}
+			
+		}
+		
+		alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+			
+		}))
+		
+		alert.view.tintColor = MaterialDesignColor.green500
+		
+		presentViewController(alert, animated: true, completion: nil)
+		
+		alert.view.tintColor = MaterialDesignColor.green500
+		
 	}
 	
 	

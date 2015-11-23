@@ -12,7 +12,7 @@ import NVActivityIndicatorView
 import PNChart
 import MaterialDesignColor
 
-class ItemDetailsViewController: UIViewController {
+class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	
 	var ndbItem: NDBItem!
 	
@@ -24,6 +24,15 @@ class ItemDetailsViewController: UIViewController {
 	var protein : Double = 0
 	var sugar : Double = 0
 	var vitaminC : Double = 0
+	
+	var calciumUnit = "Ca"
+	var carbohydrateUnit = "CHO"
+	var cholesterolUnit = "Chol"
+	var energyUnit = "Enrg"
+	var fatTotalUnit = "Fat"
+	var proteinUnit = "Prot"
+	var sugarUnit = "Sugar"
+	var vitaminCUnit = "Vit C"
 	
 	var loadingIndicator: NVActivityIndicatorView!
 	
@@ -38,9 +47,8 @@ class ItemDetailsViewController: UIViewController {
 		
 		let barChart = PNBarChart(frame: self.chartView.frame)
 		
-		barChart.xLabels = ["Ca", "CHO", "Chol", "KCal", "Fat", "Prot", "Sugar", "Vit C"]
+		barChart.xLabels = [calciumUnit,carbohydrateUnit,cholesterolUnit,energyUnit,fatTotalUnit,proteinUnit,sugarUnit,vitaminCUnit]
 		barChart.yValues = [calcium,carbohydrate,cholesterol,energy,fatTotal,protein,sugar,vitaminC]
-		barChart.isShowNumbers = false
 		barChart.isGradientShow = false
 		
 		barChart.legendFontColor = UIColor.orangeColor()
@@ -57,18 +65,23 @@ class ItemDetailsViewController: UIViewController {
 			MaterialDesignColor.deepOrange500
 		]
 		
-		barChart.barBackgroundColor = MaterialDesignColor.grey100
-		barChart.barWidth = 22
+		barChart.legendFontColor = UIColor.blackColor()
+		barChart.labelTextColor = UIColor.blackColor()
+		
+		barChart.barBackgroundColor = MaterialDesignColor.grey300
+		barChart.barWidth = 25
+		
+		barChart.isShowNumbers = true
 		
 		barChart.strokeChart()
 		
 		view.addSubview(barChart)
 		
-		
 	}
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		itemNameLabel.text = ndbItem.name
 		
@@ -84,16 +97,20 @@ class ItemDetailsViewController: UIViewController {
 		for nutrient in nutrients! {
 			if nutrient.id == 301 {
 				calcium = nutrient.value as! Double
+				calciumUnit += "\n[\(nutrient.unit!)]"
 			}
 			if nutrient.id == 205 {
 				carbohydrate = nutrient.value as! Double
+				carbohydrateUnit += "\n[\(nutrient.unit!)]"
 				
 			}
 			if nutrient.id == 601 {
 				cholesterol = nutrient.value as! Double
+				cholesterolUnit += "\n[\(nutrient.unit!)]"
 			}
 			if nutrient.id == 208 {
 				energy = nutrient.value as! Double
+				energyUnit += "\n[\(nutrient.unit!)]"
 				
 				for measure in nutrient.measures! {
 					print(measure.label)
@@ -102,20 +119,24 @@ class ItemDetailsViewController: UIViewController {
 			}
 			if nutrient.id == 204 {
 				fatTotal = nutrient.value as! Double
+				fatTotalUnit += "\n[\(nutrient.unit!)]"
 			}
 			if nutrient.id == 203 {
 				protein = nutrient.value as! Double
+				proteinUnit += "\n[\(nutrient.unit!)]"
 			}
 			if nutrient.id == 269 {
 				sugar = nutrient.value as! Double
+				sugarUnit += "\n[\(nutrient.unit!)]"
 			}
 			if nutrient.id == 401 {
 				vitaminC = nutrient.value as! Double
+				vitaminCUnit += "\n[\(nutrient.unit!)]"
 			}
 		}
 		
 		
-    }
+	}
 	
 	@IBAction func fullInfoButtonTapped(sender: UIButton) {
 		
@@ -133,6 +154,35 @@ class ItemDetailsViewController: UIViewController {
 	
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
+		
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+		
+		let nutrients = ndbItem.nutrients
+		
+		for nutrient in nutrients! {
+			
+			if nutrient.id == 208 {
+				
+				for measure in nutrient.measures! {
+					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
+						print("Should eat: \(measure.label!)")
+					})
+					alert.addAction(action)
+				}
+			}
+			
+		}
+		
+		alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+			
+		}))
+		
+		alert.view.tintColor = MaterialDesignColor.green500
+		
+		presentViewController(alert, animated: true, completion: nil)
+		
+		alert.view.tintColor = MaterialDesignColor.green500
+
 	}
 	
 }

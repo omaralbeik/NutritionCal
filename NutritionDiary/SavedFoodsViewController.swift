@@ -206,6 +206,84 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			print("should eat")
 			
+			
+			var item: NDBItem {
+				
+				if self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1 {
+					return self.searchResults![indexPath.row]
+				} else {
+					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+					return items[indexPath.row]
+				}
+			}
+			
+			
+			var nutrientsFetched: Bool {
+				
+				if let nutrients = item.nutrients {
+					if nutrients.count > 0 {
+						return true
+					}
+				}
+				return false
+			}
+			
+			if !nutrientsFetched {
+				
+				if Reachability.isConnectedToNetwork() {
+					
+					NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
+						
+						if success {
+							self.tableViewLoading(false)
+							
+							if let nutrients = result as? [[String: AnyObject]] {
+								
+								for nutrient in nutrients {
+									let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+									
+									if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+										
+										for measure in measures {
+											
+											_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+											
+											print("measure added")
+											
+										}
+										
+									}
+									
+								}
+								
+								item.managedObjectContext?.performBlock({
+									
+									do {
+										try item.managedObjectContext?.save()
+									} catch {
+										print("Error saving context after adding measures")
+										return
+									}
+								})
+								
+								dispatch_async(dispatch_get_main_queue()) {
+									self.eatItem(item)
+								}
+								
+							}
+							
+						} else {
+							self.tableViewLoading(false)
+						}
+						
+					}
+					
+				} else {
+					self.presentNoConnectionMessage()
+				}
+				
+			}
+			
 			tableView.setEditing(false, animated: true)
 		})
 		
@@ -278,7 +356,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			let item = items[indexPath.row]
 			
 			if item.nutrients?.count > 0 {
-				print(item.nutrients?.count)
 				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
 				return
 			}
@@ -485,6 +562,42 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	//MARK: APIs Helpers
+	
+	func eatItem(ndbItem: NDBItem) {
+		
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+		
+		let nutrients = ndbItem.nutrients
+		
+		for nutrient in nutrients! {
+			
+			if nutrient.id == 208 {
+				
+				for measure in nutrient.measures! {
+					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
+						print("Should eat: \(measure.label!)")
+					})
+					alert.addAction(action)
+				}
+			}
+			
+		}
+		
+		alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+			
+		}))
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			
+			alert.view.tintColor = MaterialDesignColor.green500
+			
+			self.presentViewController(alert, animated: true, completion: nil)
+			
+			alert.view.tintColor = MaterialDesignColor.green500
+			
+		}
+	}
+	
 	func searchNDBItemsFromString(searchString: String) {
 		
 		if Reachability.isConnectedToNetwork() {

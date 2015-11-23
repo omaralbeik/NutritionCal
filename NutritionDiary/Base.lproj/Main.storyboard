@@ -30,16 +30,16 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="74.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" id="h1j-zk-na1">
-                                                    <rect key="frame" x="15" y="21" width="43" height="19.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" id="h1j-zk-na1">
+                                                    <rect key="frame" x="15" y="22" width="38" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="group" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="Hjm-WX-PF3">
-                                                    <rect key="frame" x="15" y="40.5" width="31" height="13.5"/>
+                                                    <rect key="frame" x="15" y="39" width="31" height="13.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -91,18 +91,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
                                 <rect key="frame" x="20" y="72" width="560" height="55"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="hMX-Hr-I4a"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pga-FQ-5p6">
-                                <rect key="frame" x="20" y="130" width="580" height="387"/>
+                                <rect key="frame" x="11" y="130" width="589" height="387"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -130,7 +130,7 @@
                             <constraint firstItem="Y78-XE-niH" firstAttribute="top" secondItem="pga-FQ-5p6" secondAttribute="bottom" constant="-4" id="dgO-0S-G8C"/>
                             <constraint firstItem="pga-FQ-5p6" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" constant="20" id="nXg-yn-OHM"/>
                             <constraint firstItem="OCR-tp-Ozv" firstAttribute="top" secondItem="Y78-XE-niH" secondAttribute="bottom" constant="8" id="oQq-CL-dab"/>
-                            <constraint firstItem="pga-FQ-5p6" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="vsf-JA-BYk"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" constant="-9" id="vsf-JA-BYk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Pzb-nO-jJD">
@@ -176,7 +176,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Nutrition Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="vzc-d4-lDz">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Nutrition Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="vzc-d4-lDz">
                                                     <rect key="frame" x="15" y="12" width="110" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
@@ -184,7 +184,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Info" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="T02-Kb-JiY">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Info" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T02-Kb-JiY">
                                                     <rect key="frame" x="557.5" y="12" width="27.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
