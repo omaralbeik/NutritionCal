@@ -49,7 +49,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.delegate = self
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
-		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.hidesNavigationBarDuringPresentation = false
 		searchController.searchBar.sizeToFit()
 		
 		// UI customizations
@@ -204,82 +204,93 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
-			print("should eat")
 			
-			
-			var item: NDBItem {
+			if !(self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1) {
 				
-				if self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1 {
-					return self.searchResults![indexPath.row]
-				} else {
-					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
-					return items[indexPath.row]
-				}
-			}
-			
-			
-			var nutrientsFetched: Bool {
+				let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+				let item = items[indexPath.row]
 				
-				if let nutrients = item.nutrients {
-					if nutrients.count > 0 {
-						return true
-					}
-				}
-				return false
-			}
-			
-			if !nutrientsFetched {
-				
-				if Reachability.isConnectedToNetwork() {
+				var nutrientsFetched: Bool {
 					
-					NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
+					if let nutrients = item.nutrients {
+						if nutrients.count > 0 {
+							return true
+						}
+					}
+					return false
+				}
+				
+				if nutrientsFetched {
+					
+					self.eatItem(item)
+					return
+					
+				} else {
+					
+					self.tableViewLoading(true)
+					
+					self.getNutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
-							self.tableViewLoading(false)
 							
-							if let nutrients = result as? [[String: AnyObject]] {
-								
-								for nutrient in nutrients {
-									let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
-									
-									if let measures = nutrient["measures"] as? [[String: AnyObject]] {
-										
-										for measure in measures {
-											
-											_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
-											
-											print("measure added")
-											
-										}
-										
-									}
-									
-								}
-								
-								item.managedObjectContext?.performBlock({
-									
-									do {
-										try item.managedObjectContext?.save()
-									} catch {
-										print("Error saving context after adding measures")
-										return
-									}
-								})
-								
-								dispatch_async(dispatch_get_main_queue()) {
-									self.eatItem(item)
-								}
-								
-							}
+							self.tableViewLoading(false)
+							self.eatItem(item)
+							return
 							
 						} else {
+							
 							self.tableViewLoading(false)
+							self.presentMessage("Oops!", message: errorString!, action: "OK")
+							
 						}
 						
+					})
+					
+				}
+				
+				
+			}
+				
+			else {
+				
+				let item = self.searchResults![indexPath.row]
+				
+				var nutrientsFetched: Bool {
+					
+					if let nutrients = item.nutrients {
+						if nutrients.count > 0 {
+							return true
+						}
 					}
+					return false
+				}
+				
+				if nutrientsFetched {
+					
+					self.eatItem(item)
+					return
 					
 				} else {
-					self.presentNoConnectionMessage()
+					
+					self.tableViewLoading(true)
+					
+					self.getNutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
+						
+						if success {
+							
+							self.tableViewLoading(false)
+							self.eatItem(item)
+							return
+							
+						} else {
+							
+							self.tableViewLoading(false)
+							self.presentMessage("Oops!", message: errorString!, action: "OK")
+							
+						}
+						
+					})
+					
 				}
 				
 			}
@@ -295,12 +306,21 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			let itemDict: [String: AnyObject] = ["name": item.name!, "ndbno": item.ndbNo!, "group": item.group!]
 			
 			let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
+			itemToSave.saved = true
 			
 			self.saveContext()
 			
-			self.getNutrientsForItem(itemToSave)
-			
-			self.saveContext()
+			self.getNutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
+				
+				if success {
+					self.tableViewLoading(false)
+					self.saveContext()
+					
+				} else {
+					self.tableViewLoading(false)
+				}
+				
+			})
 			
 			tableView.setEditing(false, animated: true)
 		})
@@ -350,115 +370,100 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		
 		if !(searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1) {
-			// get results from itemsFetchedResultsController
 			
 			let items = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let item = items[indexPath.row]
 			
-			if item.nutrients?.count > 0 {
-				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
-				return
+			var nutrientsFetched: Bool {
+				
+				if let nutrients = item.nutrients {
+					if nutrients.count > 0 {
+						return true
+					}
+				}
+				return false
 			}
 			
-			print("Should fetch nutrients")
-			
-			
-			if Reachability.isConnectedToNetwork() {
+			if nutrientsFetched {
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+				}
+				return
+				
+			} else {
 				
 				self.tableViewLoading(true)
 				
-				NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+				self.getNutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
 					
 					if success {
+						
 						self.tableViewLoading(false)
 						
-						if let nutrients = result as? [[String: AnyObject]] {
-							
-							for nutrient in nutrients {
-								let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: self.sharedContext)
-								self.saveContext()
-								
-								if let measures = nutrient["measures"] as? [[String: AnyObject]] {
-									
-									for measure in measures {
-										_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: self.sharedContext)
-										self.saveContext()
-									}
-									self.saveContext()
-								}
-								
-							}
-							print("\(item.nutrients!.count) fetched")
-							
-							dispatch_async(dispatch_get_main_queue()) {
-								self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
-							}
-							
+						dispatch_async(dispatch_get_main_queue()) {
+							self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
 						}
-						
+						return
 						
 					} else {
+						
 						self.tableViewLoading(false)
+						self.presentMessage("Oops!", message: errorString!, action: "OK")
+						
 					}
 					
 				})
 				
-			} else {
-				self.presentNoConnectionMessage()
 			}
-			return
+			
+			
 		}
+			
 		else {
 			
 			let item = self.searchResults![indexPath.row]
 			
-			if item.nutrients?.count > 0 {
-				self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+			var nutrientsFetched: Bool {
+				
+				if let nutrients = item.nutrients {
+					if nutrients.count > 0 {
+						return true
+					}
+				}
+				return false
+			}
+			
+			if nutrientsFetched {
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
+				}
+				return
 				
 			} else {
-				print("Should fetch")
 				
-				if Reachability.isConnectedToNetwork() {
+				self.tableViewLoading(true)
+				
+				self.getNutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
 					
-					self.tableViewLoading(true)
-					
-					NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+					if success {
 						
-						if success {
-							self.tableViewLoading(false)
-							
-							if let nutrients = result as? [[String: AnyObject]] {
-								
-								for nutrient in nutrients {
-									
-									let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
-									
-									if let measures = nutrient["measures"] as? [[String: AnyObject]] {
-										
-										for measure in measures {
-											_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
-										}
-									}
-									
-								}
-								
-								print("\(item.nutrients!.count) nutrients fetched")
-								dispatch_async(dispatch_get_main_queue()) {
-									self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
-								}
-								
-							}
-							
-						} else {
-							self.tableViewLoading(false)
-							return
+						self.tableViewLoading(false)
+						
+						dispatch_async(dispatch_get_main_queue()) {
+							self.performSegueWithIdentifier("toItemDetailsViewControllerSegue", sender: self)
 						}
+						return
 						
-					})
+					} else {
+						
+						self.tableViewLoading(false)
+						self.presentMessage("Oops!", message: errorString!, action: "OK")
+						
+					}
 					
-				} else {
-					self.presentNoConnectionMessage()
-				}
+				})
 				
 			}
 			
@@ -483,7 +488,27 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			if let searchString = searchController.searchBar.text {
 				if searchString.characters.count > 0 {
-					self.searchNDBItemsFromString(searchString)
+					self.searchNDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
+						
+						if success {
+							
+							//	// Reload the table on the main thread
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableView.reloadData()
+								self.tableViewLoading(false)
+							}
+							
+						} else {
+							
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableView.reloadData()
+								self.tableViewLoading(false)
+								self.presentMessage("Oops!", message: errorString!, action: "OK")
+							}
+						}
+						
+					})
+					
 				}
 			}
 		}
@@ -499,6 +524,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func willDismissSearchController(searchController: UISearchController) {
 		searchController.searchBar.selectedScopeButtonIndex = 0
+		self.tableViewLoading(false)
+		self.searchResults = []
 	}
 	
 	func didDismissSearchController(searchController: UISearchController) {
@@ -519,7 +546,26 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				if searchString.characters.count > 0 {
 					
 					tableViewLoading(true)
-					self.searchNDBItemsFromString(searchString)
+					self.searchNDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
+						
+						if success {
+							
+							//	// Reload the table on the main thread
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableView.reloadData()
+								self.tableViewLoading(false)
+							}
+							
+						} else {
+							
+							dispatch_async(dispatch_get_main_queue()) {
+								//self.presentMessage("Oops!", message: errorString!, action: "OK")
+								self.tableViewLoading(false)
+							}
+						}
+						
+					})
+					
 				}
 			}
 		}
@@ -563,6 +609,85 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	//MARK: APIs Helpers
 	
+	func searchNDBItemsFromString(searchString: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+		
+		if Reachability.isConnectedToNetwork() {
+			
+			NDBClient.requestNDBItemsFromString(searchString, type: .ByFoodName, completionHandler: { (success, result, errorString) -> Void in
+				
+				if success {
+					
+					if let results = result as? [[String: AnyObject]] {
+						self.searchResults = results.map() {
+							NDBItem(dictionary: $0, context: self.temporaryContext)
+						}
+					}
+					completionHandler(success: true, errorString: nil)
+					
+				} else {
+					
+					completionHandler(success: false, errorString: errorString)
+				}
+				
+			})
+			
+		} else {
+			self.presentNoConnectionMessage()
+		}
+		
+	}
+	
+	func getNutrientsForItem(item: NDBItem, saveResults: Bool, completionHandler: (success: Bool, errorString: String?) -> Void) {
+		
+		if Reachability.isConnectedToNetwork() {
+			
+			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+				
+				if success {
+					
+					if let nutrients = result as? [[String: AnyObject]] {
+						
+						for nutrient in nutrients {
+							let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
+							
+							if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+								
+								for measure in measures {
+									_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+								}
+							}
+						}
+						
+						if saveResults {
+							
+							item.managedObjectContext?.performBlock({
+								
+								do {
+									try item.managedObjectContext?.save()
+								} catch {
+									print("Error saving context after adding measures")
+									return
+								}
+							})
+							
+						}
+						
+						completionHandler(success: true, errorString: nil)
+						
+					}
+					
+				} else {
+					
+					completionHandler(success: false, errorString: errorString)
+				}
+				
+			})
+			
+		} else {
+			self.presentNoConnectionMessage()
+		}
+	}
+	
 	func eatItem(ndbItem: NDBItem) {
 		
 		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
@@ -576,6 +701,40 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
 						print("Should eat: \(measure.label!)")
+						
+						
+						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
+							UIAlertControllerStyle.Alert)
+						
+						qtyAlert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+							
+							textField.placeholder = "Enter quanitity"
+							textField.keyboardType = UIKeyboardType.NumberPad
+							textField.addTarget(self, action: "qtyTextChanged:", forControlEvents: .EditingChanged)
+						})
+						
+						qtyAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+						
+						let eatAction = UIAlertAction(title: "Eat!", style: .Default, handler: { (action) -> Void in
+							
+							let textField = qtyAlert.textFields?.first!
+							if textField != nil {
+								print(textField!.text!)
+							}
+							
+						})
+						eatAction.enabled = false
+						
+						qtyAlert.addAction(eatAction)
+						
+						qtyAlert.view.tintColor = MaterialDesignColor.green500
+						
+						dispatch_async(dispatch_get_main_queue()) {
+							self.presentViewController(qtyAlert, animated: true, completion: nil)
+							qtyAlert.view.tintColor = MaterialDesignColor.green500
+							self.tableView.setEditing(false, animated: true)
+						}
+						
 					})
 					alert.addAction(action)
 				}
@@ -598,92 +757,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		}
 	}
 	
-	func searchNDBItemsFromString(searchString: String) {
-		
-		if Reachability.isConnectedToNetwork() {
-			
-			NDBClient.requestNDBItemsFromString(searchString, type: NDBClient.NDBSearchType.ByFoodName) { (success, result, errorString)  in
-				
-				if success {
-					
-					if let results = result as? [[String: AnyObject]] {
-						self.searchResults = results.map() {
-							NDBItem(dictionary: $0, context: self.temporaryContext)
-						}
-					}
-					
-					// Reload the table on the main thread
-					dispatch_async(dispatch_get_main_queue()) {
-						self.tableView.reloadData()
-						self.tableViewLoading(false)
-					}
-					
-				} else {
-					
-					dispatch_async(dispatch_get_main_queue()) {
-						//self.presentMessage("Oops!", message: errorString!, action: "OK")
-						self.tableViewLoading(false)
-						
-					}
-					
-				}
-				
-			}
-			
-		} else {
-			self.presentNoConnectionMessage()
-		}
-		
-	}
-	
-	func getNutrientsForItem(item: NDBItem) {
-		
-		if Reachability.isConnectedToNetwork() {
-			
-			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full) { (success, result, errorString) -> Void in
-				
-				if success {
-					self.tableViewLoading(false)
-					
-					if let nutrients = result as? [[String: AnyObject]] {
-						
-						for nutrient in nutrients {
-							let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
-							
-							if let measures = nutrient["measures"] as? [[String: AnyObject]] {
-								
-								for measure in measures {
-									
-									_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
-									
-									print("measure added")
-									
-								}
-								
-							}
-							
-						}
-						
-						item.managedObjectContext?.performBlock({
-							
-							do {
-								try item.managedObjectContext?.save()
-							} catch {
-								print("Error saving context after adding measures")
-								return
-							}
-						})
-					}
-					
-				} else {
-					self.tableViewLoading(false)
-				}
-				
-			}
-			
-		} else {
-			self.presentNoConnectionMessage()
-		}
+	func qtyTextChanged(sender:AnyObject) {
+		let tf = sender as! UITextField
+		var resp : UIResponder = tf
+		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
+		let alert = resp as! UIAlertController
+		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
 	}
 	
 	
@@ -796,10 +875,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		dispatch_async(dispatch_get_main_queue()) {
 			
 			if loading {
-				self.tableView.alpha = 0.2
+				self.tableView.hidden = true
 				self.loadingIndicator.startAnimation()
 			} else {
-				self.tableView.alpha = 1
+				self.tableView.hidden = false
 				self.loadingIndicator.stopAnimation()
 			}
 		}

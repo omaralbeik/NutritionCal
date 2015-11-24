@@ -166,6 +166,39 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
 						print("Should eat: \(measure.label!)")
+						
+						
+						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
+							UIAlertControllerStyle.Alert)
+						
+						qtyAlert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+							
+							textField.placeholder = "Enter quanitity"
+							textField.keyboardType = UIKeyboardType.NumberPad
+							textField.addTarget(self, action: "qtyTextChanged:", forControlEvents: .EditingChanged)
+						})
+						
+						qtyAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+						
+						let eatAction = UIAlertAction(title: "Eat!", style: .Default, handler: { (action) -> Void in
+							
+							let textField = qtyAlert.textFields?.first!
+							if textField != nil {
+								print(textField!.text!)
+							}
+							
+						})
+						eatAction.enabled = false
+						
+						qtyAlert.addAction(eatAction)
+						
+						qtyAlert.view.tintColor = MaterialDesignColor.green500
+						
+						dispatch_async(dispatch_get_main_queue()) {
+							self.presentViewController(qtyAlert, animated: true, completion: nil)
+							qtyAlert.view.tintColor = MaterialDesignColor.green500
+						}
+						
 					})
 					alert.addAction(action)
 				}
@@ -183,6 +216,14 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 		
 		alert.view.tintColor = MaterialDesignColor.green500
 
+	}
+	
+	func qtyTextChanged(sender:AnyObject) {
+		let tf = sender as! UITextField
+		var resp : UIResponder = tf
+		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
+		let alert = resp as! UIAlertController
+		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
 	}
 	
 }
