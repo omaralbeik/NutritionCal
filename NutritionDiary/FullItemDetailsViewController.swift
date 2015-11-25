@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import HealthKit
 import MaterialDesignColor
 
@@ -55,6 +56,13 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 		self.definesPresentationContext = true
 		
 	}
+	
+	// MARK: - Core Data Convenience
+	// Shared Context from CoreDataStackManager
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
 	
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
 		
@@ -142,6 +150,10 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 								
 								if let qty = Int(textField!.text!) {
 									
+									// create a DayEntry for the item eated
+									_ = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
+									self.saveContext()
+									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										
 										if healthStoreSync {
@@ -212,6 +224,17 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
 		let alert = resp as! UIAlertController
 		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
+	}
+	
+	func saveContext() {
+		sharedContext.performBlock {
+			do {
+				try self.sharedContext.save()
+			}
+			catch {
+				print("Error saving Context in saveContext method")
+			}
+		}
 	}
 	
 	func presentMessage(title: String, message: String, action: String) {

@@ -25,6 +25,16 @@ extension NSDate {
 		}
 	}
 	
+	func daysSince1970() -> Int {
+		
+		let dateIn1970 = NSDate(timeIntervalSince1970: NSTimeIntervalSince1970)
+		
+		let calendar = NSCalendar.currentCalendar()
+		let components = calendar.components([.Day], fromDate: dateIn1970, toDate: self, options: [])
+		
+		return components.day
+	}
+	
 }
 
 extension CollectionType {
@@ -32,3 +42,4 @@ extension CollectionType {
 		return try indexOf(predicate).map({self[$0]})
 	}
 }
+

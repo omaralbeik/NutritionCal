@@ -23,6 +23,7 @@
 		07CA972F1C03EFF000565BD3 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CA972E1C03EFF000565BD3 /* HealthKit.framework */; };
 		07CA97311C03F04800565BD3 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CA97301C03F04800565BD3 /* HealthStore.swift */; };
 		07DDA3AF1C034A1B00FDF32A /* FullItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DDA3AE1C034A1B00FDF32A /* FullItemDetailsViewController.swift */; };
+		07DF66DE1C05DAEB004B9B1B /* DayEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DF66DC1C05DAEB004B9B1B /* DayEntry.swift */; };
 		07F401CF1C02497300AC5E99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F401CE1C02497300AC5E99 /* AppDelegate.swift */; };
 		07F401D41C02497300AC5E99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07F401D21C02497300AC5E99 /* Main.storyboard */; };
 		07F401D61C02497300AC5E99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07F401D51C02497300AC5E99 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		07CA972E1C03EFF000565BD3 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		07CA97301C03F04800565BD3 /* HealthStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		07DDA3AE1C034A1B00FDF32A /* FullItemDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullItemDetailsViewController.swift; sourceTree = "<group>"; };
+		07DF66DC1C05DAEB004B9B1B /* DayEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayEntry.swift; sourceTree = "<group>"; };
 		07F401CB1C02497300AC5E99 /* NutritionDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NutritionDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07F401CE1C02497300AC5E99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07F401D31C02497300AC5E99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -98,9 +100,10 @@
 			children = (
 				07459D481C025F4100121362 /* CoreDataStackManager.swift */,
 				07459D4B1C02603B00121362 /* Model.xcdatamodeld */,
+				07DF66DC1C05DAEB004B9B1B /* DayEntry.swift */,
+				07459D511C0260AC00121362 /* NDBItem.swift */,
 				07459D4F1C0260AC00121362 /* NDBNutrient.swift */,
 				07208BCF1C03726700CCB75B /* NDBMeasure.swift */,
-				07459D511C0260AC00121362 /* NDBItem.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				07459D491C025F4100121362 /* CoreDataStackManager.swift in Sources */,
 				07459D5C1C026D1F00121362 /* NDBClient.swift in Sources */,
 				07459D551C0260AC00121362 /* NDBItem.swift in Sources */,
+				07DF66DE1C05DAEB004B9B1B /* DayEntry.swift in Sources */,
 				07F401CF1C02497300AC5E99 /* AppDelegate.swift in Sources */,
 				07459D4D1C02603B00121362 /* Model.xcdatamodeld in Sources */,
 			);

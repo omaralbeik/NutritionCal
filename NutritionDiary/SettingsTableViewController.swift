@@ -43,6 +43,8 @@ class SettingsTableViewController: UITableViewController {
 	
 	@IBAction func syncWithHealthKitSwitchChanged(sender: UISwitch) {
 		
+		//TODO: - handle if user didn't authorise use of Helth Kit
+		
 		if sender.on {
 			print("Sync On")
 			NSUserDefaults.standardUserDefaults().setObject(true, forKey: "healthStoreSync")

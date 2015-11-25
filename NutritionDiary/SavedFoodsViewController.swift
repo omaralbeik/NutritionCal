@@ -343,7 +343,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 			}
 			
-			let alert = UIAlertController(title: "Delete", message: "Delete(\(itemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
+			let alert = UIAlertController(title: "Delete", message: "Delete (\(itemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
 			
 			let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
 				
@@ -360,8 +360,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				self.tableView.setEditing(false, animated: true)
 			})
 			
-			alert.addAction(cancelAlertAction)
 			alert.addAction(deleteAlertAction)
+			alert.addAction(cancelAlertAction)
 			
 			dispatch_async(dispatch_get_main_queue()) {
 				self.presentViewController(alert, animated: true, completion: nil)
@@ -726,6 +726,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 								print(textField!.text!)
 								
 								if let qty = Int(textField!.text!) {
+									
+									// create a DayEntry for the item eated
+									_ = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
+									self.saveContext()
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										

@@ -138,8 +138,14 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 			}
 		}
 		
-		
 	}
+	
+	// MARK: - Core Data Convenience
+	// Shared Context from CoreDataStackManager
+	var sharedContext: NSManagedObjectContext {
+		return CoreDataStackManager.sharedInstance().managedObjectContext
+	}
+	
 	
 	@IBAction func fullInfoButtonTapped(sender: UIButton) {
 		
@@ -190,6 +196,10 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 								print(textField!.text!)
 								
 								if let qty = Int(textField!.text!) {
+									
+									// create a DayEntry for the item eated
+									_ = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
+									self.saveContext()
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										
@@ -249,6 +259,17 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
 		let alert = resp as! UIAlertController
 		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
+	}
+	
+	func saveContext() {
+		sharedContext.performBlock {
+			do {
+				try self.sharedContext.save()
+			}
+			catch {
+				print("Error saving Context in saveContext method")
+			}
+		}
 	}
 	
 	func presentMessage(title: String, message: String, action: String) {

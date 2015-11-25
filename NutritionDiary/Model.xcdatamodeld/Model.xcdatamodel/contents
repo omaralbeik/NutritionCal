@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+    <entity name="DayEntry" representedClassName=".DayEntry" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="daysSince1970" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="measureLabel" attributeType="String" syncable="YES"/>
+        <attribute name="ndbItemId" attributeType="String" syncable="YES"/>
+        <attribute name="ndbItemName" attributeType="String" syncable="YES"/>
+        <attribute name="qty" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="NDBItem" representedClassName=".NDBItem" syncable="YES">
         <attribute name="dateAdded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="group" optional="YES" attributeType="String" syncable="YES"/>
@@ -24,8 +32,9 @@
         <relationship name="measures" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBMeasure" inverseName="nutrient" inverseEntity="NDBMeasure" syncable="YES"/>
     </entity>
     <elements>
-        <element name="NDBItem" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="NDBNutrient" positionX="-54" positionY="-9" width="128" height="135"/>
-        <element name="NDBMeasure" positionX="-54" positionY="36" width="128" height="120"/>
+        <element name="NDBItem" positionX="52" positionY="-63" width="128" height="133"/>
+        <element name="NDBMeasure" positionX="504" positionY="171" width="128" height="118"/>
+        <element name="NDBNutrient" positionX="252" positionY="54" width="128" height="135"/>
+        <element name="DayEntry" positionX="279" positionY="99" width="128" height="135"/>
     </elements>
 </model>

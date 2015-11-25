@@ -299,14 +299,8 @@ class HealthStore {
 			if success {
 				print("User completed authorization request.")
 				
-				NSUserDefaults.standardUserDefaults().setObject(true, forKey: "healthStoreSync")
-				NSUserDefaults.standardUserDefaults().synchronize()
-				
 			} else {
 				print("User canceled the request \(error!.localizedDescription)")
-				
-				NSUserDefaults.standardUserDefaults().setObject(false, forKey: "healthStoreSync")
-				NSUserDefaults.standardUserDefaults().synchronize()
 				
 			}
 			

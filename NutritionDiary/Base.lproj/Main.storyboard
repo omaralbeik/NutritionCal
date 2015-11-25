@@ -22,6 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
                                         <rect key="frame" x="0.0" y="92" width="600" height="75"/>
@@ -285,17 +286,36 @@
                                     <constraint firstAttribute="height" constant="250" id="Yrf-RY-Ouf"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vas-7l-4q9">
-                                <rect key="frame" x="0.0" y="314" width="600" height="237"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vas-7l-4q9">
+                                <rect key="frame" x="0.0" y="329" width="600" height="222"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyTableViewCell" id="fsu-Jr-kCc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyTableViewCell" textLabel="jFt-wh-igi" detailTextLabel="xe2-RO-rAD" style="IBUITableViewCellStyleSubtitle" id="fsu-Jr-kCc">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fsu-Jr-kCc" id="GLM-5o-aM5">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jFt-wh-igi">
+                                                    <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xe2-RO-rAD">
+                                                    <rect key="frame" x="15" y="25.5" width="30.5" height="13.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -310,7 +330,7 @@
                             <constraint firstItem="ivX-i0-dQb" firstAttribute="leading" secondItem="pFa-z6-jI7" secondAttribute="leadingMargin" constant="-20" id="GlK-5R-t6I"/>
                             <constraint firstItem="Vas-7l-4q9" firstAttribute="leading" secondItem="pFa-z6-jI7" secondAttribute="leadingMargin" constant="-20" id="I8e-O7-3lY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vas-7l-4q9" secondAttribute="trailing" constant="-20" id="Jel-0J-VKS"/>
-                            <constraint firstItem="Vas-7l-4q9" firstAttribute="top" secondItem="ivX-i0-dQb" secondAttribute="bottom" id="Kru-Fn-Rc0"/>
+                            <constraint firstItem="Vas-7l-4q9" firstAttribute="top" secondItem="ivX-i0-dQb" secondAttribute="bottom" constant="15" id="Kru-Fn-Rc0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ivX-i0-dQb" secondAttribute="trailing" constant="-20" id="Mct-Vx-bL2"/>
                             <constraint firstItem="ivX-i0-dQb" firstAttribute="top" secondItem="XJt-tu-dO9" secondAttribute="bottom" id="fvL-cc-4B3"/>
                         </constraints>
@@ -329,6 +349,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="calendarContainerView" destination="ivX-i0-dQb" id="kmj-Gm-Qdi"/>
+                        <outlet property="tableView" destination="Vas-7l-4q9" id="c5k-az-NcH"/>
                         <outlet property="todayBarButtonItem" destination="Q0L-Sp-gbw" id="KVL-qH-Tuv"/>
                     </connections>
                 </viewController>
