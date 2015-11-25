@@ -8,11 +8,14 @@
 
 import UIKit
 import CoreData
+import HealthKit
 import MaterialDesignColor
 import NVActivityIndicatorView
 import BGTableViewRowActionWithImage
 
 class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+	
+	let healthStore = HealthStore.sharedInstance()
 	
 	@IBOutlet weak var tableView: UITableView!
 	var searchController: UISearchController!
@@ -25,6 +28,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		super.viewDidLoad()
 		
 		fetchNDBItems()
+		
+		healthStore.requestAuthorizationForHealthStore()
 		
 		// Set the temporary context
 		temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
@@ -690,7 +695,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func eatItem(ndbItem: NDBItem) {
 		
-		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
 		
 		let nutrients = ndbItem.nutrients
 		
@@ -701,8 +706,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
 						print("Should eat: \(measure.label!)")
-						
-						
+												
 						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
 							UIAlertControllerStyle.Alert)
 						
@@ -720,6 +724,29 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
 								print(textField!.text!)
+								
+								if let qty = Int(textField!.text!) {
+									
+									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
+										
+										if healthStoreSync {
+											
+											self.healthStore.addNDBItemToHealthStore(ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
+												
+												if success {
+													print("\(ndbItem.name!) added to helth app")
+												} else {
+													print(errorString!)
+													self.presentMessage("Oops!", message: errorString!, action: "OK")
+												}
+												
+											})
+											
+										}
+										
+									}
+								}
+								
 							}
 							
 						})

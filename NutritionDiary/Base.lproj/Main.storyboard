@@ -407,6 +407,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-bv-ymh">
                                                     <rect key="frame" x="535" y="9" width="51" height="31"/>
                                                     <animations/>
+                                                    <connections>
+                                                        <action selector="syncWithHealthKitSwitchChanged:" destination="5Z1-Wp-otP" eventType="valueChanged" id="mbD-fA-7xN"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Sync with Health App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EiS-Hn-sqD">
                                                     <rect key="frame" x="57" y="5" width="470" height="38.5"/>
@@ -549,6 +552,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="yq5-Qk-7qi"/>
+                    <connections>
+                        <outlet property="syncWithHealthKitSwitch" destination="W0m-bv-ymh" id="P7h-R5-QDp"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euq-dx-sEW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

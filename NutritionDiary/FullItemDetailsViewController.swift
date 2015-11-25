@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import HealthKit
 import MaterialDesignColor
 
 class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
 	var ndbItem: NDBItem!
+	
+	let healthStore = HealthStore.sharedInstance()
 	
 	var nutritionsArray: [NDBNutrient] = []
 	var filtredNutritionsArray: [NDBNutrient] = []
@@ -105,13 +108,13 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
-		
-		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+				
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
 		
 		let nutrients = ndbItem.nutrients
 		
 		for nutrient in nutrients! {
-
+			
 			if nutrient.id == 208 {
 				
 				for measure in nutrient.measures! {
@@ -136,6 +139,28 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
 								print(textField!.text!)
+								
+								if let qty = Int(textField!.text!) {
+									
+									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
+										
+										if healthStoreSync {
+											
+											self.healthStore.addNDBItemToHealthStore(self.ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
+												
+												if success {
+													print("\(self.ndbItem.name!) added to helth app")
+												} else {
+													print(errorString!)
+													self.presentMessage("Oops!", message: errorString!, action: "OK")
+												}
+												
+											})
+											
+										}
+										
+									}
+								}
 							}
 							
 						})
@@ -187,5 +212,14 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
 		let alert = resp as! UIAlertController
 		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
+	}
+	
+	func presentMessage(title: String, message: String, action: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			self.presentViewController(alert, animated: true, completion: nil)
+		}
 	}
 }

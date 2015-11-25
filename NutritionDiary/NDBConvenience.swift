@@ -38,7 +38,7 @@ extension NDBClient {
 		//		print(request.URL!)
 		
 		let session = NSURLSession.sharedSession()
-		
+				
 		let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 			
 			/* GUARD: Was there an error? */

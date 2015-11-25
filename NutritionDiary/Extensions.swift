@@ -26,3 +26,9 @@ extension NSDate {
 	}
 	
 }
+
+extension CollectionType {
+	func find(@noescape predicate: (Self.Generator.Element) throws -> Bool) rethrows -> Self.Generator.Element? {
+		return try indexOf(predicate).map({self[$0]})
+	}
+}

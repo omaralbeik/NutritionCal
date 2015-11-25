@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import HealthKit
 import NVActivityIndicatorView
 import PNChart
 import MaterialDesignColor
@@ -15,6 +16,8 @@ import MaterialDesignColor
 class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	
 	var ndbItem: NDBItem!
+	
+	let healthStore = HealthStore.sharedInstance()
 	
 	var calcium : Double = 0
 	var carbohydrate : Double = 0
@@ -154,8 +157,8 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
-		
-		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat:", preferredStyle: .ActionSheet)
+				
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
 		
 		let nutrients = ndbItem.nutrients
 		
@@ -185,6 +188,28 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
 								print(textField!.text!)
+								
+								if let qty = Int(textField!.text!) {
+									
+									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
+										
+										if healthStoreSync {
+											
+											self.healthStore.addNDBItemToHealthStore(self.ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
+												
+												if success {
+													print("\(self.ndbItem.name!) added to helth app")
+												} else {
+													print(errorString!)
+													self.presentMessage("Oops!", message: errorString!, action: "OK")
+												}
+												
+											})
+											
+										}
+										
+									}
+								}
 							}
 							
 						})
@@ -215,7 +240,7 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 		presentViewController(alert, animated: true, completion: nil)
 		
 		alert.view.tintColor = MaterialDesignColor.green500
-
+		
 	}
 	
 	func qtyTextChanged(sender:AnyObject) {
@@ -224,6 +249,15 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 		while !(resp is UIAlertController) { resp = resp.nextResponder()! }
 		let alert = resp as! UIAlertController
 		(alert.actions[1] as UIAlertAction).enabled = (tf.text != "")
+	}
+	
+	func presentMessage(title: String, message: String, action: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			self.presentViewController(alert, animated: true, completion: nil)
+		}
 	}
 	
 }
