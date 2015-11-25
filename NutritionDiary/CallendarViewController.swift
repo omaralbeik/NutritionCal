@@ -19,10 +19,9 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 	@IBOutlet weak var tableView: UITableView!
 	
 	let healthStore = HealthStore.sharedInstance()
+	var allDaysEntries: [DayEntry] = []
 	
 	private weak var calendar: FSCalendar!
-	
-	var allDays: [DayEntry] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -33,7 +32,7 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 			print("error fetching all days")
 		}
 		
-		self.allDays = daysFetchedResultsController.fetchedObjects! as! [DayEntry]
+		fetchAllDays()
 		
 		tableView.delegate = self
 		tableView.dataSource = self
@@ -64,6 +63,12 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 		
 		calendar.selectDate(calendar.today)
 		
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		fetchAllDays()
 	}
 	
 	
@@ -120,6 +125,10 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 					print("Error saving context after deleting dayEntry")
 				}
 				
+				dispatch_async(dispatch_get_main_queue()) {
+					self.calendar?.reloadData()
+				}
+				
 			})
 			
 			tableView.setEditing(false, animated: true)
@@ -131,7 +140,7 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 		
 		alert.addAction(deleteAlertAction)
 		alert.addAction(cancelAlertAction)
-
+		
 		
 		self.presentViewController(alert, animated: true, completion: nil)
 	}
@@ -171,9 +180,8 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 	
 	func calendar(calendar: FSCalendar!, imageForDate date: NSDate!) -> UIImage! {
 		
-		for day in allDays {
-			
-			if day.daysSince1970 == date.daysSince1970() {
+		for dayEntry in allDaysEntries {
+			if dayEntry.daysSince1970 == date.daysSince1970() {
 				return UIImage(named: "dayLine")
 			}
 		}
@@ -206,9 +214,26 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 		tabBarController?.selectedIndex = 0
 	}
 	
-	
 	// CoreData Helpers
+	func fetchAllDays() {
+		let fetchRequest = NSFetchRequest(entityName: "DayEntry")
+		
+		do {
+			
+			allDaysEntries = try self.sharedContext.executeFetchRequest(fetchRequest) as! [DayEntry]
+			
+		} catch {
+			print("Error fetching all days entries")
+		}
+		
+		self.calendar?.reloadData()
+		
+	}
+	
+	
 	func fetchDays() {
+		
+		fetchAllDays()
 		
 		do {
 			try daysFetchedResultsController.performFetch()
