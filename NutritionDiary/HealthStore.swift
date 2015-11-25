@@ -27,7 +27,9 @@ class HealthStore {
 		
 		let foodMetaData = [
 			HKMetadataKeyFoodType : item.name!,
-			"HKFoodTypeID": item.ndbNo!
+			"Group": item.group!,
+			"USDA id": item.ndbNo!,
+			"Quantity": "\(qty) \(selectedMeasure.label!)",
 		]
 		
 		func getCalcium() -> HKQuantitySample? {
@@ -43,7 +45,7 @@ class HealthStore {
 					let calciumSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCalcium)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return calciumSample
 				}
@@ -65,7 +67,7 @@ class HealthStore {
 					let carbohydrateSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCarbohydrates)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return carbohydrateSample
 				}
@@ -87,7 +89,7 @@ class HealthStore {
 					let cholesterolSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCholesterol)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return cholesterolSample
 				}
@@ -109,7 +111,7 @@ class HealthStore {
 					let energySample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return energySample
 				}
@@ -131,7 +133,7 @@ class HealthStore {
 					let fatTotalSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryFatTotal)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return fatTotalSample
 				}
@@ -153,7 +155,7 @@ class HealthStore {
 					let proteinSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryProtein)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return proteinSample
 				}
@@ -175,7 +177,7 @@ class HealthStore {
 					let sugarSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietarySugar)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return sugarSample
 				}
@@ -197,7 +199,7 @@ class HealthStore {
 					let vitaminCSample = HKQuantitySample(type: HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryVitaminC)!,
 						quantity: unit,
 						startDate: timeFoodWasEntered,
-						endDate: timeFoodWasEntered)
+						endDate: timeFoodWasEntered, metadata: foodMetaData)
 					
 					return vitaminCSample
 				}
