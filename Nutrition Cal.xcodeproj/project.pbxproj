@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071B6CB21C07704C002C3D2F /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B6CB11C07704C002C3D2F /* TutorialViewController.swift */; };
+		071B6CB41C077058002C3D2F /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B6CB31C077058002C3D2F /* TutorialContentViewController.swift */; };
 		074619921C075560001774EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074619911C075560001774EA /* AppDelegate.swift */; };
 		07A346261C075FC4000307EB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07A346241C075FC4000307EB /* Model.xcdatamodeld */; };
 		07FFE19E1C07586C00874A08 /* NDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FFE19D1C07586C00874A08 /* NDBClient.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071B6CB11C07704C002C3D2F /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		071B6CB31C077058002C3D2F /* TutorialContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialContentViewController.swift; sourceTree = "<group>"; };
 		0746198E1C075560001774EA /* Nutrition Cal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nutrition Cal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		074619911C075560001774EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0746199D1C075561001774EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +80,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		071B6CB51C077061002C3D2F /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				071B6CB11C07704C002C3D2F /* TutorialViewController.swift */,
+				071B6CB31C077058002C3D2F /* TutorialContentViewController.swift */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
+		};
 		074619851C075560001774EA = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +161,7 @@
 				07FFE1BF1C075AA000874A08 /* CallendarViewController.swift */,
 				07FFE1C11C075AB600874A08 /* SettingsTableViewController.swift */,
 				07FFE1C31C075AC900874A08 /* AboutViewController.swift */,
+				071B6CB51C077061002C3D2F /* Tutorial */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -326,6 +340,8 @@
 				07A346261C075FC4000307EB /* Model.xcdatamodeld in Sources */,
 				07FFE1AB1C07594A00874A08 /* DayEntry.swift in Sources */,
 				07FFE1AD1C07595F00874A08 /* NDBItem.swift in Sources */,
+				071B6CB41C077058002C3D2F /* TutorialContentViewController.swift in Sources */,
+				071B6CB21C07704C002C3D2F /* TutorialViewController.swift in Sources */,
 				07FFE1CB1C075B5300874A08 /* Extensions.swift in Sources */,
 				07FFE19E1C07586C00874A08 /* NDBClient.swift in Sources */,
 				07FFE1C41C075AC900874A08 /* AboutViewController.swift in Sources */,

@@ -242,10 +242,52 @@ Start Adding Items by tapping +</string>
             </objects>
             <point key="canvasLocation" x="3384" y="-650"/>
         </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="WKi-lM-kll">
+            <objects>
+                <viewController storyboardIdentifier="TutorialViewController" id="GNH-ne-PBh" customClass="TutorialViewController" customModule="Nutrition_Cal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0BV-pM-ttC"/>
+                        <viewControllerLayoutGuide type="bottom" id="h1f-rd-0km"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zpy-yt-Fxs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5xx-AB-kSK">
+                                <rect key="frame" x="20" y="28" width="30" height="30"/>
+                                <animations/>
+                                <color key="tintColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="skipTutorialButton"/>
+                                <connections>
+                                    <action selector="xButtonTapped:" destination="GNH-ne-PBh" eventType="touchUpInside" id="O2j-20-84W"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="5xx-AB-kSK" firstAttribute="top" secondItem="0BV-pM-ttC" secondAttribute="bottom" constant="8" id="QuS-fg-VLl"/>
+                            <constraint firstItem="5xx-AB-kSK" firstAttribute="leading" secondItem="Zpy-yt-Fxs" secondAttribute="leadingMargin" id="r08-CW-2fs"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DJW-cf-xSK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-650" y="-650"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="QLX-qU-F4m">
+            <objects>
+                <pageViewController storyboardIdentifier="TutorialPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="NAX-cU-ZkK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b6p-9m-FNf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-650" y="26"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="y2G-If-Vok">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="9ii-TZ-dSX" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="mainTabBar" automaticallyAdjustsScrollViewInsets="NO" id="9ii-TZ-dSX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="QxA-Wz-mGg">
                         <autoresizingMask key="autoresizingMask"/>
@@ -419,7 +461,7 @@ Start Adding Items by tapping +</string>
                         <sections>
                             <tableViewSection id="WSW-ed-i01">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="EbP-JE-yvU" imageView="og3-t3-CTW" rowHeight="50" style="IBUITableViewCellStyleDefault" id="xo3-fu-b84">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="replayTutorialSettingCell" textLabel="EbP-JE-yvU" imageView="og3-t3-CTW" rowHeight="50" style="IBUITableViewCellStyleDefault" id="xo3-fu-b84">
                                         <rect key="frame" x="0.0" y="99" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xo3-fu-b84" id="jcY-3L-KRm">
@@ -547,7 +589,7 @@ Start Adding Items by tapping +</string>
                                             <segue destination="Ibc-Gj-YBz" kind="show" id="7q7-Du-Tvv"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="F3Z-Yy-i7I" imageView="zUe-dG-ycB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="MmV-wa-0ig">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="moreAppsSettingsCell" textLabel="F3Z-Yy-i7I" imageView="zUe-dG-ycB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="MmV-wa-0ig">
                                         <rect key="frame" x="0.0" y="371" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MmV-wa-0ig" id="exS-zL-nRN">
@@ -707,6 +749,78 @@ omaralbeik@gmail.com</string>
             </objects>
             <point key="canvasLocation" x="1280" y="716"/>
         </scene>
+        <!--Tutorial Content View Controller-->
+        <scene sceneID="qcW-cd-eVh">
+            <objects>
+                <viewController storyboardIdentifier="TutorialContentViewController" id="TBU-cQ-OMM" customClass="TutorialContentViewController" customModule="Nutrition_Cal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aLo-gU-wfk"/>
+                        <viewControllerLayoutGuide type="bottom" id="xNs-eW-dab"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sbY-K2-XDU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ht3-HH-9PD">
+                                <rect key="frame" x="20" y="449" width="560" height="131"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="131" id="AyW-V5-jIP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGK-Kg-nES">
+                                <rect key="frame" x="175" y="496" width="250" height="38"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="F21-cR-7QF"/>
+                                    <constraint firstAttribute="width" constant="250" id="Yte-Yb-ysQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Let's Start!">
+                                    <color key="titleColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="letsGoButtonTapped:" destination="TBU-cQ-OMM" eventType="touchUpInside" id="0OS-dh-lwu"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z3B-po-sek">
+                                <rect key="frame" x="51" y="76" width="499" height="365"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstItem="ht3-HH-9PD" firstAttribute="trailing" secondItem="sbY-K2-XDU" secondAttribute="trailingMargin" id="4tb-nA-TSt"/>
+                            <constraint firstItem="ht3-HH-9PD" firstAttribute="leading" secondItem="sbY-K2-XDU" secondAttribute="leadingMargin" id="C8B-z9-pxb"/>
+                            <constraint firstItem="xNs-eW-dab" firstAttribute="top" secondItem="ht3-HH-9PD" secondAttribute="bottom" constant="20" id="Ivx-0R-CPY"/>
+                            <constraint firstItem="ht3-HH-9PD" firstAttribute="top" secondItem="z3B-po-sek" secondAttribute="bottom" constant="8" id="Qs8-nS-ofE"/>
+                            <constraint firstItem="EGK-Kg-nES" firstAttribute="centerY" secondItem="ht3-HH-9PD" secondAttribute="centerY" id="jwV-pq-kNg"/>
+                            <constraint firstItem="EGK-Kg-nES" firstAttribute="centerX" secondItem="sbY-K2-XDU" secondAttribute="centerX" id="rUM-IC-1gW"/>
+                            <constraint firstItem="z3B-po-sek" firstAttribute="leading" secondItem="sbY-K2-XDU" secondAttribute="leadingMargin" constant="31" id="slQ-7z-6ai"/>
+                            <constraint firstItem="z3B-po-sek" firstAttribute="top" secondItem="aLo-gU-wfk" secondAttribute="bottom" constant="56" id="xEc-Ms-nyI"/>
+                            <constraint firstItem="z3B-po-sek" firstAttribute="trailing" secondItem="sbY-K2-XDU" secondAttribute="trailingMargin" constant="-30" id="z3o-Uh-e52"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="z3B-po-sek" id="eKs-3S-Go0"/>
+                        <outlet property="letsGoButton" destination="EGK-Kg-nES" id="gK6-gO-nkw"/>
+                        <outlet property="titleLabel" destination="ht3-HH-9PD" id="Lf1-WE-nAa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DP4-Rf-dad" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-650" y="716"/>
+        </scene>
     </scenes>
     <resources>
         <image name="aboutSettingsIcon" width="24" height="24"/>
@@ -720,6 +834,7 @@ omaralbeik@gmail.com</string>
         <image name="settingsTabBarButton" width="30" height="30"/>
         <image name="settingsTabBarButtonSelected" width="30" height="31"/>
         <image name="shareSettingsIcon" width="25" height="25"/>
+        <image name="skipTutorialButton" width="30" height="30"/>
         <image name="syncSettingsIcon" width="25" height="25"/>
     </resources>
 </document>

@@ -42,14 +42,21 @@ class SettingsTableViewController: UITableViewController {
 	
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+		if tableView.cellForRowAtIndexPath(indexPath)?.reuseIdentifier == "replayTutorialSettingCell" {
+			
+			let tutorialVC = storyboard?.instantiateViewControllerWithIdentifier("TutorialViewController") as! TutorialViewController
+			self.presentViewController(tutorialVC, animated: true, completion: nil)
+		}
+		
+		
 		if tableView.cellForRowAtIndexPath(indexPath)?.reuseIdentifier == "shareSettingsCell" {
-			print("should share")
 			
-			let textToShare = "I'm using Nutrition Diary, check it out!"
+			let textToShare = "I'm using Nutrition Cal, check it out!"
 			
-			if let websiteToShare = NSURL(string: "http://www.nutritiondiary.com") {
+			if let websiteToShare = NSURL(string: "http://www.omaralbeik.com/nutrition-cal") {
 				
-				let imageToShare = UIImage(named: "nutritionDiary")
+				let imageToShare = UIImage(named: "nutritionCal")
 				
 				let shareVC = UIActivityViewController(activityItems: [textToShare, websiteToShare, imageToShare!], applicationActivities: nil)
 				
@@ -67,6 +74,12 @@ class SettingsTableViewController: UITableViewController {
 			let url = NSURL(string: "https://itunes.apple.com/us/app/nutrition-cal/id1062592953?ls=1&mt=8")!
 			UIApplication.sharedApplication().openURL(url)
 		}
+		
+		if tableView.cellForRowAtIndexPath(indexPath)?.reuseIdentifier == "moreAppsSettingsCell" {
+			let url = NSURL(string: "https://itunes.apple.com/us/developer/omar-albeik/id898234691")!
+			UIApplication.sharedApplication().openURL(url)
+		}
+		
 	}
 	
 	

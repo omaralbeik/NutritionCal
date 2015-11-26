@@ -20,9 +20,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			window.removeConstraints(window.constraints)
 		}
 	}
+	
+	func isAppAlreadyLaunchedOnce()->Bool{
+		
+		let storyboard = UIStoryboard(name: "Main", bundle: nil)
+		let defaults = NSUserDefaults.standardUserDefaults()
+		
+		if let _ = defaults.stringForKey("isAppAlreadyLaunchedOnce"){
+			print("App already launched")
+			return true
+		} else {
+			
+			defaults.setBool(true, forKey: "isAppAlreadyLaunchedOnce")
+			print("App launched first time")
+			
+			NSUserDefaults.standardUserDefaults().setObject(true, forKey: "healthStoreSync")
+			NSUserDefaults.standardUserDefaults().synchronize()
+			
+			let initialViewController = storyboard.instantiateViewControllerWithIdentifier("TutorialViewController")
+			self.window?.rootViewController = initialViewController
+			self.window?.makeKeyAndVisible()
+			
+			return false
+		}
+	}
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		// Override point for customization after application launch.
+		
+		let pageControl = UIPageControl.appearance()
+		pageControl.pageIndicatorTintColor = UIColor.whiteColor()
+		pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+		pageControl.backgroundColor = UIColor.clearColor()
+		
+		isAppAlreadyLaunchedOnce()
+		
 		return true
 	}
 
