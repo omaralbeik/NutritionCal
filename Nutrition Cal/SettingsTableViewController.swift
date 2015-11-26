@@ -30,12 +30,24 @@ class SettingsTableViewController: UITableViewController {
 		
 		if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 			
-			if healthStoreSync == true {
-				self.syncWithHealthKitSwitch.setOn(true, animated: false)
+			if HKHealthStore.isHealthDataAvailable() {
+				
+				syncWithHealthKitSwitch.enabled = true
+				
+				if healthStoreSync == true {
+					self.syncWithHealthKitSwitch.setOn(true, animated: false)
+				}
+				if healthStoreSync == false {
+					self.syncWithHealthKitSwitch.setOn(false, animated: false)
+				}
+				
+			} else {
+				
+				syncWithHealthKitSwitch.enabled = false
+				
 			}
-			if healthStoreSync == false {
-				self.syncWithHealthKitSwitch.setOn(false, animated: false)
-			}
+			
+
 		}
 		
 	}
@@ -87,11 +99,15 @@ class SettingsTableViewController: UITableViewController {
 		
 		//TODO: - handle if user didn't authorise use of Helth Kit
 		
+		
 		if sender.on {
+			
 			print("Sync On")
 			NSUserDefaults.standardUserDefaults().setObject(true, forKey: "healthStoreSync")
 			NSUserDefaults.standardUserDefaults().synchronize()
+			
 		} else {
+			
 			print("Sync Off")
 			NSUserDefaults.standardUserDefaults().setObject(false, forKey: "healthStoreSync")
 			NSUserDefaults.standardUserDefaults().synchronize()

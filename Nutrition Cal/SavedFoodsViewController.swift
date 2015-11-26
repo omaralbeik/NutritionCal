@@ -12,6 +12,7 @@ import HealthKit
 import MaterialDesignColor
 import NVActivityIndicatorView
 import BGTableViewRowActionWithImage
+import RKDropdownAlert
 
 class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
@@ -348,6 +349,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					self.tableViewLoading(false)
 					self.saveContext()
 					
+					// show success dropdown alert
+					dispatch_async(dispatch_get_main_queue()) {
+						_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name!) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+					}
+					
+					
 				} else {
 					self.tableViewLoading(false)
 				}
@@ -376,7 +383,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if let items = self.itemsFetchedResultsController.fetchedObjects as? [NDBItem] {
 					let item = items[indexPath.row]
+					let deletedItemName = item.name
 					self.deleteNDBItem(item)
+					
+					// show deleted dropdown alert
+					dispatch_async(dispatch_get_main_queue()) {
+						_ = RKDropdownAlert.title("Deleted", message: "\(deletedItemName!) deleted successfully.", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
+					}
+					
 				}
 				
 				tableView.setEditing(false, animated: true)
@@ -772,8 +786,13 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 								if let qty = Int(textField!.text!) {
 									
 									// create a DayEntry for the item eated
-									_ = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
+									let dayEntry = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
 									self.saveContext()
+									
+									// show eated dropdown alert
+									dispatch_async(dispatch_get_main_queue()) {
+										_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+									}
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										
@@ -968,19 +987,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			textFieldInsideSearchBar?.resignFirstResponder()
 		}
 	}
-	
-	func presentMessage(title: String, message: String, action: String) {
-		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
-		
-		alert.view.tintColor = MaterialDesignColor.green500
-		
-		dispatch_async(dispatch_get_main_queue()) {
-			self.presentViewController(alert, animated: true, completion: nil)
-		}
-		
-		alert.view.tintColor = MaterialDesignColor.green500
-	}
+
 	
 	func presentNoConnectionMessage() {
 		dismissKeyboard()

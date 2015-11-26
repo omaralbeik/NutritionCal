@@ -5,6 +5,7 @@ PODS:
   - NVActivityIndicatorView (2.1)
   - PNChart (0.8.7):
     - UICountingLabel (~> 1.2.0)
+  - RKDropdownAlert (0.3.0)
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - MaterialDesignColor (~> 1.3)
   - NVActivityIndicatorView (~> 2.1)
   - PNChart (~> 0.8)
+  - RKDropdownAlert (~> 0.3)
 
 SPEC CHECKSUMS:
   BGTableViewRowActionWithImage: 4093bc2f297e6f3aed95096c3df94418acef3cdb
@@ -20,6 +22,7 @@ SPEC CHECKSUMS:
   MaterialDesignColor: a2ccceb2816a7573692805aa56bbd6f81ad77231
   NVActivityIndicatorView: 84aa48f7ec1efbfd0645e9f469097d94c6f65417
   PNChart: c1755716bbd45386d2035b2bf2ce73e6d3f8cb22
+  RKDropdownAlert: f4b3364c251829ad439dc666836a1f2dad26f4c7
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
 COCOAPODS: 0.39.0

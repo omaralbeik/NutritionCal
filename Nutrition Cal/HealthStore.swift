@@ -281,6 +281,7 @@ class HealthStore {
 		
 	}
 	
+	
 	func requestAuthorizationForHealthStore() {
 		
 		let dataTypesToWrite: [AnyObject] = [

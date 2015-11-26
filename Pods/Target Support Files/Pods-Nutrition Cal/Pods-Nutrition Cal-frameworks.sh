@@ -89,6 +89,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Nutrition Cal/MaterialDesignColor.framework"
   install_framework "Pods-Nutrition Cal/NVActivityIndicatorView.framework"
   install_framework "Pods-Nutrition Cal/PNChart.framework"
+  install_framework "Pods-Nutrition Cal/RKDropdownAlert.framework"
   install_framework "Pods-Nutrition Cal/UICountingLabel.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -97,5 +98,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Nutrition Cal/MaterialDesignColor.framework"
   install_framework "Pods-Nutrition Cal/NVActivityIndicatorView.framework"
   install_framework "Pods-Nutrition Cal/PNChart.framework"
+  install_framework "Pods-Nutrition Cal/RKDropdownAlert.framework"
   install_framework "Pods-Nutrition Cal/UICountingLabel.framework"
 fi

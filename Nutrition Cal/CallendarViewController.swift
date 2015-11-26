@@ -157,8 +157,11 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 			alert.addAction(deleteAlertAction)
 			alert.addAction(cancelAlertAction)
 			
+			alert.view.tintColor = MaterialDesignColor.green500
+			
 			dispatch_async(dispatch_get_main_queue()) {
 				self.presentViewController(alert, animated: true, completion: nil)
+				alert.view.tintColor = MaterialDesignColor.green500
 			}
 			
 		})

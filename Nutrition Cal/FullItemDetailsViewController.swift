@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import HealthKit
 import MaterialDesignColor
+import RKDropdownAlert
 
 class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
@@ -151,8 +152,13 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 								if let qty = Int(textField!.text!) {
 									
 									// create a DayEntry for the item eated
-									_ = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
+									let dayEntry = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
 									self.saveContext()
+									
+									// show eated dropdown alert
+									dispatch_async(dispatch_get_main_queue()) {
+										_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+									}
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										
@@ -236,17 +242,5 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 			}
 		}
 	}
-	
-	func presentMessage(title: String, message: String, action: String) {
-		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
-		
-		alert.view.tintColor = MaterialDesignColor.green500
-		
-		dispatch_async(dispatch_get_main_queue()) {
-			self.presentViewController(alert, animated: true, completion: nil)
-		}
-		
-		alert.view.tintColor = MaterialDesignColor.green500
-	}
+
 }
