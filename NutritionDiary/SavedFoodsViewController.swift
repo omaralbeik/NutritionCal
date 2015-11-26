@@ -18,11 +18,15 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	let healthStore = HealthStore.sharedInstance()
 	
 	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var noItemsSavedLabel: UILabel!
+	
 	var searchController: UISearchController!
 	var loadingIndicator: NVActivityIndicatorView!
 	
 	var temporaryContext: NSManagedObjectContext!
 	var searchResults: [NDBItem]? = []
+	
+	var NDBClientSharedInstance = NDBClient.sharedInstance()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,7 +40,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
 		
 		// initilizing the loadingIndicator
-		let frame = CGRect(x: CGRectGetMidX(view.frame)-20, y: CGRectGetMidY(view.frame)-20, width: 40, height: 40)
+		let frame = CGRect(x: CGRectGetMidX(view.bounds)-20, y: CGRectGetMidY(view.bounds)-40, width: 40, height: 40)
 		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
 		
 		
@@ -176,7 +180,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	
-	//MARK: - UITableViewDataSource
+	//MARK: - UITableViewDataSource & UITableViewDelegate
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("SavedFoodTableViewCell")! as UITableViewCell
@@ -198,11 +202,33 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
 		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
+			
+			if self.searchResults?.count == 0 {
+				
+				if searchController.searchBar.text?.characters.count == 0 {
+					noItemsSavedLabel.text = "No Results!"
+					noItemsSavedLabel.hidden = false
+				}
+				
+			} else {
+				noItemsSavedLabel.hidden = true
+			}
+			
 			return self.searchResults!.count
 		}
 		
-		let sectionInfo = itemsFetchedResultsController.sections![section]
-		return sectionInfo.numberOfObjects
+		if itemsFetchedResultsController.fetchedObjects?.count == 0 {
+			noItemsSavedLabel.text = "No Items Saved.\nStart Adding Items by tapping +"
+			noItemsSavedLabel.hidden = false
+		} else {
+			noItemsSavedLabel.hidden = true
+		}
+		
+		return itemsFetchedResultsController.fetchedObjects!.count
+	}
+	
+	func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+		return 0.01
 	}
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
@@ -234,7 +260,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					
 					self.tableViewLoading(true)
 					
-					self.getNutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
+					self.NutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
@@ -279,7 +305,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					
 					self.tableViewLoading(true)
 					
-					self.getNutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
+					self.NutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
@@ -315,7 +341,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			self.saveContext()
 			
-			self.getNutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
+			self.NutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
 				
 				if success {
 					self.tableViewLoading(false)
@@ -400,7 +426,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				self.tableViewLoading(true)
 				
-				self.getNutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
+				self.NutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
 					
 					if success {
 						
@@ -450,7 +476,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				self.tableViewLoading(true)
 				
-				self.getNutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
+				self.NutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
 					
 					if success {
 						
@@ -493,7 +519,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			if let searchString = searchController.searchBar.text {
 				if searchString.characters.count > 0 {
-					self.searchNDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
+					self.NDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
@@ -530,6 +556,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func willDismissSearchController(searchController: UISearchController) {
 		searchController.searchBar.selectedScopeButtonIndex = 0
 		self.tableViewLoading(false)
+		NDBClientSharedInstance.cancelTask()
 		self.searchResults = []
 	}
 	
@@ -540,6 +567,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
 		
+		NDBClientSharedInstance.cancelTask()
+		
 		if searchController.searchBar.selectedScopeButtonIndex == 0 {
 			self.searchSavedFoods()
 			self.tableView.reloadData()
@@ -548,10 +577,16 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		if searchController.searchBar.selectedScopeButtonIndex == 1 {
 			
 			if let searchString = searchController.searchBar.text {
+				
+				if searchString.characters.count == 0 {
+					self.searchResults = []
+					tableView.reloadData()
+				}
+				
 				if searchString.characters.count > 0 {
 					
 					tableViewLoading(true)
-					self.searchNDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
+					self.NDBItemsFromString(searchString, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
@@ -614,11 +649,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	//MARK: APIs Helpers
 	
-	func searchNDBItemsFromString(searchString: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+	func NDBItemsFromString(searchString: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
 		
 		if Reachability.isConnectedToNetwork() {
 			
-			NDBClient.requestNDBItemsFromString(searchString, type: .ByFoodName, completionHandler: { (success, result, errorString) -> Void in
+			NDBClientSharedInstance.NDBItemsFromString(searchString, type: .ByRelevance, completionHandler: { (success, result, errorString) -> Void in
 				
 				if success {
 					
@@ -642,11 +677,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 	}
 	
-	func getNutrientsForItem(item: NDBItem, saveResults: Bool, completionHandler: (success: Bool, errorString: String?) -> Void) {
+	func NutrientsForItem(item: NDBItem, saveResults: Bool, completionHandler: (success: Bool, errorString: String?) -> Void) {
 		
 		if Reachability.isConnectedToNetwork() {
 			
-			NDBClient.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+			NDBClientSharedInstance.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
 				
 				if success {
 					
@@ -706,7 +741,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
 						print("Should eat: \(measure.label!)")
-												
+						
 						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
 							UIAlertControllerStyle.Alert)
 						
@@ -907,6 +942,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			if loading {
 				self.tableView.hidden = true
+				self.noItemsSavedLabel.hidden = true
 				self.loadingIndicator.startAnimation()
 			} else {
 				self.tableView.hidden = false

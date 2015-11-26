@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 extension NDBClient {
-	
-	class func requestNDBItemsFromString(searchString: String, type: NDBSearchType, completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) {
 		
-		let escapedString = searchString.stringByReplacingOccurrencesOfString(" ", withString: "+")
+	func NDBItemsFromString(searchString: String, type: NDBSearchType, completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) {
+		
+		let escapedSearchString = searchString.stringByReplacingOccurrencesOfString(" ", withString: "+").lowercaseString
 		
 		var searchType: String {
 			switch type {
@@ -23,8 +23,8 @@ extension NDBClient {
 		}
 		
 		let params: [String : AnyObject] = [
-			NDBParameterKeys.format			: "json",
-			NDBParameterKeys.searchTerm		: escapedString,
+			NDBParameterKeys.format			: NDBParameterValues.json,
+			NDBParameterKeys.searchTerm		: escapedSearchString,
 			NDBParameterKeys.sort			: searchType,
 			NDBParameterKeys.limit			: NDBConstants.resultsLimit,
 			NDBParameterKeys.offset			: 0,
@@ -35,11 +35,11 @@ extension NDBClient {
 		
 		let request = NSURLRequest(URL: NSURL(string: urlString)!)
 		
-		//		print(request.URL!)
+		print(request.URL!)
 		
 		let session = NSURLSession.sharedSession()
-				
-		let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+		
+		sharedTask = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 			
 			/* GUARD: Was there an error? */
 			guard (error == nil) else {
@@ -50,7 +50,7 @@ extension NDBClient {
 			
 			var parsedResults: AnyObject?
 			
-			parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in
+			NDBClient.parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in
 				
 				/* GUARD: Was there an error? */
 				guard (error == nil) else {
@@ -97,11 +97,11 @@ extension NDBClient {
 			}
 			completionHandler(success: true, result: items, errorString: nil)
 		}
-		task.resume()
+		sharedTask!.resume()
 	}
 	
 	
-	class func NDBReportForItem(ndbNo: String, type: NDBReportType, completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) {
+	func NDBReportForItem(ndbNo: String, type: NDBReportType, completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) {
 		
 		var reportType: String {
 			switch type {
@@ -111,7 +111,7 @@ extension NDBClient {
 		}
 		
 		let params: [String : AnyObject] = [
-			NDBParameterKeys.format			: "json",
+			NDBParameterKeys.format			: NDBParameterValues.json,
 			NDBParameterKeys.NDBNo			: ndbNo,
 			NDBParameterKeys.reportType		: reportType,
 			NDBParameterKeys.apiKey			: NDBConstants.apiKey
@@ -125,7 +125,7 @@ extension NDBClient {
 		
 		let session = NSURLSession.sharedSession()
 		
-		let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+		sharedTask = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 			
 			/* GUARD: Was there an error? */
 			guard (error == nil) else {
@@ -136,7 +136,7 @@ extension NDBClient {
 			
 			var parsedResults: AnyObject?
 			
-			parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in
+			NDBClient.parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in
 				
 				/* GUARD: Was there an error? */
 				guard (error == nil) else {
@@ -193,7 +193,7 @@ extension NDBClient {
 			
 			completionHandler(success: true, result: nutrients, errorString: nil)
 		}
-		task.resume()
+		sharedTask!.resume()
 	}
 	
 }

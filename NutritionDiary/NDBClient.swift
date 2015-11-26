@@ -11,6 +11,19 @@ import CoreData
 
 class NDBClient {
 	
+	// MARK: - Shared Instance
+	class func sharedInstance() -> NDBClient {
+		
+		struct Singleton {
+			static var sharedInstance = NDBClient()
+		}
+		
+		return Singleton.sharedInstance
+	}
+	
+	// shared NSURLSessionTask
+	var sharedTask: NSURLSessionTask?
+	
 	struct NDBConstants {
 		static let apiKey = "gXkPv1EdLTfdGajqGh87A8ywB6VBbsSoiuVgPEVX"
 		static let baseURL = "http://api.nal.usda.gov/ndb/"
@@ -33,6 +46,10 @@ class NDBClient {
 		static let reportType = "type"
 	}
 	
+	struct NDBParameterValues {
+		static let json = "json"
+	}
+	
 	enum NDBReportType {
 		case Full
 		case Basic
@@ -43,7 +60,14 @@ class NDBClient {
 		case ByRelevance
 	}
 	
-	/* Helper function: Given a dictionary of parameters, convert to a string for a url */
+	//MARK: - Helper, cancel task
+	func cancelTask() {
+		if let task = sharedTask {
+			task.cancel()
+		}
+	}
+	
+	//MARK: - Helper function: Given a dictionary of parameters, convert to a string for a url
 	class func escapedParameters(parameters: [String : AnyObject]) -> String {
 		
 		var urlVars = [String]()
@@ -64,7 +88,7 @@ class NDBClient {
 		return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
 	}
 	
-	/* Helper: Given raw JSON, return a usable Foundation object */
+	//MARK: - Helper: Given raw JSON, return a usable Foundation object
 	class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
 		
 		var parsedResult: AnyObject!

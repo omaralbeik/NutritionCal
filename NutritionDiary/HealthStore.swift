@@ -12,11 +12,11 @@ import HealthKit
 class HealthStore {
 	
 	class func sharedInstance() -> HealthStore {
-		struct Static {
+		struct Singleton {
 			static let instance = HealthStore()
 		}
 		
-		return Static.instance
+		return Singleton.instance
 	}
 	
 	let healthStore: HKHealthStore? = HKHealthStore()

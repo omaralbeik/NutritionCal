@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Foods-->
+        <!--Saved Foods-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SavedFoodsViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IXV-Df-V7Y">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
                                         <rect key="frame" x="0.0" y="92" width="600" height="75"/>
@@ -54,17 +54,32 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="kSg-c2-iSy">
+                                <rect key="frame" x="161" y="242" width="278" height="67"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="67" id="cBf-kc-mYt"/>
+                                    <constraint firstAttribute="width" constant="278" id="ivj-Wg-hOA"/>
+                                </constraints>
+                                <string key="text">No Items Saved.
+Start Adding Items by tapping +</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IXV-Df-V7Y" secondAttribute="bottom" id="EU6-j6-QEF"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IXV-Df-V7Y" secondAttribute="bottom" constant="-49" id="EU6-j6-QEF"/>
                             <constraint firstItem="IXV-Df-V7Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="OJh-1B-qlr"/>
+                            <constraint firstItem="kSg-c2-iSy" firstAttribute="centerY" secondItem="IXV-Df-V7Y" secondAttribute="centerY" constant="-24.5" id="bCx-Sb-9DQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="IXV-Df-V7Y" secondAttribute="trailing" constant="-20" id="g2L-4k-jgx"/>
                             <constraint firstItem="IXV-Df-V7Y" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="ghs-7N-AMm"/>
+                            <constraint firstItem="kSg-c2-iSy" firstAttribute="centerX" secondItem="IXV-Df-V7Y" secondAttribute="centerX" id="uAC-Rp-cUL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Foods" id="i2y-GJ-h6e">
+                    <navigationItem key="navigationItem" title="Saved Foods" id="i2y-GJ-h6e">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="M71-js-9Bs">
                             <connections>
                                 <action selector="addBarButtomItemTapped:" destination="BYZ-38-t0r" id="Vry-3Q-du3"/>
@@ -72,6 +87,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="noItemsSavedLabel" destination="kSg-c2-iSy" id="06M-q3-GVL"/>
                         <outlet property="tableView" destination="IXV-Df-V7Y" id="q3B-WM-7Uf"/>
                         <segue destination="CPi-tK-sQj" kind="show" identifier="toItemDetailsViewControllerSegue" id="hGP-3S-qXc"/>
                     </connections>
@@ -286,11 +302,22 @@
                                     <constraint firstAttribute="height" constant="250" id="Yrf-RY-Ouf"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Items." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Rnb-It-vVh">
+                                <rect key="frame" x="157.5" y="419.5" width="285" height="41.5"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="41.5" id="31W-ff-Oe9"/>
+                                    <constraint firstAttribute="width" constant="285" id="ngz-Ah-FHx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vas-7l-4q9">
                                 <rect key="frame" x="0.0" y="329" width="600" height="222"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyTableViewCell" textLabel="jFt-wh-igi" detailTextLabel="xe2-RO-rAD" style="IBUITableViewCellStyleSubtitle" id="fsu-Jr-kCc">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
@@ -332,6 +359,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Vas-7l-4q9" secondAttribute="trailing" constant="-20" id="Jel-0J-VKS"/>
                             <constraint firstItem="Vas-7l-4q9" firstAttribute="top" secondItem="ivX-i0-dQb" secondAttribute="bottom" constant="15" id="Kru-Fn-Rc0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ivX-i0-dQb" secondAttribute="trailing" constant="-20" id="Mct-Vx-bL2"/>
+                            <constraint firstItem="Rnb-It-vVh" firstAttribute="centerY" secondItem="Vas-7l-4q9" secondAttribute="centerY" id="NBv-oy-sc4"/>
+                            <constraint firstItem="Rnb-It-vVh" firstAttribute="centerX" secondItem="Vas-7l-4q9" secondAttribute="centerX" id="UKA-5E-zqG"/>
                             <constraint firstItem="ivX-i0-dQb" firstAttribute="top" secondItem="XJt-tu-dO9" secondAttribute="bottom" id="fvL-cc-4B3"/>
                         </constraints>
                     </view>
@@ -349,6 +378,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="calendarContainerView" destination="ivX-i0-dQb" id="kmj-Gm-Qdi"/>
+                        <outlet property="noItemsLabel" destination="Rnb-It-vVh" id="tm6-SZ-OdF"/>
                         <outlet property="tableView" destination="Vas-7l-4q9" id="c5k-az-NcH"/>
                         <outlet property="todayBarButtonItem" destination="Q0L-Sp-gbw" id="KVL-qH-Tuv"/>
                     </connections>

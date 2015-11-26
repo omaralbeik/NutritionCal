@@ -84,7 +84,6 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/BGTableViewRowActionWithImage.framework"
   install_framework "Pods/FSCalendar.framework"
   install_framework "Pods/MaterialDesignColor.framework"
@@ -93,7 +92,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/UICountingLabel.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/BGTableViewRowActionWithImage.framework"
   install_framework "Pods/FSCalendar.framework"
   install_framework "Pods/MaterialDesignColor.framework"

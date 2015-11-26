@@ -11,12 +11,15 @@ import CoreData
 import HealthKit
 import FSCalendar
 import MaterialDesignColor
+import BGTableViewRowActionWithImage
 
 class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
 	
 	@IBOutlet weak var todayBarButtonItem: UIBarButtonItem!
 	@IBOutlet weak var calendarContainerView: UIView!
 	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var noItemsLabel: UILabel!
+	
 	
 	let healthStore = HealthStore.sharedInstance()
 	var allDaysEntries: [DayEntry] = []
@@ -104,18 +107,28 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		
+		if daysFetchedResultsController.fetchedObjects?.count == 0 {
+			tableView.hidden = true
+			noItemsLabel.hidden = false
+		} else {
+			tableView.hidden = false
+			noItemsLabel.hidden = true
+		}
+		
 		return daysFetchedResultsController.fetchedObjects!.count
 	}
 	
-	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
 		let days = daysFetchedResultsController.fetchedObjects as! [DayEntry]
 		
-		let alert = UIAlertController(title: "Delete", message: "Delete (\(days[indexPath.row].ndbItemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
-		
-		let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "   ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteDayEntryActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
 			
-			self.sharedContext.performBlock({
+			
+			let alert = UIAlertController(title: "Delete", message: "Delete (\(days[indexPath.row].ndbItemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
+			
+			let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
 				
 				self.sharedContext.deleteObject(days[indexPath.row])
 				
@@ -129,20 +142,23 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 					self.calendar?.reloadData()
 				}
 				
+				tableView.setEditing(false, animated: true)
 			})
 			
-			tableView.setEditing(false, animated: true)
+			let cancelAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+				
+				self.tableView.setEditing(false, animated: true)
+			})
+			
+			alert.addAction(deleteAlertAction)
+			alert.addAction(cancelAlertAction)
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				self.presentViewController(alert, animated: true, completion: nil)
+			}
+			
 		})
-		
-		let cancelAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-			self.tableView.setEditing(false, animated: true)
-		})
-		
-		alert.addAction(deleteAlertAction)
-		alert.addAction(cancelAlertAction)
-		
-		
-		self.presentViewController(alert, animated: true, completion: nil)
+		return [deleteAction]
 	}
 	
 	
