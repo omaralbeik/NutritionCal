@@ -41,6 +41,35 @@ class SettingsTableViewController: UITableViewController {
 	}
 	
 	
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		if tableView.cellForRowAtIndexPath(indexPath)?.reuseIdentifier == "shareSettingsCell" {
+			print("should share")
+			
+			let textToShare = "I'm using Nutrition Diary, check it out!"
+			
+			if let websiteToShare = NSURL(string: "http://www.nutritiondiary.com") {
+				
+				let imageToShare = UIImage(named: "nutritionDiary")
+				
+				let shareVC = UIActivityViewController(activityItems: [textToShare, websiteToShare, imageToShare!], applicationActivities: nil)
+				
+				shareVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeAirDrop, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeSaveToCameraRoll, UIActivityTypeCopyToPasteboard]
+				
+				shareVC.view.tintColor = MaterialDesignColor.green500
+				
+				self.presentViewController(shareVC, animated: true, completion: nil)
+				
+			}
+
+		}
+		
+		if tableView.cellForRowAtIndexPath(indexPath)?.reuseIdentifier == "rateSettingsCell" {
+			let url = NSURL(string: "https://itunes.apple.com/us/app/nutrition-cal/id1062592953?ls=1&mt=8")!
+			UIApplication.sharedApplication().openURL(url)
+		}
+ 	}
+	
+	
 	@IBAction func syncWithHealthKitSwitchChanged(sender: UISwitch) {
 		
 		//TODO: - handle if user didn't authorise use of Helth Kit
@@ -56,5 +85,9 @@ class SettingsTableViewController: UITableViewController {
 		}
 		
 	}
+	
+	
+	
+	
 	
 }

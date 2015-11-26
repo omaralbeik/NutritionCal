@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071CEC001C0737C400D4FEC1 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071CEBFF1C0737C400D4FEC1 /* AboutViewController.swift */; };
 		07208BD01C03726700CCB75B /* NDBMeasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07208BCF1C03726700CCB75B /* NDBMeasure.swift */; };
 		0745690C1C033B3E00031518 /* ItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0745690B1C033B3E00031518 /* ItemDetailsViewController.swift */; };
 		07459D401C025D4700121362 /* SavedFoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07459D3F1C025D4700121362 /* SavedFoodsViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071CEBFF1C0737C400D4FEC1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		07208BCF1C03726700CCB75B /* NDBMeasure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBMeasure.swift; sourceTree = "<group>"; };
 		0745690B1C033B3E00031518 /* ItemDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewController.swift; sourceTree = "<group>"; };
 		07459D3F1C025D4700121362 /* SavedFoodsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedFoodsViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				07DDA3AE1C034A1B00FDF32A /* FullItemDetailsViewController.swift */,
 				07459D411C025D5C00121362 /* CallendarViewController.swift */,
 				07459D451C025DA100121362 /* SettingsTableViewController.swift */,
+				071CEBFF1C0737C400D4FEC1 /* AboutViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				07459D421C025D5C00121362 /* CallendarViewController.swift in Sources */,
 				07459D401C025D4700121362 /* SavedFoodsViewController.swift in Sources */,
 				07459D491C025F4100121362 /* CoreDataStackManager.swift in Sources */,
+				071CEC001C0737C400D4FEC1 /* AboutViewController.swift in Sources */,
 				07459D5C1C026D1F00121362 /* NDBClient.swift in Sources */,
 				07459D551C0260AC00121362 /* NDBItem.swift in Sources */,
 				07DF66DE1C05DAEB004B9B1B /* DayEntry.swift in Sources */,

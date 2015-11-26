@@ -390,9 +390,13 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			alert.addAction(deleteAlertAction)
 			alert.addAction(cancelAlertAction)
 			
+			alert.view.tintColor = MaterialDesignColor.green500
+			
 			dispatch_async(dispatch_get_main_queue()) {
 				self.presentViewController(alert, animated: true, completion: nil)
 			}
+			
+			alert.view.tintColor = MaterialDesignColor.green500
 		})
 		
 		return searchController.active ? (searchController.searchBar.selectedScopeButtonIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
@@ -969,9 +973,13 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
 		alert.addAction(UIAlertAction(title: action, style: UIAlertActionStyle.Default, handler: nil))
 		
+		alert.view.tintColor = MaterialDesignColor.green500
+		
 		dispatch_async(dispatch_get_main_queue()) {
 			self.presentViewController(alert, animated: true, completion: nil)
 		}
+		
+		alert.view.tintColor = MaterialDesignColor.green500
 	}
 	
 	func presentNoConnectionMessage() {

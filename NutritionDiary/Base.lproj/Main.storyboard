@@ -331,7 +331,7 @@ Start Adding Items by tapping +</string>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="xe2-RO-rAD">
@@ -494,7 +494,7 @@ Start Adding Items by tapping +</string>
                             </tableViewSection>
                             <tableViewSection footerTitle=" " id="3lj-eR-KOb">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="2hc-g7-io5" imageView="ygk-XD-nR0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="rfi-79-JlO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="rateSettingsCell" textLabel="2hc-g7-io5" imageView="ygk-XD-nR0" rowHeight="50" style="IBUITableViewCellStyleDefault" id="rfi-79-JlO">
                                         <rect key="frame" x="0.0" y="271" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rfi-79-JlO" id="n8X-zz-dnG">
@@ -543,6 +543,9 @@ Start Adding Items by tapping +</string>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <connections>
+                                            <segue destination="Ibc-Gj-YBz" kind="show" id="7q7-Du-Tvv"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="F3Z-Yy-i7I" imageView="zUe-dG-ycB" rowHeight="50" style="IBUITableViewCellStyleDefault" id="MmV-wa-0ig">
                                         <rect key="frame" x="0.0" y="371" width="600" height="50"/>
@@ -569,7 +572,7 @@ Start Adding Items by tapping +</string>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="iV5-7A-gdP" imageView="Y0j-10-5mw" rowHeight="50" style="IBUITableViewCellStyleDefault" id="1tf-M2-rVD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="shareSettingsCell" textLabel="iV5-7A-gdP" imageView="Y0j-10-5mw" rowHeight="50" style="IBUITableViewCellStyleDefault" id="1tf-M2-rVD">
                                         <rect key="frame" x="0.0" y="421" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1tf-M2-rVD" id="tJG-ZF-S59">
@@ -610,6 +613,79 @@ Start Adding Items by tapping +</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euq-dx-sEW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2003" y="716"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="5Lk-oD-AeB">
+            <objects>
+                <viewController id="Ibc-Gj-YBz" customClass="AboutViewController" customModule="NutritionDiary" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BvG-iZ-nd3"/>
+                        <viewControllerLayoutGuide type="bottom" id="Emx-1g-UzQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pRX-FH-5Gu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Jo-pb-Xud">
+                                <rect key="frame" x="20" y="0.0" width="560" height="543"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">
+Nutrition Diary is a food and nutrition app that helps you eat right and make healthier food decisions, get nutrition info for foods, keep track of what you eat, and sync your eaten foods with Apple's Health App.
+
+All items nutritions info is from: National Agricultural Library, Agricultural Research Service, U.S. Department of Agriculture
+http://www.nal.usda.gov/
+
+
+Icons and graphics made by Freepik
+www.flaticon.com
+
+
+Special thanks to:
+
+Wenchao Ding (FSCalendar)
+https://github.com/WenchaoIOS/FSCalendar
+
+takuya ichise (MaterialDesignColor)
+https://github.com/tichise/MaterialDesignColor
+
+Nguyen Vinh (NVActivityIndicatorView)
+https://github.com/ninjaprox/NVActivityIndicatorView
+
+Ben Guild (BGTableViewRowActionWithImage)
+https://github.com/benguild/BGTableViewRowActionWithImage
+
+Kevin (PNChart)
+https://github.com/kevinzhow/PNChart
+
+
+All Rights reserved, Omar Albeik © 2015 http://www.omaralbeik.com
+https://tr.linkedin.com/in/omaralbeik
+https://github.com/omaralbeik
+omaralbeik@gmail.com</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Jo-pb-Xud" firstAttribute="top" secondItem="BvG-iZ-nd3" secondAttribute="bottom" constant="-64" id="7WQ-ff-Pqu"/>
+                            <constraint firstItem="3Jo-pb-Xud" firstAttribute="trailing" secondItem="pRX-FH-5Gu" secondAttribute="trailingMargin" id="azB-S3-ySi"/>
+                            <constraint firstItem="Emx-1g-UzQ" firstAttribute="top" secondItem="3Jo-pb-Xud" secondAttribute="bottom" constant="8" id="pFh-6C-qRn"/>
+                            <constraint firstItem="3Jo-pb-Xud" firstAttribute="leading" secondItem="pRX-FH-5Gu" secondAttribute="leadingMargin" id="zPg-i6-yau"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="About" id="DoA-fM-XDI"/>
+                    <connections>
+                        <outlet property="aboutTextView" destination="3Jo-pb-Xud" id="h01-nj-NB5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SGt-Fg-ZW9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2692" y="716"/>
         </scene>
         <!--Settings-->
         <scene sceneID="CdY-eW-Th9">
