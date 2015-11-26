@@ -1,0 +1,6 @@
+framework module Pods_Nutrition_Cal {
+  umbrella header "Pods-Nutrition Cal-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -3,6 +3,8 @@
 # Uncomment this line if you're using Swift
 # use_frameworks!
 
+target 'Nutrition Cal' do
+
 platform :ios, "8.0"
 use_frameworks!
 
@@ -11,3 +13,5 @@ pod 'MaterialDesignColor', '~> 1.3'
 pod 'NVActivityIndicatorView', '~> 2.1'
 pod 'BGTableViewRowActionWithImage', '~> 0.1'
 pod 'PNChart', '~> 0.8'
+
+end
