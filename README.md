@@ -7,7 +7,7 @@ Nutrition Diary is a food and nutrition app that helps you eat right and make he
 All items nutritions info is from: National Agricultural Library, Agricultural Research Service, U.S. Department of Agriculture
 http://www.nal.usda.gov/
 
-![Alt text](https://github.com/omaralbeik/NutritionCal/blob/master/screenShots/tutorial.gif "Tutorial")
+->![Alt text](https://github.com/omaralbeik/NutritionCal/blob/master/screenShots/tutorial.gif "Tutorial")<-
 
 
 Icons and graphics made by Freepik
