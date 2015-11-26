@@ -30,4 +30,3 @@ https://github.com/benguild/BGTableViewRowActionWithImage
 Kevin (PNChart)
 https://github.com/kevinzhow/PNChart
 
-All Rights reserved, Omar Albeik © 2015
