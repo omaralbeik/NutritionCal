@@ -119,11 +119,15 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 		return daysFetchedResultsController.fetchedObjects!.count
 	}
 	
+	func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+		return 0.01
+	}
+	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		
 		let days = daysFetchedResultsController.fetchedObjects as! [DayEntry]
 		
-		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "   ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteDayEntryActionIcon"), forCellHeight: 65, handler: { (action, indexPath) -> Void in
+		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "    ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteDayEntryActionIcon"), forCellHeight: 70, handler: { (action, indexPath) -> Void in
 			
 			
 			let alert = UIAlertController(title: "Delete", message: "Delete (\(days[indexPath.row].ndbItemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)

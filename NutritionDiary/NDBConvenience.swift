@@ -35,7 +35,7 @@ extension NDBClient {
 		
 		let request = NSURLRequest(URL: NSURL(string: urlString)!)
 		
-		print(request.URL!)
+		//print(request.URL!)
 		
 		let session = NSURLSession.sharedSession()
 		
@@ -121,7 +121,7 @@ extension NDBClient {
 		
 		let request = NSURLRequest(URL: NSURL(string: urlString)!)
 		
-		print(request.URL!)
+		//print(request.URL!)
 		
 		let session = NSURLSession.sharedSession()
 		

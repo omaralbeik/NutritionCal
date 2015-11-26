@@ -206,7 +206,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			if self.searchResults?.count == 0 {
 				
 				if searchController.searchBar.text?.characters.count == 0 {
-					noItemsSavedLabel.text = "No Results!"
+					
+					noItemsSavedLabel.text = "Search for Foods & Drinks Online."
 					noItemsSavedLabel.hidden = false
 				}
 				
@@ -600,7 +601,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 							dispatch_async(dispatch_get_main_queue()) {
 								//self.presentMessage("Oops!", message: errorString!, action: "OK")
+								self.tableView.reloadData()
 								self.tableViewLoading(false)
+								self.noItemsSavedLabel.text = "No Results!"
+								self.noItemsSavedLabel.hidden = false
 							}
 						}
 						
@@ -665,7 +669,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					completionHandler(success: true, errorString: nil)
 					
 				} else {
-					
+					self.searchResults = []
+					print(errorString)
 					completionHandler(success: false, errorString: errorString)
 				}
 				
