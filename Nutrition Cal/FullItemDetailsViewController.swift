@@ -128,8 +128,6 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 				
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
-						print("Should eat: \(measure.label!)")
-						
 						
 						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
 							UIAlertControllerStyle.Alert)
@@ -147,7 +145,6 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 							
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
-								print(textField!.text!)
 								
 								if let qty = Int(textField!.text!) {
 									
@@ -233,7 +230,8 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	}
 	
 	func saveContext() {
-		sharedContext.performBlock {
+		
+		dispatch_async(dispatch_get_main_queue()) {
 			do {
 				try self.sharedContext.save()
 			}

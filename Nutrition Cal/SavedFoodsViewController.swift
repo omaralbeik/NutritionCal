@@ -140,20 +140,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			if !searchController.active {
 				switch type {
 				case .Insert:
-					//					print("Insert")
-					
 					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
 					break
 					
 				case .Delete:
-					//					print("Delete")
-					
 					tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
 					break
 					
 				case .Update:
-					//					print("Update")
-					
 					let cell = tableView.cellForRowAtIndexPath(indexPath!)! as UITableViewCell
 					let food = itemsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
 					cell.textLabel?.text = food.name
@@ -162,8 +156,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					break
 					
 				case .Move:
-					//					print("Move")
-					
 					tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
 					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
 					break
@@ -722,17 +714,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						}
 						
 						if saveResults {
-							
-							item.managedObjectContext?.performBlock({
-								
-								do {
-									try item.managedObjectContext?.save()
-								} catch {
-									print("Error saving context after adding measures")
-									return
-								}
-							})
-							
+							self.saveContext()
 						}
 						
 						completionHandler(success: true, errorString: nil)
@@ -763,7 +745,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
-						print("Should eat: \(measure.label!)")
 						
 						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
 							UIAlertControllerStyle.Alert)
@@ -781,7 +762,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
-								print(textField!.text!)
 								
 								if let qty = Int(textField!.text!) {
 									
@@ -899,30 +879,30 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			if let measures = measuresFetchedResultsController.fetchedObjects as? [NDBMeasure] {
 				
 				for measure in measures {
-					sharedContext.performBlock({
+					
+					dispatch_async(dispatch_get_main_queue()) {
 						self.sharedContext.deleteObject(measure)
-					})
-					print("measure deleted")
+					}
 				}
 			}
 			self.saveContext()
 			
-			sharedContext.performBlock({
+			dispatch_async(dispatch_get_main_queue()) {
 				self.sharedContext.deleteObject(nutrient)
-			})
+			}
 			self.saveContext()
 		}
 		
-		self.sharedContext.performBlock ({
-			
+		dispatch_async(dispatch_get_main_queue()) {
 			self.sharedContext.deleteObject(item)
-		})
+
+		}
 		self.saveContext()
 		
 	}
 	
 	func saveContext() {
-		sharedContext.performBlock {
+		dispatch_async(dispatch_get_main_queue()) {
 			do {
 				try self.sharedContext.save()
 			}

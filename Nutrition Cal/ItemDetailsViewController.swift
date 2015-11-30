@@ -116,10 +116,6 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 				energy = nutrient.value as! Double
 				energyUnit += "\n[\(nutrient.unit!)]"
 				
-				for measure in nutrient.measures! {
-					print(measure.label)
-				}
-				
 			}
 			if nutrient.id == 204 {
 				fatTotal = nutrient.value as! Double
@@ -175,8 +171,6 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 				
 				for measure in nutrient.measures! {
 					let action = UIAlertAction(title: measure.label!, style: .Default, handler: { (action) -> Void in
-						print("Should eat: \(measure.label!)")
-						
 						
 						let qtyAlert = UIAlertController(title: "Enter Quanitity", message: "How many \(measure.label!) did you eat/drink ?", preferredStyle:
 							UIAlertControllerStyle.Alert)
@@ -194,7 +188,6 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 							
 							let textField = qtyAlert.textFields?.first!
 							if textField != nil {
-								print(textField!.text!)
 								
 								if let qty = Int(textField!.text!) {
 									
@@ -268,7 +261,8 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	}
 	
 	func saveContext() {
-		sharedContext.performBlock {
+		
+		dispatch_async(dispatch_get_main_queue()) {
 			do {
 				try self.sharedContext.save()
 			}
