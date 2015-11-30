@@ -61,7 +61,7 @@ extension NDBClient {
 				parsedResults = result
 			})
 			
-			if let errors = parsedResults!.valueForKey("errors") {
+			if let errors = parsedResults?.valueForKey("errors") {
 				
 				if let error = errors.valueForKey("error") {
 					
@@ -84,13 +84,13 @@ extension NDBClient {
 				}
 			}
 			
-			guard let list = parsedResults?.valueForKey("list") as? NSDictionary else {
+			guard let list = parsedResults?.valueForKey("list") as? [String: AnyObject] else {
 				print("Couldn't find list in: \(parsedResults)")
 				completionHandler(success: false, result: nil, errorString: "Couldn't find list in parsedResults")
 				return
 			}
 			
-			guard let items = list.valueForKey("item") as? NSArray else {
+			guard let items = list["item"] as? NSMutableArray else {
 				print("Couldn't find item in: \(list)")
 				completionHandler(success: false, result: nil, errorString: "Couldn't find item in list")
 				return
@@ -173,23 +173,24 @@ extension NDBClient {
 				}
 			}
 			
-			guard let report = parsedResults!.valueForKey("report") as? NSDictionary else {
+			guard let report = parsedResults?.valueForKey("report") as? [String: AnyObject] else {
 				print("Error finding report")
 				completionHandler(success: false, result: nil, errorString: "Error finding report")
 				return
 			}
 			
-			guard let food = report.valueForKey("food") as? NSDictionary else {
+			guard let food = report["food"] as? [String: AnyObject] else {
 				print("Error finding food")
 				completionHandler(success: false, result: nil, errorString: "Error finding food")
 				return
 			}
 			
-			guard let nutrients = food.valueForKey("nutrients") as? NSArray else {
+			guard let nutrients = food["nutrients"] as? NSMutableArray else {
 				print("Error finding nutrients")
 				completionHandler(success: false, result: nil, errorString: "Error finding nutrients")
 				return
 			}
+
 			
 			completionHandler(success: true, result: nutrients, errorString: nil)
 		}

@@ -330,28 +330,55 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			let item = self.searchResults![indexPath.row]
 			let itemDict: [String: AnyObject] = ["name": item.name!, "ndbno": item.ndbNo!, "group": item.group!]
 			
-			let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
-			itemToSave.saved = true
 			
-			self.saveContext()
-			
-			self.NutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
+			var itemAlreadySaved: Bool {
 				
-				if success {
-					self.tableViewLoading(false)
-					self.saveContext()
-					
-					// show success dropdown alert
-					dispatch_async(dispatch_get_main_queue()) {
-						_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name!) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+				let savedItems = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
+				
+				for savedItem in savedItems {
+					if savedItem.ndbNo! == item.ndbNo! {
+						return true
 					}
-					
-					
-				} else {
-					self.tableViewLoading(false)
+				}
+				return false
+			}
+			
+			
+			if !itemAlreadySaved {
+				
+				let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					itemToSave.saved = true
+					self.saveContext()
 				}
 				
-			})
+				self.NutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
+					
+					if success {
+						self.tableViewLoading(false)
+						self.saveContext()
+						
+						// show success dropdown alert
+						dispatch_async(dispatch_get_main_queue()) {
+							_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name!) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+						}
+						
+						
+					} else {
+						self.tableViewLoading(false)
+					}
+					
+				})
+				
+			} else {
+				
+				// show slready saved dropdown alert
+				dispatch_async(dispatch_get_main_queue()) {
+					_ = RKDropdownAlert.title("Already Saved", message: "\(item.name!) already saved, Please find it in Favorites tab", backgroundColor: MaterialDesignColor.ameber800, textColor: UIColor.whiteColor(), time: 2)
+					self.tableViewLoading(false)
+				}
+			}
 			
 			tableView.setEditing(false, animated: true)
 		})
@@ -359,7 +386,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			var itemName: String {
-				if !(self.searchController.active) {
+				if !(self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex != 0) {
 					let item = self.itemsFetchedResultsController.fetchedObjects![indexPath.row] as! NDBItem
 					return item.name!
 				}
@@ -713,7 +740,21 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							}
 						}
 						
+						//						if saveResults {
+						//
+						//							item.managedObjectContext?.performBlockAndWait({
+						//
+						//								do {
+						//									try item.managedObjectContext?.save()
+						//								} catch {
+						//									print("Error saving context in NutrientsForItem method")
+						//								}
+						//							})
+						//
+						//						}
+						//
 						if saveResults {
+							
 							self.saveContext()
 						}
 						
@@ -895,13 +936,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		dispatch_async(dispatch_get_main_queue()) {
 			self.sharedContext.deleteObject(item)
-
+			
 		}
 		self.saveContext()
 		
 	}
 	
 	func saveContext() {
+		
 		dispatch_async(dispatch_get_main_queue()) {
 			do {
 				try self.sharedContext.save()
@@ -967,7 +1009,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			textFieldInsideSearchBar?.resignFirstResponder()
 		}
 	}
-
+	
 	
 	func presentNoConnectionMessage() {
 		dismissKeyboard()
