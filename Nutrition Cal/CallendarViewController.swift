@@ -134,15 +134,9 @@ class CallendarViewController: UIViewController, FSCalendarDelegate, FSCalendarD
 			
 			let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
 				
-				self.sharedContext.deleteObject(days[indexPath.row])
-				
-				do {
-					try self.sharedContext.save()
-				} catch {
-					print("Error saving context after deleting dayEntry")
-				}
-				
 				dispatch_async(dispatch_get_main_queue()) {
+					self.sharedContext.deleteObject(days[indexPath.row])
+					CoreDataStackManager.sharedInstance().saveContext()
 					self.calendar?.reloadData()
 				}
 				

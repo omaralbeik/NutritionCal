@@ -31,8 +31,8 @@ class NDBClient {
 	}
 	
 	struct NDBMethods {
-		static let search = "search"
-		static let reports = "reports"
+		static let search = "search/"
+		static let reports = "reports/"
 	}
 	
 	struct NDBParameterKeys {
@@ -88,18 +88,24 @@ class NDBClient {
 		return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
 	}
 	
+	
 	//MARK: - Helper: Given raw JSON, return a usable Foundation object
 	class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
+		var parsingError: NSError? = nil
 		
-		var parsedResult: AnyObject!
+		let parsedResult: AnyObject?
 		do {
-			parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-		} catch {
-			let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
-			completionHandler(result: nil, error: NSError(domain: "parseJSONWithCompletionHandler", code: 1, userInfo: userInfo))
+			parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+		} catch let error as NSError {
+			parsingError = error
+			parsedResult = nil
 		}
 		
-		completionHandler(result: parsedResult, error: nil)
+		if let error = parsingError {
+			completionHandler(result: nil, error: error)
+		} else {
+			completionHandler(result: parsedResult, error: nil)
+		}
 	}
-	
+
 }

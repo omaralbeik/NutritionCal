@@ -28,7 +28,13 @@ class NDBMeasure: NSManagedObject {
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 		
 		self.label = (dictionary["label"] as! String)
-		self.eqv = (dictionary["eqv"] as! Int)
+		
+		if let eqvNumber = dictionary["eqv"] as? Int {
+			self.eqv = eqvNumber
+		} else {
+			self.eqv = 0
+		}
+		
 		self.qty = (dictionary["qty"] as! Int)
 		self.value = (dictionary["value"] as! Double)
 		self.nutrient = nutrient

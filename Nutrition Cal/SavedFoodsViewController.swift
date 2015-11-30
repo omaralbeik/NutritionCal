@@ -37,7 +37,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		healthStore.requestAuthorizationForHealthStore()
 		
 		// Set the temporary context
-		temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+		temporaryContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
 		temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
 		
 		// initilizing the loadingIndicator
@@ -127,7 +127,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	// MARK: - fetchedResultsController delegate
 	func controllerWillChangeContent(controller: NSFetchedResultsController) {
-		if !searchController.active {
+		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
 			tableView.beginUpdates()
 			self.tableViewLoading(true)
 		}
@@ -137,7 +137,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		forChangeType type: NSFetchedResultsChangeType,
 		newIndexPath: NSIndexPath?) {
 			
-			if !searchController.active {
+			if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+				
 				switch type {
 				case .Insert:
 					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
@@ -160,11 +161,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
 					break
 				}
+				
 			}
 	}
 	
 	func controllerDidChangeContent(controller: NSFetchedResultsController) {
-		if !searchController.active {
+		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1){
 			tableView.endUpdates()
 			tableViewLoading(false)
 		}
@@ -427,9 +429,9 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			dispatch_async(dispatch_get_main_queue()) {
 				self.presentViewController(alert, animated: true, completion: nil)
+				alert.view.tintColor = MaterialDesignColor.green500
 			}
 			
-			alert.view.tintColor = MaterialDesignColor.green500
 		})
 		
 		return searchController.active ? (searchController.searchBar.selectedScopeButtonIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
@@ -736,25 +738,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 								
 								for measure in measures {
 									_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+									
 								}
 							}
 						}
 						
-						//						if saveResults {
-						//
-						//							item.managedObjectContext?.performBlockAndWait({
-						//
-						//								do {
-						//									try item.managedObjectContext?.save()
-						//								} catch {
-						//									print("Error saving context in NutrientsForItem method")
-						//								}
-						//							})
-						//
-						//						}
-						//
 						if saveResults {
-							
 							self.saveContext()
 						}
 						
@@ -943,14 +932,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func saveContext() {
-		
 		dispatch_async(dispatch_get_main_queue()) {
-			do {
-				try self.sharedContext.save()
-			}
-			catch {
-				print("Error saving Context in saveContext method")
-			}
+			CoreDataStackManager.sharedInstance().saveContext()
 		}
 	}
 	

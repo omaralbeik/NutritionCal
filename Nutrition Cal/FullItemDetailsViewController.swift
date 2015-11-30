@@ -232,12 +232,7 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	func saveContext() {
 		
 		dispatch_async(dispatch_get_main_queue()) {
-			do {
-				try self.sharedContext.save()
-			}
-			catch {
-				print("Error saving Context in saveContext method")
-			}
+			CoreDataStackManager.sharedInstance().saveContext()
 		}
 	}
 
