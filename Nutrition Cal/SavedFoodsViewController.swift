@@ -17,38 +17,42 @@ import DGRunkeeperSwitch
 
 class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
-	let healthStore = HealthStore.sharedInstance()
-	
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var noItemsSavedLabel: UILabel!
 	@IBOutlet weak var addBarButton: UIBarButtonItem!
 	
-	var mainNavSwitch: DGRunkeeperSwitch!
+	let healthStore = HealthStore.sharedInstance()
+	var NDBClientSharedInstance = NDBClient.sharedInstance()
 	
 	var searchController: UISearchController!
+	var mainNavSwitch: DGRunkeeperSwitch!
+	
+	// general loading indicator will be used for network requests
 	var loadingIndicator: NVActivityIndicatorView!
 	
 	var temporaryContext: NSManagedObjectContext!
 	
+	// temp array will be used to filter saved items
 	var searchResults: [NDBItem]? = []
 	
-	var NDBClientSharedInstance = NDBClient.sharedInstance()
 	
+	//MARK: - viewDidLoad
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		// first things first, fetch any old saved item
 		fetchNDBItems()
-		
-		healthStore.requestAuthorizationForHealthStore()
 		
 		// Set the temporary context
 		temporaryContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
 		temporaryContext.persistentStoreCoordinator = sharedContext.persistentStoreCoordinator
 		
+		
 		// initilizing the loadingIndicator
 		let frame = CGRect(x: CGRectGetMidX(view.bounds)-20, y: CGRectGetMidY(view.bounds)-40, width: 40, height: 40)
 		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
 		
+		// set the main navigation segmented switch, will be used to switch between Favorites and Online
 		mainNavSwitch = DGRunkeeperSwitch(leftTitle: "Favorites", rightTitle: "Online")
 		mainNavSwitch.frame = CGRect(x: 50, y: 20, width: CGRectGetWidth(self.view.bounds) - 100, height: 30)
 		mainNavSwitch.titleFont = UIFont(name: "HelveticaNeue-Medium", size: 12)
@@ -58,8 +62,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		mainNavSwitch.autoresizingMask = [.FlexibleWidth]
 		mainNavSwitch.addTarget(self, action: "mainNavSwitchSelectedIndexChanged:", forControlEvents: UIControlEvents.ValueChanged)
 		
+		// add it to main navigation title view
 		navigationItem.titleView = mainNavSwitch
 		
+		// set delegate & dataSource for tableView, itemsFetchedResultsController delegate
 		tableView.delegate = self
 		tableView.dataSource = self
 		itemsFetchedResultsController.delegate = self
@@ -83,12 +89,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
 		textFieldInsideSearchBar?.tintColor = MaterialDesignColor.green500
 		textFieldInsideSearchBar?.placeholder = "Search Foods & Drinks"
-		
 		searchController.searchBar.barTintColor = MaterialDesignColor.green500
 		searchController.searchBar.tintColor = UIColor.whiteColor()
 		
+		
 		tableView.tableHeaderView = self.searchController.searchBar
 		searchController.searchBar.delegate = self
+		
+		// self is responsible to present searchController
 		self.definesPresentationContext = true
 		
 		searchController.view.addSubview(loadingIndicator)
@@ -96,9 +104,10 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 	}
 	
+	// this method is called whenever the main navigation switch selected index is changed
 	func mainNavSwitchSelectedIndexChanged(sender: DGRunkeeperSwitch) {
-		print(sender.selectedIndex)
 		
+		// show keyboard if online is tapped
 		if sender.selectedIndex == 1 {
 			self.searchController.searchBar.becomeFirstResponder()
 			self.addBarButton.enabled = false
@@ -152,7 +161,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}()
 	
 	
-	// MARK: - fetchedResultsController delegate
+	// MARK: - fetchedResultsController delegate methods
 	func controllerWillChangeContent(controller: NSFetchedResultsController) {
 		if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 			self.tableViewLoading(true)
@@ -206,6 +215,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("SavedFoodTableViewCell")! as UITableViewCell
 		
+		// get info from searchResults array
 		if searchController.active && self.mainNavSwitch.selectedIndex == 1 {
 			
 			cell.textLabel?.text = self.searchResults![indexPath.row].name
@@ -248,6 +258,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		return itemsFetchedResultsController.fetchedObjects!.count
 	}
 	
+	// set heightForFooterInSection to hide the lines saprators when no cells available
 	func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 		return 0.01
 	}
@@ -356,7 +367,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			tableView.setEditing(false, animated: true)
 		})
 		
-		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.grey800, image: UIImage(named: "saveActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
+		let saveAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.grey900, image: UIImage(named: "saveActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			self.tableViewLoading(true)
 			
@@ -393,7 +404,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 							// show success dropdown alert
 							dispatch_async(dispatch_get_main_queue()) {
-								_ = RKDropdownAlert.title("Saved", message: "", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+								_ = RKDropdownAlert.title("Saved", message: "", backgroundColor: MaterialDesignColor.grey900, textColor: UIColor.whiteColor(), time: 2)
 							}
 							
 						} else {
@@ -445,6 +456,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 			}
 			
+			// first show confirmation alert
 			let alert = UIAlertController(title: "Delete", message: "Delete (\(itemName)) ?", preferredStyle: UIAlertControllerStyle.Alert)
 			
 			let deleteAlertAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
@@ -481,6 +493,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 		})
 		
+		// return actions based on cell, if in saved return delete, eat, else return save,eat
 		return searchController.active ? (mainNavSwitch.selectedIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
 		
 	}
@@ -639,14 +652,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	//MARK: - UISearchControllerDelegate
-	
 	func didPresentSearchController(searchController: UISearchController) {
 		self.searchController.searchBar.becomeFirstResponder()
 		self.addBarButton.enabled = false
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
-		self.mainNavSwitch.setSelectedIndex(0, animated: true)
 		self.tableViewLoading(false)
 		NDBClientSharedInstance.cancelTask()
 		self.searchResults = []
@@ -654,6 +665,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func didDismissSearchController(searchController: UISearchController) {
+		self.mainNavSwitch.setSelectedIndex(0, animated: true)
 		tableView.reloadData()
 		self.addBarButton.enabled = true
 	}
@@ -734,7 +746,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	@IBAction func addBarButtomItemTapped(sender: UIBarButtonItem) {
-		
 		if self.tableView.contentOffset.y > -64.0 {
 			self.tableView.setContentOffset(CGPoint(x: 0, y: -64), animated:true)
 		} else {

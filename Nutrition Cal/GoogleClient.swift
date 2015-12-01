@@ -9,7 +9,6 @@
 import UIKit
 
 // http://stackoverflow.com/questions/4868815/google-ajax-api-how-do-i-get-more-than-4-results
-// http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=searchString
 
 class GoogleClient {
 	

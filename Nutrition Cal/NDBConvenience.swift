@@ -6,6 +6,11 @@
 //  Copyright © 2015 Omar Albeik. All rights reserved.
 //
 
+// United States Department of Agriculture
+// Agricultural Research Service
+// National Nutrient Database for Standard Reference Release 28
+// visit to: http://ndb.nal.usda.gov/ndb/doc/index for documentation and help
+
 import Foundation
 import CoreData
 

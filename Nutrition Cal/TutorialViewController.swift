@@ -135,6 +135,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDelegate, UI
 		
 		let mainTabBar = storyboard?.instantiateViewControllerWithIdentifier("mainTabBar") as! UITabBarController
 		presentViewController(mainTabBar, animated: true, completion: nil)
+		HealthStore.sharedInstance().requestAuthorizationForHealthStore()
 	}
 	
 }
