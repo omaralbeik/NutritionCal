@@ -90,7 +90,7 @@ extension NDBClient {
 				return
 			}
 			
-			guard let items = list["item"] as? NSMutableArray else {
+			guard let items = list["item"] as? NSArray else {
 				print("Couldn't find item in: \(list)")
 				completionHandler(success: false, result: nil, errorString: "Couldn't find item in list")
 				return
@@ -185,7 +185,7 @@ extension NDBClient {
 				return
 			}
 			
-			guard let nutrients = food["nutrients"] as? NSMutableArray else {
+			guard let nutrients = food["nutrients"] as? NSArray else {
 				print("Error finding nutrients")
 				completionHandler(success: false, result: nil, errorString: "Error finding nutrients")
 				return

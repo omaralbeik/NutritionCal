@@ -11,10 +11,10 @@
     <entity name="NDBItem" representedClassName=".NDBItem" syncable="YES">
         <attribute name="dateAdded" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="group" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="ndbNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="ndbNo" attributeType="String" syncable="YES"/>
         <attribute name="saved" attributeType="Boolean" syncable="YES"/>
-        <relationship name="nutrients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBNutrient" inverseName="item" inverseEntity="NDBNutrient" syncable="YES"/>
+        <relationship name="nutrients" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="NDBNutrient" inverseName="item" inverseEntity="NDBNutrient" syncable="YES"/>
     </entity>
     <entity name="NDBMeasure" representedClassName=".NDBMeasure" syncable="YES">
         <attribute name="eqv" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -29,12 +29,12 @@
         <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="NDBItem" inverseName="nutrients" inverseEntity="NDBItem" syncable="YES"/>
-        <relationship name="measures" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="NDBMeasure" inverseName="nutrient" inverseEntity="NDBMeasure" syncable="YES"/>
+        <relationship name="measures" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="NDBMeasure" inverseName="nutrient" inverseEntity="NDBMeasure" syncable="YES"/>
     </entity>
     <elements>
-        <element name="NDBItem" positionX="52" positionY="-63" width="128" height="133"/>
+        <element name="DayEntry" positionX="279" positionY="99" width="128" height="135"/>
+        <element name="NDBItem" positionX="52" positionY="-63" width="128" height="135"/>
         <element name="NDBMeasure" positionX="504" positionY="171" width="128" height="118"/>
         <element name="NDBNutrient" positionX="252" positionY="54" width="128" height="135"/>
-        <element name="DayEntry" positionX="279" positionY="99" width="128" height="135"/>
     </elements>
 </model>

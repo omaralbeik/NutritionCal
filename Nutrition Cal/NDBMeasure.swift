@@ -35,8 +35,18 @@ class NDBMeasure: NSManagedObject {
 			self.eqv = 0
 		}
 		
-		self.qty = (dictionary["qty"] as! Int)
-		self.value = (dictionary["value"] as! Double)
+		if let qtyNumber = dictionary["qty"] as? Int {
+			self.qty = qtyNumber
+		} else {
+			self.qty = 0
+		}
+		
+		if let valueNumber = dictionary["value"] as? Double {
+			self.value = valueNumber
+		} else {
+			self.value = 0
+		}
+		
 		self.nutrient = nutrient
 	}
 }

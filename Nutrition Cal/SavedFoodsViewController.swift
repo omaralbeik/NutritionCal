@@ -25,6 +25,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	var loadingIndicator: NVActivityIndicatorView!
 	
 	var temporaryContext: NSManagedObjectContext!
+	
 	var searchResults: [NDBItem]? = []
 	
 	var NDBClientSharedInstance = NDBClient.sharedInstance()
@@ -128,8 +129,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	// MARK: - fetchedResultsController delegate
 	func controllerWillChangeContent(controller: NSFetchedResultsController) {
 		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
-			tableView.beginUpdates()
 			self.tableViewLoading(true)
+			tableView.beginUpdates()
 		}
 	}
 	
@@ -249,19 +250,19 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if nutrientsFetched {
 					
-					self.eatItem(item)
+					self.eatNDBItem(item)
 					return
 					
 				} else {
 					
 					self.tableViewLoading(true)
 					
-					self.NutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
+					self.NutrientsForNDBItem(item, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
 							self.tableViewLoading(false)
-							self.eatItem(item)
+							self.eatNDBItem(item)
 							return
 							
 						} else {
@@ -294,19 +295,19 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if nutrientsFetched {
 					
-					self.eatItem(item)
+					self.eatNDBItem(item)
 					return
 					
 				} else {
 					
 					self.tableViewLoading(true)
 					
-					self.NutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
+					self.NutrientsForNDBItem(item, completionHandler: { (success, errorString) -> Void in
 						
 						if success {
 							
 							self.tableViewLoading(false)
-							self.eatItem(item)
+							self.eatNDBItem(item)
 							return
 							
 						} else {
@@ -330,7 +331,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			self.tableViewLoading(true)
 			
 			let item = self.searchResults![indexPath.row]
-			let itemDict: [String: AnyObject] = ["name": item.name!, "ndbno": item.ndbNo!, "group": item.group!]
+			let itemDict: [String: AnyObject] = ["name": item.name, "ndbno": item.ndbNo, "group": item.group!]
 			
 			
 			var itemAlreadySaved: Bool {
@@ -338,7 +339,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				let savedItems = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 				
 				for savedItem in savedItems {
-					if savedItem.ndbNo! == item.ndbNo! {
+					if savedItem.ndbNo == item.ndbNo {
 						return true
 					}
 				}
@@ -348,36 +349,37 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 			if !itemAlreadySaved {
 				
-				let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
-				
 				dispatch_async(dispatch_get_main_queue()) {
-					itemToSave.saved = true
-					self.saveContext()
-				}
-				
-				self.NutrientsForItem(itemToSave, saveResults: true, completionHandler: { (success, errorString) -> Void in
 					
-					if success {
-						self.tableViewLoading(false)
-						self.saveContext()
+					let itemToSave = NDBItem(dictionary: itemDict, context: self.sharedContext)
+					itemToSave.saved = true
+					
+					self.NutrientsForNDBItem(itemToSave, completionHandler: { (success, errorString) -> Void in
 						
-						// show success dropdown alert
-						dispatch_async(dispatch_get_main_queue()) {
-							_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name!) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+						if success {
+							self.tableViewLoading(false)
+							self.sharedContext.performBlockAndWait({
+								CoreDataStackManager.sharedInstance().saveContext()
+							})
+							
+							// show success dropdown alert
+							dispatch_async(dispatch_get_main_queue()) {
+								_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+							}
+							
+						} else {
+							self.tableViewLoading(false)
 						}
 						
-						
-					} else {
-						self.tableViewLoading(false)
-					}
+					})
 					
-				})
+				}
 				
 			} else {
 				
 				// show slready saved dropdown alert
 				dispatch_async(dispatch_get_main_queue()) {
-					_ = RKDropdownAlert.title("Already Saved", message: "\(item.name!) already saved, Please find it in Favorites tab", backgroundColor: MaterialDesignColor.ameber800, textColor: UIColor.whiteColor(), time: 2)
+					_ = RKDropdownAlert.title("Already Saved", message: "\(item.name) already saved, Please find it in Favorites tab", backgroundColor: MaterialDesignColor.ameber800, textColor: UIColor.whiteColor(), time: 2)
 					self.tableViewLoading(false)
 				}
 			}
@@ -390,7 +392,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			var itemName: String {
 				if !(self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex != 0) {
 					let item = self.itemsFetchedResultsController.fetchedObjects![indexPath.row] as! NDBItem
-					return item.name!
+					return item.name
 				}
 				else {
 					return "item"
@@ -409,7 +411,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					
 					// show deleted dropdown alert
 					dispatch_async(dispatch_get_main_queue()) {
-						_ = RKDropdownAlert.title("Deleted", message: "\(deletedItemName!) deleted successfully.", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
+						_ = RKDropdownAlert.title("Deleted", message: "\(deletedItemName) deleted successfully.", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
 					}
 					
 				}
@@ -466,7 +468,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				self.tableViewLoading(true)
 				
-				self.NutrientsForItem(item, saveResults: true, completionHandler: { (success, errorString) -> Void in
+				self.NutrientsForNDBItem(item, completionHandler: { (success, errorString) -> Void in
 					
 					if success {
 						
@@ -516,7 +518,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				self.tableViewLoading(true)
 				
-				self.NutrientsForItem(item, saveResults: false, completionHandler: { (success, errorString) -> Void in
+				self.NutrientsForNDBItem(item, completionHandler: { (success, errorString) -> Void in
 					
 					if success {
 						
@@ -669,6 +671,13 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
 					
+					//FIXME: - Check if needed
+					do {
+						try self.itemsFetchedResultsController.performFetch()
+					} catch {
+						print("Error fetcing items in prepareForSegue")
+					}
+					
 					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 					return items[indexPath.row]
 					
@@ -701,10 +710,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				if success {
 					
 					if let results = result as? [[String: AnyObject]] {
-						self.searchResults = results.map() {
-							NDBItem(dictionary: $0, context: self.temporaryContext)
+						
+						dispatch_async(dispatch_get_main_queue()) {
+							self.searchResults = results.map() {
+								NDBItem(dictionary: $0, context: self.temporaryContext)
+							}
 						}
 					}
+					
 					completionHandler(success: true, errorString: nil)
 					
 				} else {
@@ -721,30 +734,32 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 	}
 	
-	func NutrientsForItem(item: NDBItem, saveResults: Bool, completionHandler: (success: Bool, errorString: String?) -> Void) {
+	func NutrientsForNDBItem(ndbItem: NDBItem, completionHandler: (success: Bool, errorString: String?) -> Void) {
 		
 		if Reachability.isConnectedToNetwork() {
 			
-			NDBClientSharedInstance.NDBReportForItem(item.ndbNo!, type: .Full, completionHandler: { (success, result, errorString) -> Void in
+			NDBClientSharedInstance.NDBReportForItem(ndbItem.ndbNo, type: .Full, completionHandler: { (success, result, errorString) -> Void in
 				
 				if success {
 					
 					if let nutrients = result as? [[String: AnyObject]] {
 						
 						for nutrient in nutrients {
-							let nutrientObject = NDBNutrient(item: item, dictionary: nutrient, context: item.managedObjectContext!)
 							
-							if let measures = nutrient["measures"] as? [[String: AnyObject]] {
+							dispatch_async(dispatch_get_main_queue()) {
 								
-								for measure in measures {
-									_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: item.managedObjectContext!)
+								let nutrientObject = NDBNutrient(item: ndbItem, dictionary: nutrient, context: ndbItem.managedObjectContext!)
+								
+								if let measures = nutrient["measures"] as? [[String: AnyObject]] {
 									
+									for measure in measures {
+										_ = NDBMeasure(nutrient: nutrientObject, dictionary: measure, context: ndbItem.managedObjectContext!)
+										
+									}
 								}
+								
 							}
-						}
-						
-						if saveResults {
-							self.saveContext()
+							
 						}
 						
 						completionHandler(success: true, errorString: nil)
@@ -752,7 +767,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					}
 					
 				} else {
-					
 					completionHandler(success: false, errorString: errorString)
 				}
 				
@@ -763,9 +777,9 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		}
 	}
 	
-	func eatItem(ndbItem: NDBItem) {
+	func eatNDBItem(ndbItem: NDBItem) {
 		
-		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
 		
 		let nutrients = ndbItem.nutrients
 		
@@ -796,12 +810,17 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 								if let qty = Int(textField!.text!) {
 									
 									// create a DayEntry for the item eated
-									let dayEntry = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
-									self.saveContext()
 									
-									// show eated dropdown alert
 									dispatch_async(dispatch_get_main_queue()) {
-										_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+										
+										let dayEntry = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
+										CoreDataStackManager.sharedInstance().saveContext()
+										
+										// show eated dropdown alert
+										dispatch_async(dispatch_get_main_queue()) {
+											_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+										}
+										
 									}
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
@@ -811,7 +830,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 											self.healthStore.addNDBItemToHealthStore(ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
 												
 												if success {
-													print("\(ndbItem.name!) added to helth app")
+													print("\(ndbItem.name) added to helth app")
 												} else {
 													print(errorString!)
 													self.presentMessage("Oops!", message: errorString!, action: "OK")
@@ -850,14 +869,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 		}))
 		
+		alert.view.tintColor = MaterialDesignColor.green500
+		
 		dispatch_async(dispatch_get_main_queue()) {
-			
-			alert.view.tintColor = MaterialDesignColor.green500
-			
 			self.presentViewController(alert, animated: true, completion: nil)
-			
 			alert.view.tintColor = MaterialDesignColor.green500
-			
 		}
 	}
 	
@@ -871,6 +887,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	//MARK: - CoreData Helpers
+	func saveContext() {
+		dispatch_async(dispatch_get_main_queue()) {
+			CoreDataStackManager.sharedInstance().saveContext()
+		}
+	}
 	
 	func fetchNDBItems() {
 		do {
@@ -889,7 +910,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			try self.nutrientsFetchedResultsController.performFetch()
 		}
 		catch {
-			print("Error fetching nutrients for: \(item.name!)")
+			print("Error fetching nutrients for: \(item.name)")
 			return
 		}
 		
@@ -913,28 +934,21 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					dispatch_async(dispatch_get_main_queue()) {
 						self.sharedContext.deleteObject(measure)
 					}
+					
 				}
 			}
-			self.saveContext()
 			
 			dispatch_async(dispatch_get_main_queue()) {
 				self.sharedContext.deleteObject(nutrient)
 			}
-			self.saveContext()
+			
 		}
 		
 		dispatch_async(dispatch_get_main_queue()) {
 			self.sharedContext.deleteObject(item)
-			
+			self.saveContext()
 		}
-		self.saveContext()
 		
-	}
-	
-	func saveContext() {
-		dispatch_async(dispatch_get_main_queue()) {
-			CoreDataStackManager.sharedInstance().saveContext()
-		}
 	}
 	
 	func searchSavedFoods() {
@@ -995,9 +1009,9 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	func presentNoConnectionMessage() {
+		tableViewLoading(false)
 		dismissKeyboard()
 		searchController.active = false
-		tableViewLoading(false)
 		self.presentMessage("No Internet", message: "Internet connection is required to save items!, please connect and try again", action: "OK")
 	}
 	

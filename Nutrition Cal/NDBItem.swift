@@ -13,10 +13,10 @@ import CoreData
 class NDBItem: NSManagedObject {
 	
 	@NSManaged var group: String?
-	@NSManaged var name: String?
-	@NSManaged var ndbNo: String?
+	@NSManaged var name: String
+	@NSManaged var ndbNo: String
 	@NSManaged var saved: NSNumber
-	@NSManaged var dateAdded: NSDate?
+	@NSManaged var dateAdded: NSDate
 	
 	@NSManaged var nutrients: [NDBNutrient]?
 	

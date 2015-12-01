@@ -26,9 +26,9 @@ class HealthStore {
 		let timeFoodWasEntered = NSDate()
 		
 		let foodMetaData = [
-			HKMetadataKeyFoodType : item.name!,
+			HKMetadataKeyFoodType : item.name,
 			"Group": item.group!,
-			"USDA id": item.ndbNo!,
+			"USDA id": item.ndbNo,
 			"Quantity": "\(qty) \(selectedMeasure.label!)",
 		]
 		

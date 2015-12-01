@@ -118,7 +118,7 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	
 	@IBAction func eatItBarButtonItemTapped(sender: UIBarButtonItem) {
 		
-		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name!) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
+		let alert = UIAlertController(title: "Select Size:", message: "\(ndbItem.name) has many sizes, Please choose one to eat/drink:", preferredStyle: .ActionSheet)
 		
 		let nutrients = ndbItem.nutrients
 		
@@ -149,13 +149,18 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 								if let qty = Int(textField!.text!) {
 									
 									// create a DayEntry for the item eated
-									let dayEntry = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
-									self.saveContext()
-									
-									// show eated dropdown alert
 									dispatch_async(dispatch_get_main_queue()) {
-										_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+									
+										let dayEntry = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
+										self.saveContext()
+										
+										// show eated dropdown alert
+										dispatch_async(dispatch_get_main_queue()) {
+											_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+										}
+										
 									}
+									
 									
 									if let healthStoreSync = NSUserDefaults.standardUserDefaults().valueForKey("healthStoreSync") as? Bool {
 										
@@ -164,7 +169,7 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 											self.healthStore.addNDBItemToHealthStore(self.ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
 												
 												if success {
-													print("\(self.ndbItem.name!) added to helth app")
+													print("\(self.ndbItem.name) added to helth app")
 												} else {
 													print(errorString!)
 													self.presentMessage("Oops!", message: errorString!, action: "OK")
@@ -230,7 +235,6 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 	}
 	
 	func saveContext() {
-		
 		dispatch_async(dispatch_get_main_queue()) {
 			CoreDataStackManager.sharedInstance().saveContext()
 		}

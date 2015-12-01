@@ -27,8 +27,8 @@ class DayEntry: NSManagedObject {
 		let entity = NSEntityDescription.entityForName("DayEntry", inManagedObjectContext: context)!
 		super.init(entity: entity, insertIntoManagedObjectContext: context)
 		
-		self.ndbItemName = item.name!
-		self.ndbItemId = item.name!
+		self.ndbItemName = item.name
+		self.ndbItemId = item.name
 		self.measureLabel = measure.label!
 		self.qty = qty
 		self.date = NSDate()
