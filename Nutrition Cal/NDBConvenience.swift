@@ -135,7 +135,6 @@ extension NDBClient {
 			}
 			
 			var parsedResults: AnyObject?
-			
 			NDBClient.parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in
 				
 				/* GUARD: Was there an error? */

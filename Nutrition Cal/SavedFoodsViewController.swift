@@ -154,7 +154,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 					let food = itemsFetchedResultsController.objectAtIndexPath(indexPath!) as! NDBItem
 					cell.textLabel?.text = food.name
 					cell.detailTextLabel?.text = food.group
-					
 					break
 					
 				case .Move:
@@ -167,7 +166,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func controllerDidChangeContent(controller: NSFetchedResultsController) {
-		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1){
+		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
 			tableView.endUpdates()
 			tableViewLoading(false)
 		}
@@ -186,7 +185,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			cell.textLabel?.text = self.searchResults![indexPath.row].name
 			cell.detailTextLabel?.text = self.searchResults![indexPath.row].group
 			return cell
-			
 		}
 		
 		let foods = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
@@ -358,9 +356,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						
 						if success {
 							self.tableViewLoading(false)
-							self.sharedContext.performBlockAndWait({
-								CoreDataStackManager.sharedInstance().saveContext()
-							})
+							
+							self.saveContext()
+							
+//							self.sharedContext.performBlockAndWait({
+//								CoreDataStackManager.sharedInstance().saveContext()
+//							})
 							
 							// show success dropdown alert
 							dispatch_async(dispatch_get_main_queue()) {
@@ -369,6 +370,22 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 						} else {
 							self.tableViewLoading(false)
+						}
+						
+					})
+					
+					GoogleClient.sharedInstance().getImageFromString(itemToSave.name, completionHandler: { (success, image, errorString) -> Void in
+						
+						if success {
+							
+							dispatch_async(dispatch_get_main_queue()) {
+								
+								itemToSave.image = image
+								self.saveContext()
+								print("\(itemToSave.ndbNo) image saved")
+								
+							}
+							
 						}
 						
 					})
@@ -903,6 +920,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func deleteNDBItem(item: NDBItem) {
+		
+		// delete items image from documents directory
+		if item.image != nil {
+			ImageCache.sharedInstance().deleteImageWithIdentifier(item.ndbNo)
+		}
 		
 		nutrientsFetchedResultsController.fetchRequest.predicate = NSPredicate(format:"item ==  %@", item)
 		

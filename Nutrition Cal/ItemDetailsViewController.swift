@@ -40,6 +40,9 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	
 	var loadingIndicator: NVActivityIndicatorView!
 	
+	@IBOutlet weak var itemImageView: UIImageView!
+	@IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
+	
 	@IBOutlet weak var itemNameLabel: UILabel!
 	@IBOutlet weak var chartView: UIView!
 	
@@ -88,6 +91,35 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 		super.viewDidLoad()
 		
 		itemNameLabel.text = ndbItem.name
+		
+		if let image = ndbItem.image {
+			self.imageLoadingIndicator.stopAnimating()
+			self.itemImageView.image = image
+		}
+		else {
+			
+			GoogleClient.sharedInstance().getImageFromString(self.ndbItem.name, completionHandler: { (success, image, errorString) -> Void in
+				
+				if success {
+					
+					dispatch_async(dispatch_get_main_queue()) {
+						self.imageLoadingIndicator.stopAnimating()
+						self.itemImageView.image = image!
+						
+						self.ndbItem.image = image!
+						self.saveContext()
+					}
+				}
+				else {
+					
+					dispatch_async(dispatch_get_main_queue()) {
+						self.imageLoadingIndicator.stopAnimating()
+						self.itemImageView.image = UIImage(named: "noImage")
+					}
+				}
+				
+			})
+		}
 		
 		// initilizing the loadingIndicator
 		let frame = CGRect(x: CGRectGetMidX(view.frame)-20, y: CGRectGetMidY(view.frame)-20, width: 40, height: 40)

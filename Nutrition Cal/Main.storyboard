@@ -24,7 +24,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="center" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
                                         <rect key="frame" x="0.0" y="92" width="600" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="laJ-hQ-AYP" id="Y7f-Jn-g5G">
@@ -108,18 +108,8 @@ Start Adding Items by tapping +</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
-                                <rect key="frame" x="20" y="72" width="560" height="55"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="hMX-Hr-I4a"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pga-FQ-5p6">
-                                <rect key="frame" x="11" y="130" width="589" height="387"/>
+                                <rect key="frame" x="11" y="188" width="589" height="329"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -134,17 +124,55 @@ Start Adding Items by tapping +</string>
                                     <action selector="fullInfoButtonTapped:" destination="CPi-tK-sQj" eventType="touchUpInside" id="mWS-pD-PXy"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxV-qb-Ob3">
+                                <rect key="frame" x="0.0" y="64" width="600" height="116"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fSr-Pr-jix">
+                                        <rect key="frame" x="8" y="8" width="100" height="100"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="PBE-hA-oX0"/>
+                                        </constraints>
+                                    </imageView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8cA-Oe-RgG">
+                                        <rect key="frame" x="40" y="39" width="37" height="37"/>
+                                        <animations/>
+                                        <color key="color" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
+                                        <rect key="frame" x="116" y="8" width="466" height="100"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="N7C-sj-G3t" secondAttribute="bottom" constant="8" id="4ZD-W8-Leq"/>
+                                    <constraint firstAttribute="bottom" secondItem="fSr-Pr-jix" secondAttribute="bottom" constant="8" id="9eL-Zg-Ygd"/>
+                                    <constraint firstItem="8cA-Oe-RgG" firstAttribute="centerY" secondItem="fSr-Pr-jix" secondAttribute="centerY" id="Faf-dZ-vMR"/>
+                                    <constraint firstAttribute="trailing" secondItem="N7C-sj-G3t" secondAttribute="trailing" constant="18" id="P9t-O1-MMn"/>
+                                    <constraint firstAttribute="height" constant="116" id="SeX-xR-ljg"/>
+                                    <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="8" id="fa9-Jh-pxe"/>
+                                    <constraint firstItem="N7C-sj-G3t" firstAttribute="leading" secondItem="fSr-Pr-jix" secondAttribute="trailing" constant="8" id="jlR-25-uqd"/>
+                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="8" id="un5-ep-w9d"/>
+                                    <constraint firstItem="8cA-Oe-RgG" firstAttribute="centerX" secondItem="fSr-Pr-jix" secondAttribute="centerX" id="y1I-Q0-lJJ"/>
+                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="leading" secondItem="TxV-qb-Ob3" secondAttribute="leading" constant="8" id="yks-uj-AUB"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="Zx4-YJ-WUP" secondAttribute="bottom" constant="8" id="6ua-KY-z7r"/>
-                            <constraint firstItem="N7C-sj-G3t" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="8WB-fl-XU3"/>
-                            <constraint firstItem="N7C-sj-G3t" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="ATU-XE-i7n"/>
                             <constraint firstItem="Y78-XE-niH" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" id="EWb-Oq-zYq"/>
-                            <constraint firstItem="pga-FQ-5p6" firstAttribute="top" secondItem="N7C-sj-G3t" secondAttribute="bottom" constant="3" id="FOv-9f-EjZ"/>
+                            <constraint firstItem="TxV-qb-Ob3" firstAttribute="top" secondItem="Zx4-YJ-WUP" secondAttribute="bottom" id="Tb8-Nw-RXZ"/>
                             <constraint firstItem="Y78-XE-niH" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" id="Wdw-U4-D6h"/>
+                            <constraint firstItem="pga-FQ-5p6" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="bottom" constant="8" id="YBh-tG-UPC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TxV-qb-Ob3" secondAttribute="trailing" constant="-20" id="d5o-c2-yvV"/>
                             <constraint firstItem="Y78-XE-niH" firstAttribute="top" secondItem="pga-FQ-5p6" secondAttribute="bottom" constant="-4" id="dgO-0S-G8C"/>
+                            <constraint firstItem="TxV-qb-Ob3" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" constant="-20" id="n6g-0M-GOR"/>
                             <constraint firstItem="pga-FQ-5p6" firstAttribute="trailing" secondItem="Jh4-Wa-jbC" secondAttribute="trailingMargin" constant="20" id="nXg-yn-OHM"/>
                             <constraint firstItem="OCR-tp-Ozv" firstAttribute="top" secondItem="Y78-XE-niH" secondAttribute="bottom" constant="8" id="oQq-CL-dab"/>
                             <constraint firstItem="pga-FQ-5p6" firstAttribute="leading" secondItem="Jh4-Wa-jbC" secondAttribute="leadingMargin" constant="-9" id="vsf-JA-BYk"/>
@@ -160,6 +188,8 @@ Start Adding Items by tapping +</string>
                     </navigationItem>
                     <connections>
                         <outlet property="chartView" destination="pga-FQ-5p6" id="hDL-Vu-NqJ"/>
+                        <outlet property="imageLoadingIndicator" destination="8cA-Oe-RgG" id="Fsz-iM-3Dr"/>
+                        <outlet property="itemImageView" destination="fSr-Pr-jix" id="Cg1-z6-8f0"/>
                         <outlet property="itemNameLabel" destination="N7C-sj-G3t" id="IPo-RE-laZ"/>
                         <segue destination="AuA-Gt-aWx" kind="show" identifier="toFullItemDetailsViewControllerSegue" id="gcA-oD-4Wh"/>
                     </connections>

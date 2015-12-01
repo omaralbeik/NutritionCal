@@ -6,7 +6,7 @@
 //  Copyright © 2015 Omar Albeik. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 
@@ -17,6 +17,7 @@ class NDBItem: NSManagedObject {
 	@NSManaged var ndbNo: String
 	@NSManaged var saved: NSNumber
 	@NSManaged var dateAdded: NSDate
+	@NSManaged var imagePath: String?
 	
 	@NSManaged var nutrients: [NDBNutrient]?
 	
@@ -33,6 +34,13 @@ class NDBItem: NSManagedObject {
 		self.ndbNo = (dictionary["ndbno"] as! String)
 		self.saved = false
 		self.dateAdded = NSDate()
+		
+		self.imagePath = ImageCache.Caches.imageCache.pathForIdentifier(ndbNo)
+	}
+	
+	var image: UIImage? {
+		get { return ImageCache.Caches.imageCache.imageWithIdentifier(ndbNo) }
+		set { ImageCache.Caches.imageCache.storeImage(newValue, withIdentifier: ndbNo) }
 	}
 	
 }
