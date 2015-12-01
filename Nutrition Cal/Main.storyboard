@@ -87,6 +87,7 @@ Start Adding Items by tapping +</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addBarButton" destination="M71-js-9Bs" id="Qag-bp-wek"/>
                         <outlet property="noItemsSavedLabel" destination="kSg-c2-iSy" id="06M-q3-GVL"/>
                         <outlet property="tableView" destination="IXV-Df-V7Y" id="q3B-WM-7Uf"/>
                         <segue destination="CPi-tK-sQj" kind="show" identifier="toItemDetailsViewControllerSegue" id="hGP-3S-qXc"/>

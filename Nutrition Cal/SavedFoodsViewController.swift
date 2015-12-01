@@ -20,6 +20,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var noItemsSavedLabel: UILabel!
+	@IBOutlet weak var addBarButton: UIBarButtonItem!
 	
 	var searchController: UISearchController!
 	var loadingIndicator: NVActivityIndicatorView!
@@ -60,7 +61,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.delegate = self
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
-		searchController.hidesNavigationBarDuringPresentation = false
+		searchController.hidesNavigationBarDuringPresentation = true
 		searchController.searchBar.sizeToFit()
 		
 		// UI customizations
@@ -259,15 +260,18 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						
 						if success {
 							
-							self.tableViewLoading(false)
-							self.eatNDBItem(item)
-							return
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableViewLoading(false)
+								self.eatNDBItem(item)
+								return
+							}
 							
 						} else {
 							
-							self.tableViewLoading(false)
-							self.presentMessage("Oops!", message: errorString!, action: "OK")
-							
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableViewLoading(false)
+								self.presentMessage("Oops!", message: errorString!, action: "OK")
+							}
 						}
 						
 					})
@@ -304,15 +308,18 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						
 						if success {
 							
-							self.tableViewLoading(false)
-							self.eatNDBItem(item)
-							return
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableViewLoading(false)
+								self.eatNDBItem(item)
+								return
+							}
 							
 						} else {
 							
-							self.tableViewLoading(false)
-							self.presentMessage("Oops!", message: errorString!, action: "OK")
-							
+							dispatch_async(dispatch_get_main_queue()) {
+								self.tableViewLoading(false)
+								self.presentMessage("Oops!", message: errorString!, action: "OK")
+							}
 						}
 						
 					})
@@ -613,11 +620,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		self.tableViewLoading(false)
 		NDBClientSharedInstance.cancelTask()
 		self.searchResults = []
+		self.addBarButton.enabled = true
 	}
 	
 	func didDismissSearchController(searchController: UISearchController) {
 		tableView.reloadData()
-		
+		self.addBarButton.enabled = true
 	}
 	
 	func updateSearchResultsForSearchController(searchController: UISearchController) {
@@ -684,13 +692,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
 					
-					//FIXME: - Check if needed
-					do {
-						try self.itemsFetchedResultsController.performFetch()
-					} catch {
-						print("Error fetcing items in prepareForSegue")
-					}
-					
 					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 					return items[indexPath.row]
 					
@@ -709,6 +710,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	@IBAction func addBarButtomItemTapped(sender: UIBarButtonItem) {
 		self.searchController.searchBar.becomeFirstResponder()
+		self.addBarButton.enabled = false
 	}
 	
 	
