@@ -18,13 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IXV-Df-V7Y">
+                            <tableView clipsSubviews="YES" contentMode="top" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IXV-Df-V7Y">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="center" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedFoodTableViewCell" textLabel="h1j-zk-na1" detailTextLabel="Hjm-WX-PF3" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="laJ-hQ-AYP">
                                         <rect key="frame" x="0.0" y="92" width="600" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="laJ-hQ-AYP" id="Y7f-Jn-g5G">
@@ -128,20 +128,20 @@ Start Adding Items by tapping +</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxV-qb-Ob3">
                                 <rect key="frame" x="0.0" y="64" width="600" height="116"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fSr-Pr-jix">
-                                        <rect key="frame" x="8" y="8" width="100" height="100"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fSr-Pr-jix">
+                                        <rect key="frame" x="18" y="18" width="90" height="90"/>
                                         <animations/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="PBE-hA-oX0"/>
+                                            <constraint firstAttribute="width" constant="90" id="PBE-hA-oX0"/>
                                         </constraints>
                                     </imageView>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8cA-Oe-RgG">
-                                        <rect key="frame" x="40" y="39" width="37" height="37"/>
+                                        <rect key="frame" x="45" y="44" width="37" height="37"/>
                                         <animations/>
                                         <color key="color" red="0.2156862745" green="0.64705882349999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </activityIndicatorView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-sj-G3t">
-                                        <rect key="frame" x="116" y="8" width="466" height="100"/>
+                                        <rect key="frame" x="116" y="18" width="466" height="90"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -156,11 +156,11 @@ Start Adding Items by tapping +</string>
                                     <constraint firstItem="8cA-Oe-RgG" firstAttribute="centerY" secondItem="fSr-Pr-jix" secondAttribute="centerY" id="Faf-dZ-vMR"/>
                                     <constraint firstAttribute="trailing" secondItem="N7C-sj-G3t" secondAttribute="trailing" constant="18" id="P9t-O1-MMn"/>
                                     <constraint firstAttribute="height" constant="116" id="SeX-xR-ljg"/>
-                                    <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="8" id="fa9-Jh-pxe"/>
+                                    <constraint firstItem="N7C-sj-G3t" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="18" id="fa9-Jh-pxe"/>
                                     <constraint firstItem="N7C-sj-G3t" firstAttribute="leading" secondItem="fSr-Pr-jix" secondAttribute="trailing" constant="8" id="jlR-25-uqd"/>
-                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="8" id="un5-ep-w9d"/>
+                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="top" secondItem="TxV-qb-Ob3" secondAttribute="top" constant="18" id="un5-ep-w9d"/>
                                     <constraint firstItem="8cA-Oe-RgG" firstAttribute="centerX" secondItem="fSr-Pr-jix" secondAttribute="centerX" id="y1I-Q0-lJJ"/>
-                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="leading" secondItem="TxV-qb-Ob3" secondAttribute="leading" constant="8" id="yks-uj-AUB"/>
+                                    <constraint firstItem="fSr-Pr-jix" firstAttribute="leading" secondItem="TxV-qb-Ob3" secondAttribute="leading" constant="18" id="yks-uj-AUB"/>
                                 </constraints>
                             </view>
                         </subviews>

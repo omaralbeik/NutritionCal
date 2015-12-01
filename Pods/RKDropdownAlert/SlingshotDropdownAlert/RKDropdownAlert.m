@@ -13,13 +13,13 @@ NSString *const RKDropdownAlertDismissAllNotification = @"RKDropdownAlertDismiss
 
 //%%% CUSTOMIZE FOR DEFAULT SETTINGS
 // These values specify what the view will look like
-static int HEIGHT = 90; //height of the alert view
+static int HEIGHT = 64; //height of the alert view
 static float ANIMATION_TIME = .3; //time it takes for the animation to complete in seconds
 static int X_BUFFER = 10; //buffer distance on each side for the text
 static int Y_BUFFER = 10; //buffer distance on top/bottom for the text
 static int TIME = 3; //default time in seconds before the view is hidden
 static int STATUS_BAR_HEIGHT = 20;
-static int FONT_SIZE = 14;
+static int FONT_SIZE = 20;
 NSString *DEFAULT_TITLE;
 
 @implementation RKDropdownAlert{

@@ -13,6 +13,7 @@ import MaterialDesignColor
 import NVActivityIndicatorView
 import BGTableViewRowActionWithImage
 import RKDropdownAlert
+import DGRunkeeperSwitch
 
 class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 	
@@ -21,6 +22,8 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var noItemsSavedLabel: UILabel!
 	@IBOutlet weak var addBarButton: UIBarButtonItem!
+	
+	var mainNavSwitch: DGRunkeeperSwitch!
 	
 	var searchController: UISearchController!
 	var loadingIndicator: NVActivityIndicatorView!
@@ -46,6 +49,16 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let frame = CGRect(x: CGRectGetMidX(view.bounds)-20, y: CGRectGetMidY(view.bounds)-40, width: 40, height: 40)
 		loadingIndicator = NVActivityIndicatorView(frame: frame, type: NVActivityIndicatorType.BallBeat, color: MaterialDesignColor.green500)
 		
+		mainNavSwitch = DGRunkeeperSwitch(leftTitle: "Favorites", rightTitle: "Online")
+		mainNavSwitch.frame = CGRect(x: 50, y: 20, width: CGRectGetWidth(self.view.bounds) - 100, height: 30)
+		mainNavSwitch.titleFont = UIFont(name: "HelveticaNeue-Medium", size: 12)
+		mainNavSwitch.backgroundColor = MaterialDesignColor.green500
+		mainNavSwitch.tintColor = UIColor.whiteColor()
+		mainNavSwitch.selectedTitleColor = MaterialDesignColor.green500
+		mainNavSwitch.autoresizingMask = [.FlexibleWidth]
+		mainNavSwitch.addTarget(self, action: "mainNavSwitchSelectedIndexChanged:", forControlEvents: UIControlEvents.ValueChanged)
+		
+		navigationItem.titleView = mainNavSwitch
 		
 		tableView.delegate = self
 		tableView.dataSource = self
@@ -61,7 +74,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.delegate = self
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
-		searchController.hidesNavigationBarDuringPresentation = true
+		searchController.hidesNavigationBarDuringPresentation = false
 		searchController.searchBar.sizeToFit()
 		
 		// UI customizations
@@ -69,11 +82,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
 		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
 		
-		searchController.searchBar.barTintColor = MaterialDesignColor.grey200
+		searchController.searchBar.barTintColor = MaterialDesignColor.green500
+		searchController.searchBar.tintColor = UIColor.whiteColor()
 		
 		// button titles for search controller
-		searchController.searchBar.scopeButtonTitles = ["Saved", "Online Results"]
-		searchController.searchBar
+		
 		
 		tableView.tableHeaderView = self.searchController.searchBar
 		searchController.searchBar.delegate = self
@@ -83,6 +96,18 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		self.view.addSubview(loadingIndicator)
 		
 	}
+	
+	func mainNavSwitchSelectedIndexChanged(sender: DGRunkeeperSwitch) {
+		print(sender.selectedIndex)
+		
+		if sender.selectedIndex == 1 {
+			self.searchController.searchBar.becomeFirstResponder()
+			self.addBarButton.enabled = false
+		}
+		
+		tableView.reloadData()
+	}
+	
 	
 	
 	// MARK: - Core Data Convenience
@@ -130,7 +155,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	// MARK: - fetchedResultsController delegate
 	func controllerWillChangeContent(controller: NSFetchedResultsController) {
-		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+		if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 			self.tableViewLoading(true)
 			tableView.beginUpdates()
 		}
@@ -140,7 +165,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		forChangeType type: NSFetchedResultsChangeType,
 		newIndexPath: NSIndexPath?) {
 			
-			if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+			if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 				
 				switch type {
 				case .Insert:
@@ -168,7 +193,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	}
 	
 	func controllerDidChangeContent(controller: NSFetchedResultsController) {
-		if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+		if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 			tableView.endUpdates()
 			tableViewLoading(false)
 		}
@@ -182,7 +207,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("SavedFoodTableViewCell")! as UITableViewCell
 		
-		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
+		if searchController.active && self.mainNavSwitch.selectedIndex == 1 {
 			
 			cell.textLabel?.text = self.searchResults![indexPath.row].name
 			cell.detailTextLabel?.text = self.searchResults![indexPath.row].group
@@ -197,7 +222,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
-		if searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1 {
+		if searchController.active && self.mainNavSwitch.selectedIndex == 1 {
 			
 			if self.searchResults?.count == 0 {
 				
@@ -233,7 +258,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let eatAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.green500, image: UIImage(named: "eatActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			
-			if !(self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1) {
+			if !(self.searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 				
 				let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 				let item = items[indexPath.row]
@@ -369,7 +394,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 							// show success dropdown alert
 							dispatch_async(dispatch_get_main_queue()) {
-								_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
+								_ = RKDropdownAlert.title("Saved", message: "", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)
 							}
 							
 						} else {
@@ -400,7 +425,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				// show slready saved dropdown alert
 				dispatch_async(dispatch_get_main_queue()) {
-					_ = RKDropdownAlert.title("Already Saved", message: "\(item.name) already saved, Please find it in Favorites tab", backgroundColor: MaterialDesignColor.ameber800, textColor: UIColor.whiteColor(), time: 2)
+					_ = RKDropdownAlert.title("Already Saved", message: "", backgroundColor: MaterialDesignColor.ameber800, textColor: UIColor.whiteColor(), time: 2)
 					self.tableViewLoading(false)
 				}
 			}
@@ -411,7 +436,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		let deleteAction = BGTableViewRowActionWithImage.rowActionWithStyle(.Default, title: "     ", backgroundColor: MaterialDesignColor.red500, image: UIImage(named: "deleteActionIcon"), forCellHeight: 110, handler: { (action, indexPath) -> Void in
 			
 			var itemName: String {
-				if !(self.searchController.active && self.searchController.searchBar.selectedScopeButtonIndex != 0) {
+				if !(self.searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 					let item = self.itemsFetchedResultsController.fetchedObjects![indexPath.row] as! NDBItem
 					return item.name
 				}
@@ -427,12 +452,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				if let items = self.itemsFetchedResultsController.fetchedObjects as? [NDBItem] {
 					let item = items[indexPath.row]
-					let deletedItemName = item.name
+					_ = item.name
 					self.deleteNDBItem(item)
 					
 					// show deleted dropdown alert
 					dispatch_async(dispatch_get_main_queue()) {
-						_ = RKDropdownAlert.title("Deleted", message: "\(deletedItemName) deleted successfully.", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
+						_ = RKDropdownAlert.title("Deleted", message: "", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
 					}
 					
 				}
@@ -457,13 +482,13 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			
 		})
 		
-		return searchController.active ? (searchController.searchBar.selectedScopeButtonIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
+		return searchController.active ? (mainNavSwitch.selectedIndex == 1 ? [eatAction, saveAction] : [eatAction, deleteAction]) : [eatAction, deleteAction]
 		
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		
-		if !(searchController.active && self.searchController.searchBar.selectedScopeButtonIndex == 1) {
+		if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 			
 			let items = itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 			let item = items[indexPath.row]
@@ -571,14 +596,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		self.tableViewLoading(true)
 		
-		searchController.searchBar.selectedScopeButtonIndex = 1
+		self.mainNavSwitch.setSelectedIndex(1, animated: true)
 		
-		if searchController.searchBar.selectedScopeButtonIndex == 0 {
+		if self.mainNavSwitch.selectedIndex == 0 {
 			self.searchSavedFoods()
 			self.tableView.reloadData()
 		}
 		
-		if searchController.searchBar.selectedScopeButtonIndex == 1 {
+		if self.mainNavSwitch.selectedIndex == 1 {
 			
 			if let searchString = searchController.searchBar.text {
 				if searchString.characters.count > 0 {
@@ -597,7 +622,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							dispatch_async(dispatch_get_main_queue()) {
 								self.tableView.reloadData()
 								self.tableViewLoading(false)
-								self.presentMessage("Oops!", message: errorString!, action: "OK")
 							}
 						}
 						
@@ -611,13 +635,14 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	//MARK: - UISearchControllerDelegate
-	func willPresentSearchController(searchController: UISearchController) {
-		searchController.searchBar.selectedScopeButtonIndex = 0
-		
+	
+	func didPresentSearchController(searchController: UISearchController) {
+		self.searchController.searchBar.becomeFirstResponder()
+		self.addBarButton.enabled = false
 	}
 	
 	func willDismissSearchController(searchController: UISearchController) {
-		searchController.searchBar.selectedScopeButtonIndex = 0
+		self.mainNavSwitch.setSelectedIndex(0, animated: true)
 		self.tableViewLoading(false)
 		NDBClientSharedInstance.cancelTask()
 		self.searchResults = []
@@ -633,12 +658,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		NDBClientSharedInstance.cancelTask()
 		
-		if searchController.searchBar.selectedScopeButtonIndex == 0 {
+		if self.mainNavSwitch.selectedIndex == 0 {
 			self.searchSavedFoods()
 			self.tableView.reloadData()
 		}
 		
-		if searchController.searchBar.selectedScopeButtonIndex == 1 {
+		if self.mainNavSwitch.selectedIndex == 1 {
 			
 			if let searchString = searchController.searchBar.text {
 				
@@ -663,7 +688,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						} else {
 							
 							dispatch_async(dispatch_get_main_queue()) {
-								//self.presentMessage("Oops!", message: errorString!, action: "OK")
 								self.tableView.reloadData()
 								self.tableViewLoading(false)
 								self.noItemsSavedLabel.text = "No Results!"
@@ -679,10 +703,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 	}
 	
-	func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-		tableView.reloadData()
-	}
-	
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "toItemDetailsViewControllerSegue" {
@@ -691,7 +711,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 				
 				let indexPath = self.tableView.indexPathForSelectedRow!
 				
-				if !(searchController.active && searchController.searchBar.selectedScopeButtonIndex == 1) {
+				if !(searchController.active && self.mainNavSwitch.selectedIndex == 1) {
 					
 					let items = self.itemsFetchedResultsController.fetchedObjects as! [NDBItem]
 					return items[indexPath.row]
@@ -710,10 +730,20 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	
 	@IBAction func addBarButtomItemTapped(sender: UIBarButtonItem) {
-		self.searchController.searchBar.becomeFirstResponder()
-		self.addBarButton.enabled = false
+		
+		if self.tableView.contentOffset.y > -64.0 {
+			self.tableView.setContentOffset(CGPoint(x: 0, y: -64), animated:true)
+		} else {
+			self.searchController.active = true
+		}
 	}
 	
+	
+	func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+		if self.tableView.contentOffset.y == -64.0 {
+			self.searchController.active = true
+		}
+	}
 	
 	//MARK: APIs Helpers
 	
@@ -829,12 +859,12 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 									
 									dispatch_async(dispatch_get_main_queue()) {
 										
-										let dayEntry = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
+										_ = DayEntry(item: ndbItem, measure: measure, qty: qty, context: self.sharedContext)
 										CoreDataStackManager.sharedInstance().saveContext()
 										
 										// show eated dropdown alert
 										dispatch_async(dispatch_get_main_queue()) {
-											_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+											_ = RKDropdownAlert.title("Added", message: "", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
 										}
 										
 									}
@@ -994,7 +1024,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 			}
 			
 			if itemsFetchedResultsController.fetchedObjects?.count < 1 {
-				searchController.searchBar.selectedScopeButtonIndex = 1
+				self.mainNavSwitch.setSelectedIndex(1, animated: true)
 			}
 			
 		}
