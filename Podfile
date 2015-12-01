@@ -14,5 +14,6 @@ pod 'NVActivityIndicatorView', '~> 2.1'
 pod 'BGTableViewRowActionWithImage', '~> 0.1'
 pod 'PNChart', '~> 0.8'
 pod 'RKDropdownAlert', '~> 0.3'
+pod 'DGRunkeeperSwitch', '~> 1.1'
 
 end

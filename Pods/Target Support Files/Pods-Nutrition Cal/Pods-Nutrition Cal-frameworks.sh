@@ -85,6 +85,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Nutrition Cal/BGTableViewRowActionWithImage.framework"
+  install_framework "Pods-Nutrition Cal/DGRunkeeperSwitch.framework"
   install_framework "Pods-Nutrition Cal/FSCalendar.framework"
   install_framework "Pods-Nutrition Cal/MaterialDesignColor.framework"
   install_framework "Pods-Nutrition Cal/NVActivityIndicatorView.framework"
@@ -94,6 +95,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Nutrition Cal/BGTableViewRowActionWithImage.framework"
+  install_framework "Pods-Nutrition Cal/DGRunkeeperSwitch.framework"
   install_framework "Pods-Nutrition Cal/FSCalendar.framework"
   install_framework "Pods-Nutrition Cal/MaterialDesignColor.framework"
   install_framework "Pods-Nutrition Cal/NVActivityIndicatorView.framework"

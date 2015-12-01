@@ -1,0 +1,6 @@
+framework module DGRunkeeperSwitch {
+  umbrella header "DGRunkeeperSwitch-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -27,9 +27,9 @@ class GoogleClient {
 	
 	func getImageFromString(searchString: String, completionHandler: (success: Bool, image: UIImage?, errorString: String?) -> Void) {
 		
-		let escapedSearchString = searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+		let escapedSearchString = searchString.stringByReplacingOccurrencesOfString(" ", withString: "+").stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!.lowercaseString
 		
-		let urlString = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + escapedSearchString! + "food+product"
+		let urlString = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + escapedSearchString + "+food+product"
 		let url = NSURL(string: urlString)!
 		
 		//		print(url)

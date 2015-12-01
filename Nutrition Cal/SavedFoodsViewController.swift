@@ -73,6 +73,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		
 		// button titles for search controller
 		searchController.searchBar.scopeButtonTitles = ["Saved", "Online Results"]
+		searchController.searchBar
 		
 		tableView.tableHeaderView = self.searchController.searchBar
 		searchController.searchBar.delegate = self
