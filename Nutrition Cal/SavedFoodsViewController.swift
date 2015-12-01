@@ -81,12 +81,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.searchBar.tintColor = MaterialDesignColor.green500
 		let textFieldInsideSearchBar = searchController.searchBar.valueForKey("searchField") as? UITextField
 		textFieldInsideSearchBar?.textColor = MaterialDesignColor.green500
+		textFieldInsideSearchBar?.tintColor = MaterialDesignColor.green500
+		textFieldInsideSearchBar?.placeholder = "Search Foods & Drinks"
 		
 		searchController.searchBar.barTintColor = MaterialDesignColor.green500
 		searchController.searchBar.tintColor = UIColor.whiteColor()
-		
-		// button titles for search controller
-		
 		
 		tableView.tableHeaderView = self.searchController.searchBar
 		searchController.searchBar.delegate = self
@@ -622,6 +621,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							dispatch_async(dispatch_get_main_queue()) {
 								self.tableView.reloadData()
 								self.tableViewLoading(false)
+								
+								if errorString != "cancelled" {
+									self.presentMessage("Oops!", message: errorString!, action: "OK")
+								}
+								
 							}
 						}
 						

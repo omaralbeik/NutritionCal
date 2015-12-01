@@ -151,12 +151,12 @@ class FullItemDetailsViewController: UIViewController, UITableViewDelegate, UITa
 									// create a DayEntry for the item eated
 									dispatch_async(dispatch_get_main_queue()) {
 									
-										let dayEntry = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
+										_ = DayEntry(item: self.ndbItem!, measure: measure, qty: qty, context: self.sharedContext)
 										self.saveContext()
 										
 										// show eated dropdown alert
 										dispatch_async(dispatch_get_main_queue()) {
-											_ = RKDropdownAlert.title("Added", message: "\(dayEntry.ndbItemName) added to History successfully.", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+											_ = RKDropdownAlert.title("Added", message: "", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
 										}
 										
 									}

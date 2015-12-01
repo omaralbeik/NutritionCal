@@ -9,6 +9,7 @@
 import UIKit
 import HealthKit
 import MaterialDesignColor
+import RKDropdownAlert
 
 class SettingsTableViewController: UITableViewController {
 	
@@ -102,15 +103,21 @@ class SettingsTableViewController: UITableViewController {
 		
 		if sender.on {
 			
-			print("Sync On")
+			print("Sync Enabled")
 			NSUserDefaults.standardUserDefaults().setObject(true, forKey: "healthStoreSync")
 			NSUserDefaults.standardUserDefaults().synchronize()
 			
+			// show Sync Enabled dropdown alert
+				_ = RKDropdownAlert.title("Sync Enabled", message: "", backgroundColor: MaterialDesignColor.green500, textColor: UIColor.whiteColor(), time: 2)
+			
 		} else {
 			
-			print("Sync Off")
+			print("Sync Disabled")
 			NSUserDefaults.standardUserDefaults().setObject(false, forKey: "healthStoreSync")
 			NSUserDefaults.standardUserDefaults().synchronize()
+			
+			// show Sync Disabled dropdown alert
+			_ = RKDropdownAlert.title("Sync Disabled", message: "", backgroundColor: MaterialDesignColor.red500, textColor: UIColor.whiteColor(), time: 2)
 		}
 		
 	}
