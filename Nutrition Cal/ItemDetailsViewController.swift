@@ -96,6 +96,7 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 			self.imageLoadingIndicator.stopAnimating()
 			self.itemImageView.image = image
 		}
+			
 		else {
 			
 			GoogleClient.sharedInstance().getImageFromString(self.ndbItem.name, completionHandler: { (success, image, errorString) -> Void in
@@ -107,7 +108,10 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 						self.itemImageView.image = image!
 						
 						self.ndbItem.image = image!
-						self.saveContext()
+						
+						if self.ndbItem.saved == true {
+							self.saveContext()
+						}
 					}
 				}
 				else {

@@ -359,10 +359,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 							
 							self.saveContext()
 							
-//							self.sharedContext.performBlockAndWait({
-//								CoreDataStackManager.sharedInstance().saveContext()
-//							})
-							
 							// show success dropdown alert
 							dispatch_async(dispatch_get_main_queue()) {
 								_ = RKDropdownAlert.title("Saved", message: "\(itemToSave.name) saved successfully.", backgroundColor: MaterialDesignColor.grey800, textColor: UIColor.whiteColor(), time: 2)

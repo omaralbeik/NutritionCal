@@ -9,8 +9,7 @@
 import UIKit
 
 // http://stackoverflow.com/questions/4868815/google-ajax-api-how-do-i-get-more-than-4-results
-
-// http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=baby+bood+banana
+// http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=searchString
 
 class GoogleClient {
 	
@@ -28,15 +27,14 @@ class GoogleClient {
 	
 	func getImageFromString(searchString: String, completionHandler: (success: Bool, image: UIImage?, errorString: String?) -> Void) {
 		
-		let escapedSearchString = searchString.stringByReplacingOccurrencesOfString(" ", withString: "+").lowercaseString
+		let escapedSearchString = searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
 		
-		let urlString = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + escapedSearchString + "+food+product"
+		let urlString = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + escapedSearchString! + "food+product"
 		let url = NSURL(string: urlString)!
 		
-		print(url)
+		//		print(url)
 		
 		let session = NSURLSession.sharedSession()
-		
 		
 		sharedTask = session.dataTaskWithURL(url, completionHandler: { (data, response, error) -> Void in
 			
@@ -46,7 +44,6 @@ class GoogleClient {
 				completionHandler(success: false, image: nil, errorString: error?.localizedDescription)
 				return
 			}
-			
 			
 			var parsedResults: AnyObject?
 			NDBClient.parseJSONWithCompletionHandler(data!, completionHandler: { (result, error) -> Void in

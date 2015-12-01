@@ -13,7 +13,7 @@ extension NDBClient {
 	
 	func NDBItemsFromString(searchString: String, type: NDBSearchType, completionHandler: (success: Bool, result: AnyObject?, errorString: String?) -> Void) {
 		
-		let escapedSearchString = searchString.stringByReplacingOccurrencesOfString(" ", withString: "+").lowercaseString
+		let escapedSearchString = searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
 		
 		var searchType: String {
 			switch type {
@@ -24,7 +24,7 @@ extension NDBClient {
 		
 		let params: [String : AnyObject] = [
 			NDBParameterKeys.format			: NDBParameterValues.json,
-			NDBParameterKeys.searchTerm		: escapedSearchString,
+			NDBParameterKeys.searchTerm		: escapedSearchString!,
 			NDBParameterKeys.sort			: searchType,
 			NDBParameterKeys.limit			: NDBConstants.resultsLimit,
 			NDBParameterKeys.offset			: 0,

@@ -84,7 +84,7 @@ class ImageCache {
 		if fileManager.fileExistsAtPath(path) {
 			do {
 				try fileManager.removeItemAtPath(path)
-				print("\(identifier) deleted")
+				print("\(identifier) image deleted")
 			}
 			catch {
 				print("\(identifier) couldn't be deleted")
