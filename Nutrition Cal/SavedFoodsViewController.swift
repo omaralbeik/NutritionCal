@@ -643,6 +643,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func willDismissSearchController(searchController: UISearchController) {
 		self.tableViewLoading(false)
 		NDBClientSharedInstance.cancelTask()
+		self.fetchNDBItems()
 		self.searchResults = []
 		self.addBarButton.enabled = true
 	}
@@ -874,7 +875,11 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 											self.healthStore.addNDBItemToHealthStore(ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
 												
 												if success {
-													print("\(ndbItem.name) added to helth app")
+													
+													dispatch_async(dispatch_get_main_queue()) {
+														print("\(ndbItem.name) added to helth app")
+													}
+													
 												} else {
 													print(errorString!)
 													self.presentMessage("Oops!", message: errorString!, action: "OK")
@@ -939,6 +944,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	
 	func fetchNDBItems() {
 		do {
+			self.itemsFetchedResultsController.fetchRequest.predicate = nil
 			try itemsFetchedResultsController.performFetch()
 		}
 		catch {

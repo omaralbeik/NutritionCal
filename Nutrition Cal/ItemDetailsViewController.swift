@@ -211,7 +211,11 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 											self.healthStore.addNDBItemToHealthStore(self.ndbItem, selectedMeasure: measure, qty: qty, completionHandler: { (success, errorString) -> Void in
 												
 												if success {
-													print("\(self.ndbItem.name) added to helth app")
+													
+													dispatch_async(dispatch_get_main_queue()) {
+														print("\(self.ndbItem.name) added to helth app")
+													}
+													
 												} else {
 													print(errorString!)
 													self.presentMessage("Oops!", message: errorString!, action: "OK")

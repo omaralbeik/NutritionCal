@@ -78,7 +78,7 @@ class NDBClient {
 		var urlVars = [String]()
 		
 		for (key, value) in parameters {
-			
+			 
 			/* Make sure that it is a string value */
 			let stringValue = "\(value)"
 			

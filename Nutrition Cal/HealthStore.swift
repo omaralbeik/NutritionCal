@@ -15,7 +15,6 @@ class HealthStore {
 		struct Singleton {
 			static let instance = HealthStore()
 		}
-		
 		return Singleton.instance
 	}
 	
@@ -263,7 +262,7 @@ class HealthStore {
 					
 					if error!.code == 4 {
 						
-						completionHandler(success: false, errorString: "Access to Health App denied, You can allow access from Health App -> Sources -> NutritionDiary.")
+						completionHandler(success: false, errorString: "Access to Health App denied, You can allow access from Health App -> Sources -> NutritionDiary. or disable sync with Health App in settings tab.")
 					} else {
 						completionHandler(success: false, errorString: "\(error!.code)")
 					}
