@@ -10,9 +10,9 @@
 		071B6CB21C07704C002C3D2F /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B6CB11C07704C002C3D2F /* TutorialViewController.swift */; };
 		071B6CB41C077058002C3D2F /* TutorialContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071B6CB31C077058002C3D2F /* TutorialContentViewController.swift */; };
 		074619921C075560001774EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074619911C075560001774EA /* AppDelegate.swift */; };
-		078E4A511C0DC925002D78B2 /* GoogleClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078E4A501C0DC925002D78B2 /* GoogleClient.swift */; };
 		078E4A531C0DD7F0002D78B2 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078E4A521C0DD7F0002D78B2 /* ImageCache.swift */; };
 		07A346261C075FC4000307EB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07A346241C075FC4000307EB /* Model.xcdatamodeld */; };
+		07E0BF561C0EE33900A58952 /* GettyImagesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E0BF551C0EE33900A58952 /* GettyImagesClient.swift */; };
 		07FFE19E1C07586C00874A08 /* NDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FFE19D1C07586C00874A08 /* NDBClient.swift */; };
 		07FFE1A01C07587800874A08 /* NDBConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FFE19F1C07587800874A08 /* NDBConvenience.swift */; };
 		07FFE1A31C0758FB00874A08 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FFE1A21C0758FB00874A08 /* HealthKit.framework */; };
@@ -42,9 +42,9 @@
 		0746198E1C075560001774EA /* Nutrition Cal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nutrition Cal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		074619911C075560001774EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0746199D1C075561001774EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		078E4A501C0DC925002D78B2 /* GoogleClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleClient.swift; sourceTree = "<group>"; };
 		078E4A521C0DD7F0002D78B2 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		07A346251C075FC4000307EB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		07E0BF551C0EE33900A58952 /* GettyImagesClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettyImagesClient.swift; sourceTree = "<group>"; };
 		07FFE19D1C07586C00874A08 /* NDBClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBClient.swift; sourceTree = "<group>"; };
 		07FFE19F1C07587800874A08 /* NDBConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDBConvenience.swift; sourceTree = "<group>"; };
 		07FFE1A21C0758FB00874A08 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -130,7 +130,7 @@
 			children = (
 				07FFE19D1C07586C00874A08 /* NDBClient.swift */,
 				07FFE19F1C07587800874A08 /* NDBConvenience.swift */,
-				078E4A501C0DC925002D78B2 /* GoogleClient.swift */,
+				07E0BF551C0EE33900A58952 /* GettyImagesClient.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -343,6 +343,7 @@
 				07FFE1BE1C075A8200874A08 /* FullItemDetailsViewController.swift in Sources */,
 				07FFE1B21C07598C00874A08 /* NDBMeasure.swift in Sources */,
 				07FFE1B01C07597C00874A08 /* NDBNutrient.swift in Sources */,
+				07E0BF561C0EE33900A58952 /* GettyImagesClient.swift in Sources */,
 				07FFE1A61C07590B00874A08 /* HealthStore.swift in Sources */,
 				07A346261C075FC4000307EB /* Model.xcdatamodeld in Sources */,
 				07FFE1AB1C07594A00874A08 /* DayEntry.swift in Sources */,
@@ -357,7 +358,6 @@
 				07FFE1C21C075AB600874A08 /* SettingsTableViewController.swift in Sources */,
 				07FFE1C81C075B2E00874A08 /* Reachability.swift in Sources */,
 				074619921C075560001774EA /* AppDelegate.swift in Sources */,
-				078E4A511C0DC925002D78B2 /* GoogleClient.swift in Sources */,
 				07FFE1B91C075A4000874A08 /* SavedFoodsViewController.swift in Sources */,
 				07FFE1A91C07593600874A08 /* CoreDataStackManager.swift in Sources */,
 			);

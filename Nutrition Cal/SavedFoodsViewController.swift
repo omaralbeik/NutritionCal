@@ -92,7 +92,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 		searchController.searchBar.barTintColor = MaterialDesignColor.green500
 		searchController.searchBar.tintColor = UIColor.whiteColor()
 		
-		
 		tableView.tableHeaderView = self.searchController.searchBar
 		searchController.searchBar.delegate = self
 		
@@ -214,6 +213,7 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		
 		let cell = tableView.dequeueReusableCellWithIdentifier("SavedFoodTableViewCell")! as UITableViewCell
+		cell.selectionStyle = .None
 		
 		// get info from searchResults array
 		if searchController.active && self.mainNavSwitch.selectedIndex == 1 {
@@ -412,23 +412,6 @@ class SavedFoodsViewController: UIViewController, UITableViewDelegate, UITableVi
 						}
 						
 					})
-					
-					GoogleClient.sharedInstance().getImageFromString(itemToSave.name, completionHandler: { (success, image, errorString) -> Void in
-						
-						if success {
-							
-							dispatch_async(dispatch_get_main_queue()) {
-								
-								itemToSave.image = image
-								self.saveContext()
-								print("\(itemToSave.ndbNo) image saved")
-								
-							}
-							
-						}
-						
-					})
-					
 				}
 				
 			} else {
