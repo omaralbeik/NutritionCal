@@ -87,11 +87,6 @@ class ItemDetailsViewController: UIViewController, PNChartDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		
-		GettyImagesClient.sharedInstance().imageFromString(self.ndbItem.name) { (success, image, errorString) -> Void in
-			
-		}
-		
 		itemNameLabel.text = ndbItem.name
 		
 		// initilizing the loadingIndicator
